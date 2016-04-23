@@ -1,0 +1,28 @@
+﻿body {
+    box-sizing: border-box;
+}
+
+.item{
+    position: relative;
+    display: block;
+    height: 60px;
+    width: 400px;
+    color: #999999;
+    border: 1px solid #dddddd;
+}
+#item-name{
+    display: inline-block;
+    position: relative;
+    font-weight: 500;
+    padding-left: 20px;
+}
+#item-buy {
+    display: inline-block;
+    background-color: yellow;
+    
+}
+#item-sell {
+    display: inline-block;
+    background-color: greenyellow;
+    
+}
