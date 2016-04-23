@@ -14,7 +14,7 @@ body {
     top:10px;
     font-size: 19pt;
     font-weight: 500;
-    color: #00dd93;
+    color: darkseagreen;
 
 }
 .application {
@@ -24,5 +24,5 @@ body {
 .header {
     position: relative;
     height: 50px;
-    border-bottom: 2px solid #00dd93;
+    border-bottom: 2px solid darkseagreen;
 }
