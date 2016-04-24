@@ -12,6 +12,7 @@ body {
     margin: 0px;
     padding: 0px;
     margin-top: 1px;
+    text-align:right;
 }
 #item-name{
     display: inline-block;
@@ -29,6 +30,7 @@ body {
     margin-right: 21px;
     color: darkgray;
     
+    
 }
 #item-buy {
     display: inline;
@@ -40,6 +42,7 @@ body {
     padding: 0px;
     margin: 0px;
     color:white;   
+    float:right;
 }
 #item-sell {
     display: inline;
@@ -49,4 +52,5 @@ body {
     height: 60px;
     width: 60px;
     color:white;   
+    float:right;
 }

@@ -6,7 +6,7 @@
     <link rel="stylesheet" type="text/css" href="../Styles/main.css" />
     <link rel="stylesheet" type="text/css" href="../Styles/item.css" />
     <link rel="stylesheet" type="text/css" href="../Styles/feed.css" />
-    <script src="../Scripts/angular.min.js"type="text/javascript"></script>
+    <script src="../Scripts/angular.js"type="text/javascript"></script>
     <script src="../app/app.js" type="text/javascript"></script>
 </head>
 
@@ -16,11 +16,13 @@
             <p id="app-name">GFT Market App</p>
         </div>
         <div class="market-offers" ng-controller="ItemController as ItemC">
-            <button ng-click="ItemC.click()">Itemclick</button>
+            <div ng-repeat="object in ItemC.ItemHandlerService.itemList track by object.id">
+                <item-Object item-Model="ItemC.ItemHandlerService.itemList[object.id]"></item-Object>
+            </div>
         </div>
         <div class="market-feed" ng-controller="FeedController as FeedC">
             {{FeedC.dataset}}
-            <button ng-click="FeedC.click()">Feedclick</button>
+            <button ng-click="ItemC.ItemHandlerService.pop()">Feedclick</button>
         </div>
     </div>
 </body>
