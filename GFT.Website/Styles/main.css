@@ -26,3 +26,16 @@ body {
     height: 50px;
     border-bottom: 2px solid darkseagreen;
 }
+
+.market-feed{
+    display: inline-block;
+    width: 550px;
+    vertical-align: top;
+}
+
+.market-offers{
+    display: inline-block;
+    width: 400px;
+    vertical-align: top;
+    
+}

@@ -9,6 +9,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "GFT.Website.UI", "GFT.Websi
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GFT Website UI", "GFT.Website\GFT Website UI.csproj", "{D2CE3E3A-23AD-4BF0-A533-6B34D2253CDC}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "GFT.Services", "GFT.Services", "{14BAE38A-4B86-4160-BA2F-88F5B35EF1E6}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU

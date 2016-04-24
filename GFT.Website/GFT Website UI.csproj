@@ -78,6 +78,9 @@
     <Content Include="Styles\item.css" />
     <Content Include="Styles\main.css" />
     <Content Include="Views\main.html" />
+    <Content Include="Styles\feed.css" />
+    <Content Include="Views\_feed.html" />
+    <Content Include="Views\_item.html" />
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
