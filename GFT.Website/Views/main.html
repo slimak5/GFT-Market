@@ -6,16 +6,21 @@
     <link rel="stylesheet" type="text/css" href="../Styles/main.css" />
     <link rel="stylesheet" type="text/css" href="../Styles/item.css" />
     <link rel="stylesheet" type="text/css" href="../Styles/feed.css" />
+    <script src="../Scripts/angular.min.js"type="text/javascript"></script>
+    <script src="../app/app.js" type="text/javascript"></script>
 </head>
 
 <body>
-    <div class="application">
+    <div class="application" ng-app="main">
         <div class="header">
             <p id="app-name">GFT Market App</p>
         </div>
-        <div class="market-offers">
+        <div class="market-offers" ng-controller="ItemController as ItemC">
+            <button ng-click="ItemC.click()">Itemclick</button>
         </div>
-        <div class="market-feed">
+        <div class="market-feed" ng-controller="FeedController as FeedC">
+            {{FeedC.dataset}}
+            <button ng-click="FeedC.click()">Feedclick</button>
         </div>
     </div>
 </body>
