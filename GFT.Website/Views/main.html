@@ -16,13 +16,15 @@
             <p id="app-name">GFT Market App</p>
         </div>
         <div class="market-offers" ng-controller="ItemController as ItemC">
-            <div ng-repeat="object in ItemC.ItemHandlerService.itemList track by object.id">
+            <div ng-repeat="object in ItemC.ItemHandlerService.itemList track by $index">
                 <item-Object item-Model="ItemC.ItemHandlerService.itemList[object.id]"></item-Object>
             </div>
+            <button ng-click="ItemC.ItemHandlerService.push(ItemC.ItemHandlerService.activeObject)">asd</button>
+            <button ng-click="ItemC.ItemHandlerService.removeObject(ItemC.ItemHandlerService.itemList[0])">Feedclick</button>
         </div>
         <div class="market-feed" ng-controller="FeedController as FeedC">
             {{FeedC.dataset}}
-            <button ng-click="ItemC.ItemHandlerService.pop()">Feedclick</button>
+            
         </div>
     </div>
 </body>

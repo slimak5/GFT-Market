@@ -32,23 +32,16 @@ var GFTMarket;
                 this.itemList = [];
                 this.activeObject = {
                     id: 0,
-                    name: "activeObject.name",
+                    name: "asdf",
                     quantity: 0
                 };
-                console.log(this.push(this.activeObject));
-                console.log(this.push(this.activeObject));
-                console.log(this.push(this.activeObject));
             }
             ItemHandler.prototype.push = function (object) {
-                object.id = this.itemList.length;
-                console.log(object);
-                for (var i = 0; i < this.itemList.length; i++) {
-                    if (this.itemList[i].id === object.id) {
-                        return false;
-                    }
-                }
-                this.itemList.push(object);
-                return true;
+                var helper = object;
+                helper.id = this.itemList.length;
+                helper.name += "nest";
+                this.itemList.push(helper);
+                console.log(this.itemList);
             };
             ItemHandler.prototype.pop = function (object) {
                 this.itemList.pop();
@@ -60,8 +53,10 @@ var GFTMarket;
                         for (var i_1 = 0; i_1 < this.itemList.length; i_1++) {
                             this.itemList[i_1].id = i_1;
                         }
+                        return true;
                     }
                 }
+                return false;
             };
             return ItemHandler;
         }());
@@ -81,18 +76,18 @@ var GFTMarket;
     var Directives;
     (function (Directives) {
         var ItemDirective = (function () {
-            function ItemDirective(ItemHandlerService) {
+            function ItemDirective() {
                 this.restrict = 'AE';
                 this.templateUrl = "../Views/_item.html";
                 this.scope = {
-                    itemModel: "=",
+                    itemModel: "&",
                 };
                 this.link = function (scope, element, attrs) {
                     scope.ItemHandlerService = this.ItemHandlerService;
                 };
             }
             ItemDirective.Factory = function () {
-                var directive = function (ItemHandlerService) { return new ItemDirective(ItemHandlerService); };
+                var directive = function () { return new ItemDirective(); };
                 directive.$inject = ["ItemHandlerService"];
                 return directive;
             };
