@@ -48,8 +48,12 @@ var GFTMarket;
             };
             ItemHandler.prototype.removeObject = function (object) {
                 for (var i = 0; i < this.itemList.length; i++) {
-                    this.itemList.splice(i, 1);
+                    if (this.itemList[i].id == object.id && this.itemList[i].name == object.name) {
+                        this.itemList.splice(i, 1);
+                        return true;
+                    }
                 }
+                return false;
             };
             return ItemHandler;
         }());
@@ -73,7 +77,7 @@ var GFTMarket;
                 this.restrict = 'AE';
                 this.templateUrl = "../Views/_item.html";
                 this.scope = {
-                    itemModel: "=",
+                    item: "=itemModel",
                 };
                 this.link = function (scope, element, attrs) {
                 };

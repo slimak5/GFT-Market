@@ -4,7 +4,7 @@ module GFTMarket.Directives {
         restrict: string = 'AE';
         templateUrl: string = "../Views/_item.html";
         scope = {
-            itemModel: "=",
+            item: "=itemModel",
         }
         link = function (scope, element, attrs) {
             
