@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2013
-VisualStudioVersion = 12.0.40629.0
+# Visual Studio 14
+VisualStudioVersion = 14.0.25123.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "GFT.Website.Api", "GFT.Website.Api", "{DA335771-D59E-4B72-ABCE-795F195B3585}"
 EndProject
@@ -11,11 +11,9 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GFT Website UI", "GFT.Websi
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "GFT.Services", "GFT.Services", "{14BAE38A-4B86-4160-BA2F-88F5B35EF1E6}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GFTTransactionBroker", "GFTTransactionBroker\GFTTransactionBroker.csproj", "{211B682A-6FA7-481D-BA55-4190BD9090FB}"
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "GFT.Database", "GFT.Database", "{BAFEB60F-0D44-4F02-8A85-46B62CA908EF}"
 EndProject
-Project("{00D1A9C2-B5F0-4AF3-8072-F6C62B433612}") = "GFT Database", "GFT Database\GFT Database.sqlproj", "{8864ADE0-B1F7-4C3B-A1FC-9F858C7B6B4F}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GFT Website Api", "GFT Website Api\GFT Website Api.csproj", "{22E5CD11-910A-4143-830D-52EBA52EC5F2}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -27,23 +25,16 @@ Global
 		{D2CE3E3A-23AD-4BF0-A533-6B34D2253CDC}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D2CE3E3A-23AD-4BF0-A533-6B34D2253CDC}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D2CE3E3A-23AD-4BF0-A533-6B34D2253CDC}.Release|Any CPU.Build.0 = Release|Any CPU
-		{211B682A-6FA7-481D-BA55-4190BD9090FB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{211B682A-6FA7-481D-BA55-4190BD9090FB}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{211B682A-6FA7-481D-BA55-4190BD9090FB}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{211B682A-6FA7-481D-BA55-4190BD9090FB}.Release|Any CPU.Build.0 = Release|Any CPU
-		{8864ADE0-B1F7-4C3B-A1FC-9F858C7B6B4F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{8864ADE0-B1F7-4C3B-A1FC-9F858C7B6B4F}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{8864ADE0-B1F7-4C3B-A1FC-9F858C7B6B4F}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
-		{8864ADE0-B1F7-4C3B-A1FC-9F858C7B6B4F}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{8864ADE0-B1F7-4C3B-A1FC-9F858C7B6B4F}.Release|Any CPU.Build.0 = Release|Any CPU
-		{8864ADE0-B1F7-4C3B-A1FC-9F858C7B6B4F}.Release|Any CPU.Deploy.0 = Release|Any CPU
+		{22E5CD11-910A-4143-830D-52EBA52EC5F2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{22E5CD11-910A-4143-830D-52EBA52EC5F2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{22E5CD11-910A-4143-830D-52EBA52EC5F2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{22E5CD11-910A-4143-830D-52EBA52EC5F2}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{D2CE3E3A-23AD-4BF0-A533-6B34D2253CDC} = {B0F299B9-FCE7-423F-8A72-9869F5C2F58F}
-		{211B682A-6FA7-481D-BA55-4190BD9090FB} = {14BAE38A-4B86-4160-BA2F-88F5B35EF1E6}
-		{8864ADE0-B1F7-4C3B-A1FC-9F858C7B6B4F} = {BAFEB60F-0D44-4F02-8A85-46B62CA908EF}
+		{22E5CD11-910A-4143-830D-52EBA52EC5F2} = {DA335771-D59E-4B72-ABCE-795F195B3585}
 	EndGlobalSection
 EndGlobal
