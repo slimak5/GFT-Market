@@ -19,11 +19,20 @@
             <div ng-repeat="object in ItemC.ItemHandlerService.itemList track by $index">
                 <item-object item-model="object" service="ItemC.ItemHandlerService"></item-object>
             </div>
+            
             <button ng-click="ItemC.ItemHandlerService.push(ItemC.ItemHandlerService.activeObject)">AddResponseObject</button>
             <button ng-click="ItemC.ItemHandlerService.remove(ItemC.ItemHandlerService.activeObject)">RemoveObjects</button>
             <button ng-click="ItemC.ItemHandlerService.getByObject(ItemC.ItemHandlerService.activeObject)">ReturnByObject</button>
+
         </div>
         <div class="market-feed" ng-controller="FeedController as FeedC">
+            <div ng-repeat="object in FeedC.FeedHandlerService.feedList track by $index">
+                <feed-object feed-model="object" service="FeedC.FeedHandlerService"></feed-object>
+            </div>
+
+            <button ng-click="FeedC.FeedHandlerService.push(FeedC.FeedHandlerService.activeFeed)">AddFeedObject</button>
+            <button ng-click="FeedC.FeedHandlerService.remove(FeedC.FeedHandlerService.activeFeed)">RemoveFeeds</button>
+            <button ng-click="FeedC.FeedHandlerService.getByObject(FeedC.FeedHandlerService.activeFeed)">ReturnByObject</button>
         </div>
     </div>
 </body>

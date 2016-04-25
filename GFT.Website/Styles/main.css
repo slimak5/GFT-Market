@@ -31,6 +31,8 @@ body {
     display: inline-block;
     width: 550px;
     vertical-align: top;
+    margin-left:5px;
+    text-align:center;
 }
 
 .market-offers{

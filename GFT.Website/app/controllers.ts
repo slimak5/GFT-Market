@@ -15,13 +15,10 @@ module GFTMarket.Controllers {
     angular.module("main").controller("ItemController", ItemController);
 
     export class FeedController {
-        ItemHandlerService: GFTMarket.Services.ItemHandler;
         FeedHandlerService: GFTMarket.Services.FeedHandler;
 
-        static $inject = ["$scope","ItemHandlerService", "FeedHandlerService"];
-        constructor($scope: ng.IScope, ItemHandlerService: GFTMarket.Services.ItemHandler,
-            FeedHandlerService: GFTMarket.Services.FeedHandler) {
-            this.ItemHandlerService = ItemHandlerService;
+        static $inject = ["$scope", "FeedHandlerService"];
+        constructor($scope: ng.IScope, FeedHandlerService: GFTMarket.Services.FeedHandler) {
             this.FeedHandlerService = FeedHandlerService;
         }
 

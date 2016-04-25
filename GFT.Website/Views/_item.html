@@ -1,6 +1,6 @@
 ﻿<div class="item">
     <p id="item-name">{{itemModel.name}}</p>
     <input id="item-quantity" type="text" ng-model="itemModel.quantity" onclick="this.select()">
-    <button id="item-buy" ng-click="ItemHandlerService.test(itemModel)">Buy</button><!--
-    --><button id="item-sell" ng-click="">Sell</button>
+    <button id="item-buy" ng-click="ItemHandlerService.buy(itemModel)">Buy</button><!--
+    --><button id="item-sell" ng-click="ItemHandlerService.buy(itemModel)">Sell</button>
 </div>
