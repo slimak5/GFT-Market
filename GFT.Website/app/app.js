@@ -5,7 +5,7 @@ var GFTMarket;
         var Item = (function () {
             function Item() {
                 this.name = "item.name";
-                this.quantity = 0;
+                this.quantity = 1;
                 this.id = 0;
             }
             return Item;
@@ -35,25 +35,45 @@ var GFTMarket;
                 this.itemList = [];
                 this.activeObject = new GFTMarket.Models.Item;
             }
+            ItemHandler.prototype.test = function (object) {
+                console.log(object);
+            };
             ItemHandler.prototype.push = function (object) {
                 this.pushJSON(JSON.stringify(object));
             };
             ItemHandler.prototype.pushJSON = function (object) {
                 var helper = JSON.parse(object);
                 this.itemList.push(helper);
-                console.log(this.itemList);
             };
-            ItemHandler.prototype.pop = function () {
-                this.itemList.pop();
-            };
-            ItemHandler.prototype.removeObject = function (object) {
+            ItemHandler.prototype.remove = function (object) {
+                for (var i = 0; i < this.itemList.length; i++) {
+                    if (this.itemList[i].quantity <= 0) {
+                        this.itemList.splice(i, 1);
+                        i = 0;
+                    }
+                    if (this.itemList[i].id == object.id && this.itemList[i].name == object.name) {
+                        this.itemList.splice(i, 1);
+                        i = 0;
+                    }
+                }
                 for (var i = 0; i < this.itemList.length; i++) {
                     if (this.itemList[i].id == object.id && this.itemList[i].name == object.name) {
                         this.itemList.splice(i, 1);
-                        return true;
                     }
                 }
-                return false;
+            };
+            ItemHandler.prototype.getById = function (id) {
+                return this.itemList[id];
+            };
+            ItemHandler.prototype.getByObject = function (object) {
+                for (var i = 0; i < this.itemList.length; i++) {
+                    if (this.itemList[i].id == object.id && this.itemList[i].name == object.name) {
+                        console.log(this.itemList[i]);
+                        return this.itemList[i];
+                    }
+                }
+                console.log("getByObject(): returned empty instance");
+                return new GFTMarket.Models.Item();
             };
             return ItemHandler;
         }());
@@ -77,7 +97,8 @@ var GFTMarket;
                 this.restrict = 'AE';
                 this.templateUrl = "../Views/_item.html";
                 this.scope = {
-                    item: "=itemModel",
+                    itemModel: "=",
+                    ItemHandlerService: "=service"
                 };
                 this.link = function (scope, element, attrs) {
                 };

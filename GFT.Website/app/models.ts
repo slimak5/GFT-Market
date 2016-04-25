@@ -7,7 +7,7 @@ module GFTMarket.Models {
 
         constructor() {
             this.name = "item.name";
-            this.quantity = 0;
+            this.quantity = 1;
             this.id = 0;
         }
     }

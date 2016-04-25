@@ -34,6 +34,7 @@ body {
 }
 #item-buy {
     display: inline;
+    position:relative;
     background-color:darkturquoise;
     font-size: 19px;
     border: none;
@@ -46,6 +47,7 @@ body {
 }
 #item-sell {
     display: inline;
+    position:relative;
     background-color:darkorange;
     font-size: 19px;
     border: none;

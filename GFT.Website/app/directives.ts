@@ -4,14 +4,14 @@ module GFTMarket.Directives {
         restrict: string = 'AE';
         templateUrl: string = "../Views/_item.html";
         scope = {
-            item: "=itemModel",
+            itemModel: "=",
+            ItemHandlerService: "=service"
         }
-        link = function (scope, element, attrs) {
-            
+        link = function (scope, element: ng.IAugmentedJQuery, attrs: ng.IAttributes) {
         }
+        
         constructor() {
-        }
-         
+        } 
         static Factory() {
             const directive = () => new ItemDirective();
             return directive;

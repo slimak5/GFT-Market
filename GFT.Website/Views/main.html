@@ -17,10 +17,11 @@
         </div>
         <div class="market-offers" ng-controller="ItemController as ItemC">
             <div ng-repeat="object in ItemC.ItemHandlerService.itemList track by $index">
-                <item-Object item-Model="object"></item-Object>
+                <item-object item-model="object" service="ItemC.ItemHandlerService"></item-object>
             </div>
-            <button ng-click="ItemC.ItemHandlerService.push(ItemC.ItemHandlerService.activeObject)">ResponseObject</button>
-            <button ng-click="ItemC.ItemHandlerService.removeObject(ItemC.ItemHandlerService.activeObject)">Feedclick</button>
+            <button ng-click="ItemC.ItemHandlerService.push(ItemC.ItemHandlerService.activeObject)">AddResponseObject</button>
+            <button ng-click="ItemC.ItemHandlerService.remove(ItemC.ItemHandlerService.activeObject)">RemoveObjects</button>
+            <button ng-click="ItemC.ItemHandlerService.getByObject(ItemC.ItemHandlerService.activeObject)">ReturnByObject</button>
         </div>
         <div class="market-feed" ng-controller="FeedController as FeedC">
         </div>
