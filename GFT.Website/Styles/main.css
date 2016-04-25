@@ -14,7 +14,7 @@ body {
     top:10px;
     font-size: 19pt;
     font-weight: 500;
-    color: #00dd93;
+    color: darkseagreen;
 
 }
 .application {
@@ -24,5 +24,20 @@ body {
 .header {
     position: relative;
     height: 50px;
-    border-bottom: 2px solid #00dd93;
+    border-bottom: 2px solid darkseagreen;
+}
+
+.market-feed{
+    display: inline-block;
+    width: 550px;
+    vertical-align: top;
+    margin-left:5px;
+    text-align:center;
+}
+
+.market-offers{
+    display: inline-block;
+    width: 400px;
+    vertical-align: top;
+    
 }

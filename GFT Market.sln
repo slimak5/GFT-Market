@@ -1,13 +1,15 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 14
-VisualStudioVersion = 14.0.25123.0
+# Visual Studio 2013
+VisualStudioVersion = 12.0.40629.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "GFT.Website.Api", "GFT.Website.Api", "{DA335771-D59E-4B72-ABCE-795F195B3585}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "GFT.Website.UI", "GFT.Website.UI", "{B0F299B9-FCE7-423F-8A72-9869F5C2F58F}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GFT Website UI", "GFT.Website\GFT Website UI.csproj", "{D2CE3E3A-23AD-4BF0-A533-6B34D2253CDC}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "GFT.Services", "GFT.Services", "{14BAE38A-4B86-4160-BA2F-88F5B35EF1E6}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
