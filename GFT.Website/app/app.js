@@ -4,6 +4,9 @@ var GFTMarket;
     (function (Models) {
         var Item = (function () {
             function Item() {
+                this.name = "item.name";
+                this.quantity = 0;
+                this.id = 0;
             }
             return Item;
         }());
@@ -30,33 +33,23 @@ var GFTMarket;
         var ItemHandler = (function () {
             function ItemHandler() {
                 this.itemList = [];
-                this.activeObject = {
-                    id: 0,
-                    name: "asdf",
-                    quantity: 0
-                };
+                this.activeObject = new GFTMarket.Models.Item;
             }
             ItemHandler.prototype.push = function (object) {
-                var helper = object;
-                helper.id = this.itemList.length;
-                helper.name += "nest";
+                this.pushJSON(JSON.stringify(object));
+            };
+            ItemHandler.prototype.pushJSON = function (object) {
+                var helper = JSON.parse(object);
                 this.itemList.push(helper);
                 console.log(this.itemList);
             };
-            ItemHandler.prototype.pop = function (object) {
+            ItemHandler.prototype.pop = function () {
                 this.itemList.pop();
             };
             ItemHandler.prototype.removeObject = function (object) {
                 for (var i = 0; i < this.itemList.length; i++) {
-                    if (this.itemList[i] === object) {
-                        this.itemList.splice(i, 1);
-                        for (var i_1 = 0; i_1 < this.itemList.length; i_1++) {
-                            this.itemList[i_1].id = i_1;
-                        }
-                        return true;
-                    }
+                    this.itemList.splice(i, 1);
                 }
-                return false;
             };
             return ItemHandler;
         }());
@@ -80,15 +73,13 @@ var GFTMarket;
                 this.restrict = 'AE';
                 this.templateUrl = "../Views/_item.html";
                 this.scope = {
-                    itemModel: "&",
+                    itemModel: "=",
                 };
                 this.link = function (scope, element, attrs) {
-                    scope.ItemHandlerService = this.ItemHandlerService;
                 };
             }
             ItemDirective.Factory = function () {
                 var directive = function () { return new ItemDirective(); };
-                directive.$inject = ["ItemHandlerService"];
                 return directive;
             };
             return ItemDirective;

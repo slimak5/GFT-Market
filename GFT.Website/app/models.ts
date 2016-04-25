@@ -4,6 +4,12 @@ module GFTMarket.Models {
         name: string;
         quantity: number;
         id: number;
+
+        constructor() {
+            this.name = "item.name";
+            this.quantity = 0;
+            this.id = 0;
+        }
     }
 
     export class Feed implements GFTMarket.Interfaces.IMarketObject {

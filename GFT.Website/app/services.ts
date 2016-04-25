@@ -2,36 +2,32 @@
 module GFTMarket.Services {
     export class ItemHandler {
         itemList: Array<GFTMarket.Models.Item> = [];
-        activeObject: GFTMarket.Models.Item = {
-            id: 0,
-            name: "asdf",
-            quantity: 0
-        }
+        activeObject = new GFTMarket.Models.Item;
         constructor() {
         }
 
         public push(object: GFTMarket.Models.Item) {
-            let helper = object;
-            helper.id = this.itemList.length;
-            helper.name += "nest";
+            this.pushJSON(JSON.stringify(object));
+        }
+        public pushJSON(object: string) {
+            var helper = JSON.parse(object);
             this.itemList.push(helper);
             console.log(this.itemList);
-            
         }
-        public pop(object: GFTMarket.Models.Item) {
+        public pop() {
             this.itemList.pop();
         }
         public removeObject(object: GFTMarket.Models.Item) {
             for (let i = 0; i < this.itemList.length; i++) {
-                if (this.itemList[i] === object) {
+                //if (this.itemList[i] === object) {
                     this.itemList.splice(i, 1);
-                    for (let i = 0; i < this.itemList.length; i++) {
-                        this.itemList[i].id = i;
-                    }
-                    return true;
-                }
+                    //for (let i = 0; i < this.itemList.length; i++) {
+                    //    this.itemList[i].id = i;
+                    //}
+                    //return true;
+                //}
             }
-            return false;
+            //return false;
         }
     }
     angular.module("main").service("ItemHandlerService", ItemHandler);

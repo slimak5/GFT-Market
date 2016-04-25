@@ -8,8 +8,7 @@ module GFTMarket.Controllers {
         constructor($scope: ng.IScope, ItemHandlerService: GFTMarket.Services.ItemHandler,
             FeedHandlerService: GFTMarket.Services.FeedHandler) {
             this.ItemHandlerService = ItemHandlerService;
-            this.FeedHandlerService = FeedHandlerService;
-            
+            this.FeedHandlerService = FeedHandlerService
         }
 
     }
