@@ -5,12 +5,14 @@ using System.Runtime.Serialization;
 using System.ServiceModel;
 using System.Text;
 
-namespace GFT_Service
+
+namespace GFT.Services.TransactionBroker
 {
-    // NOTE: You can use the "Rename" command on the "Refactor" menu to change the class name "Service1" in both code and config file together.
-    public class Service1 : IService1
+    public class TransactionBroker : ITransactionBroker
     {
-        public string GetData(int value)
+        
+
+        public string Subscribe(int value)
         {
             return string.Format("You entered: {0}", value);
         }
