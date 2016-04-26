@@ -93,12 +93,16 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <TypeScriptCompile Include="app\controllers.ts" />
-    <TypeScriptCompile Include="app\directives.ts" />
-    <TypeScriptCompile Include="app\interfaces.ts" />
-    <TypeScriptCompile Include="app\models.ts" />
-    <TypeScriptCompile Include="app\modules.ts" />
-    <TypeScriptCompile Include="app\services.ts" />
+    <TypeScriptCompile Include="app\controllers\FeedController.ts" />
+    <TypeScriptCompile Include="app\controllers\ItemController.ts" />
+    <TypeScriptCompile Include="app\directives\FeedDirective.ts" />
+    <TypeScriptCompile Include="app\directives\ItemDirective.ts" />
+    <TypeScriptCompile Include="app\models\interfaces\IMarketObject.ts" />
+    <TypeScriptCompile Include="app\models\Feed.ts" />
+    <TypeScriptCompile Include="app\models\Item.ts" />
+    <TypeScriptCompile Include="app\modules\MainModule.ts" />
+    <TypeScriptCompile Include="app\services\FeedHandlerService.ts" />
+    <TypeScriptCompile Include="app\services\ItemHandlerService.ts" />
     <TypeScriptCompile Include="app\_references.ts" />
     <TypeScriptCompile Include="Scripts\typings\angularjs\angular-animate.d.ts" />
     <TypeScriptCompile Include="Scripts\typings\angularjs\angular-component-router.d.ts" />

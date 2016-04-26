@@ -16,9 +16,11 @@ namespace GFT.Website.Api.Controllers
         [EnableCors("*","*","*")]
         public List<Models.Item> getItems() {
             List<Models.Item> itemList = new List<Models.Item>();
-
+            Models.Item item = new Models.Item();
+            item.id = 5;
+            item.name = "test";
             //TODO Make service call, return json array of Item
-            
+            itemList.Add(item);
             return itemList;//Json<Models.Item>(item);
         }
         [HttpPost]

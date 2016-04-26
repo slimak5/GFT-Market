@@ -1,4 +1,4 @@
-﻿/// <reference path="_references.ts" />
+﻿/// <reference path="../../_references.ts" />
 module GFTMarket.Interfaces {
     export interface IMarketObject {
         id: number;
