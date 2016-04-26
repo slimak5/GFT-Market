@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 14
-VisualStudioVersion = 14.0.25123.0
+# Visual Studio 2013
+VisualStudioVersion = 12.0.40629.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "GFT.Website.Api", "GFT.Website.Api", "{DA335771-D59E-4B72-ABCE-795F195B3585}"
 EndProject
@@ -14,6 +14,8 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "GFT.Database", "GFT.Database", "{BAFEB60F-0D44-4F02-8A85-46B62CA908EF}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GFT Website Api", "GFT Website Api\GFT Website Api.csproj", "{22E5CD11-910A-4143-830D-52EBA52EC5F2}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "GFT.Queues", "GFT.Queues", "{05954AD2-E587-4D18-80C7-07C342067B0C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

@@ -191,8 +191,8 @@ var GFTMarket;
         angular.module("main").controller("ItemController", ItemController);
         var FeedController = (function () {
             function FeedController($scope, FeedHandlerService, $http) {
-                this.FeedHandlerService = FeedHandlerService,
-                    this.$http = $http;
+                this.FeedHandlerService = FeedHandlerService;
+                this.$http = $http;
             }
             FeedController.prototype.getFeeds = function () {
                 var self = this;

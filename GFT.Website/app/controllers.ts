@@ -29,7 +29,7 @@ module GFTMarket.Controllers {
         $http: ng.IHttpService;
         static $inject = ["$scope", "FeedHandlerService", "$http"];
         constructor($scope: ng.IScope, FeedHandlerService: GFTMarket.Services.FeedHandler, $http: ng.IHttpService) {
-            this.FeedHandlerService = FeedHandlerService,
+            this.FeedHandlerService = FeedHandlerService;
                 this.$http = $http;
         }
 

@@ -15,9 +15,9 @@ namespace GFT.Website.Api.Controllers
         public List<Models.Feed> getFeeds()
         {
             List<Models.Feed> feedList = new List<Models.Feed>();
-            //TODO Make service call, return json array of Item
+            //TODO Make service call, return json array of Items from backend svc
             
-            return feedList;//Json<Models.Item>(item);
+            return feedList;
         }
         
     }
