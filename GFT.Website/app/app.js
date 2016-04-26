@@ -52,14 +52,11 @@ var GFTMarket;
                         this.itemList.splice(i, 1);
                         i = -1;
                     }
-                    if (this.itemList[i].id == object.id && this.itemList[i].name == object.name) {
-                        this.itemList.splice(i, 1);
-                        i = -1;
-                    }
-                }
-                for (var i = 0; i < this.itemList.length; i++) {
-                    if (this.itemList[i].id == object.id && this.itemList[i].name == object.name) {
-                        this.itemList.splice(i, 1);
+                    else {
+                        if (this.itemList[i].id == object.id && this.itemList[i].name == object.name) {
+                            this.itemList.splice(i, 1);
+                            i = -1;
+                        }
                     }
                 }
             };
@@ -91,7 +88,6 @@ var GFTMarket;
             }
             FeedHandler.prototype.push = function (object) {
                 this.pushJSON(JSON.stringify(object));
-                console.log(this.feedList);
             };
             FeedHandler.prototype.pushJSON = function (object) {
                 var helper = JSON.parse(object);
@@ -111,7 +107,6 @@ var GFTMarket;
             FeedHandler.prototype.getByObject = function (object) {
                 for (var i = 0; i < this.feedList.length; i++) {
                     if (this.feedList[i].id == object.id && this.feedList[i].name == object.name) {
-                        console.log(this.feedList[i]);
                         return this.feedList[i];
                     }
                 }
@@ -177,20 +172,37 @@ var GFTMarket;
     var Controllers;
     (function (Controllers) {
         var ItemController = (function () {
-            function ItemController($scope, ItemHandlerService, FeedHandlerService) {
+            function ItemController($scope, ItemHandlerService, $http) {
                 this.ItemHandlerService = ItemHandlerService;
-                this.FeedHandlerService = FeedHandlerService;
+                this.$http = $http;
             }
-            ItemController.$inject = ["$scope", "ItemHandlerService"];
+            ItemController.prototype.getItems = function () {
+                var self = this;
+                this.$http.get("http://localhost:54919/api/Items/getItems/").success(function (response) {
+                    for (var i = 0; i < response.length; i++) {
+                        self.ItemHandlerService.push(response[i]);
+                    }
+                });
+            };
+            ItemController.$inject = ["$scope", "ItemHandlerService", "$http"];
             return ItemController;
         }());
         Controllers.ItemController = ItemController;
         angular.module("main").controller("ItemController", ItemController);
         var FeedController = (function () {
-            function FeedController($scope, FeedHandlerService) {
-                this.FeedHandlerService = FeedHandlerService;
+            function FeedController($scope, FeedHandlerService, $http) {
+                this.FeedHandlerService = FeedHandlerService,
+                    this.$http = $http;
             }
-            FeedController.$inject = ["$scope", "FeedHandlerService"];
+            FeedController.prototype.getFeeds = function () {
+                var self = this;
+                this.$http.get("http://localhost:54919/api/Feeds/getFeeds/").success(function (response) {
+                    for (var i = 0; i < response.length; i++) {
+                        self.FeedHandlerService.push(response[i]);
+                    }
+                });
+            };
+            FeedController.$inject = ["$scope", "FeedHandlerService", "$http"];
             return FeedController;
         }());
         Controllers.FeedController = FeedController;

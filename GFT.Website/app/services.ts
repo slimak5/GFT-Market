@@ -19,15 +19,12 @@ module GFTMarket.Services {
                 if (this.itemList[i].quantity <= 0) {
                     this.itemList.splice(i, 1);
                     i = -1;
-                }
-                if (this.itemList[i].id == object.id && this.itemList[i].name == object.name) {
-                    this.itemList.splice(i, 1);
-                    i = -1;
-                }
-            }
-            for (let i = 0; i < this.itemList.length; i++) {
-                if (this.itemList[i].id == object.id && this.itemList[i].name == object.name) {
-                    this.itemList.splice(i, 1);
+
+                } else {
+                    if (this.itemList[i].id == object.id && this.itemList[i].name == object.name) {
+                        this.itemList.splice(i, 1);
+                        i = -1;
+                    }
                 }
             }
         }
@@ -63,7 +60,6 @@ module GFTMarket.Services {
 
         public push(object: GFTMarket.Models.Feed) {
             this.pushJSON(JSON.stringify(object));
-            console.log(this.feedList);
         }
         private pushJSON(object: string) {
             var helper: GFTMarket.Models.Feed = <GFTMarket.Models.Feed>JSON.parse(object);
@@ -84,7 +80,6 @@ module GFTMarket.Services {
         public getByObject(object: GFTMarket.Models.Feed) {
             for (let i = 0; i < this.feedList.length; i++) {
                 if (this.feedList[i].id == object.id && this.feedList[i].name == object.name) {
-                    console.log(this.feedList[i]);
                     return this.feedList[i];
                 }
             }

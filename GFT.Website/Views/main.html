@@ -22,7 +22,7 @@
             
             <button ng-click="ItemC.ItemHandlerService.push(ItemC.ItemHandlerService.activeObject)">AddResponseObject</button>
             <button ng-click="ItemC.ItemHandlerService.remove(ItemC.ItemHandlerService.activeObject)">RemoveObjects</button>
-            <button ng-click="ItemC.ItemHandlerService.getByObject(ItemC.ItemHandlerService.activeObject)">ReturnByObject</button>
+            <button ng-click="ItemC.getItems()">ReturnByObject</button>
 
         </div>
         <div class="market-feed" ng-controller="FeedController as FeedC">
@@ -32,7 +32,7 @@
 
             <button ng-click="FeedC.FeedHandlerService.push(FeedC.FeedHandlerService.activeFeed)">AddFeedObject</button>
             <button ng-click="FeedC.FeedHandlerService.remove(FeedC.FeedHandlerService.activeFeed)">RemoveFeeds</button>
-            <button ng-click="FeedC.FeedHandlerService.getByObject(FeedC.FeedHandlerService.activeFeed)">ReturnByObject</button>
+            <button ng-click="FeedC.getFeeds()">ReturnByObject</button>
         </div>
     </div>
 </body>
