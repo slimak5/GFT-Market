@@ -17,6 +17,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GFT Website Api", "GFT Webs
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "GFT.Queues", "GFT.Queues", "{05954AD2-E587-4D18-80C7-07C342067B0C}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GFT TransactionProcessor Service", "GFT Services\GFT TransactionProcessor Service\GFT TransactionProcessor Service.csproj", "{68DD5DF2-D85D-458B-BDE9-C1F78123717B}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -31,6 +33,10 @@ Global
 		{22E5CD11-910A-4143-830D-52EBA52EC5F2}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{22E5CD11-910A-4143-830D-52EBA52EC5F2}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{22E5CD11-910A-4143-830D-52EBA52EC5F2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{68DD5DF2-D85D-458B-BDE9-C1F78123717B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{68DD5DF2-D85D-458B-BDE9-C1F78123717B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{68DD5DF2-D85D-458B-BDE9-C1F78123717B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{68DD5DF2-D85D-458B-BDE9-C1F78123717B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -38,5 +44,6 @@ Global
 	GlobalSection(NestedProjects) = preSolution
 		{D2CE3E3A-23AD-4BF0-A533-6B34D2253CDC} = {B0F299B9-FCE7-423F-8A72-9869F5C2F58F}
 		{22E5CD11-910A-4143-830D-52EBA52EC5F2} = {DA335771-D59E-4B72-ABCE-795F195B3585}
+		{68DD5DF2-D85D-458B-BDE9-C1F78123717B} = {14BAE38A-4B86-4160-BA2F-88F5B35EF1E6}
 	EndGlobalSection
 EndGlobal

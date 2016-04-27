@@ -2,7 +2,6 @@
 module GFTMarket.Controllers {
     export class ItemController {
         ItemHandlerService: GFTMarket.Services.ItemHandler;
-        FeedHandlerService: GFTMarket.Services.FeedHandler;
         $http: ng.IHttpService;
         static $inject = ["$scope", "ItemHandlerService", "$http"];
         constructor($scope: ng.IScope, ItemHandlerService: GFTMarket.Services.ItemHandler,

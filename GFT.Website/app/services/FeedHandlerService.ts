@@ -12,7 +12,10 @@ module GFTMarket.Services {
         }
         private pushJSON(object: string) {
             var helper: GFTMarket.Models.Feed = <GFTMarket.Models.Feed>JSON.parse(object);
-            this.feedList.push(helper);
+            if (this.feedList.length > 8) {
+                this.feedList.splice(this.feedList.length-1, 1);
+            }
+            this.feedList.unshift(helper);
         }
         public remove(object: GFTMarket.Models.Feed) {
             for (let i = 0; i < this.feedList.length; i++) {

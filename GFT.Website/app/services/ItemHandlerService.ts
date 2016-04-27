@@ -12,7 +12,7 @@ module GFTMarket.Services {
         }
         private pushJSON(object: string) {
             var helper: GFTMarket.Models.Item = <GFTMarket.Models.Item>JSON.parse(object);
-            this.itemList.push(helper);
+            this.itemList.unshift(helper);
         }
         public remove(object: GFTMarket.Models.Item) {
             for (let i = 0; i < this.itemList.length; i++) {

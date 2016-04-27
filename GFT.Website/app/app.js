@@ -50,7 +50,10 @@ var GFTMarket;
             };
             FeedHandler.prototype.pushJSON = function (object) {
                 var helper = JSON.parse(object);
-                this.feedList.push(helper);
+                if (this.feedList.length > 8) {
+                    this.feedList.splice(this.feedList.length - 1, 1);
+                }
+                this.feedList.unshift(helper);
             };
             FeedHandler.prototype.remove = function (object) {
                 for (var i = 0; i < this.feedList.length; i++) {
@@ -96,7 +99,7 @@ var GFTMarket;
             };
             ItemHandler.prototype.pushJSON = function (object) {
                 var helper = JSON.parse(object);
-                this.itemList.push(helper);
+                this.itemList.unshift(helper);
             };
             ItemHandler.prototype.remove = function (object) {
                 for (var i = 0; i < this.itemList.length; i++) {
