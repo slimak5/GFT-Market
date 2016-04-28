@@ -4,6 +4,7 @@ using System.Linq;
 using System.Runtime.Serialization;
 using System.ServiceModel;
 using System.Text;
+using System.Messaging;
 
 namespace GFT.Services.TransactionProcessor
 {
@@ -11,11 +12,10 @@ namespace GFT.Services.TransactionProcessor
     [ServiceContract]
     public interface ITransactionProcessor
     {
-        //TODO add operations
         [OperationContract(IsOneWay = true)]
-        public void sendItem(Item item);
-        [OperationContract(IsOneWay = true)]
-        public void sendFeed(Feed item);
+        void sendItem();
+        [OperationContract]
+        string getData();
     }
 
     [DataContract]

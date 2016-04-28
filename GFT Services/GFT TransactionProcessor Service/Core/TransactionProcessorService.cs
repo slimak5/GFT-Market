@@ -10,15 +10,26 @@ namespace GFT.Services.TransactionProcessor
 {
     public class TransactionProcessor : ITransactionProcessor
     {
-        
-        public void sendItem(Item item)
+        MessageQueue messageQueue = new MessageQueue(@".\private$\mt.to.bak1.queue");
+        static Message[] msgs;
+        public void sendItem()
         {
-
+            MessageQueueTransaction transaction = new MessageQueueTransaction();
+            transaction.Begin();
+            msgs = messageQueue.GetAllMessages();
+            transaction.Commit();
+            
         }
 
-        public void sendFeed(Feed feed)
+        void sendFeed(Feed feed)
         {
         
+        }
+
+        public string getData()
+        {
+            
+            return msgs[0].Body.ToString();
         }
     }
 }

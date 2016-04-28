@@ -13,19 +13,32 @@ namespace GFT.Website.Api.Controllers
 {
     public class ItemsController : ApiController
     {
-        MessageQueue messageQueue = new MessageQueue(@".\private$\mt.to.bak1.queue"); 
+        MessageQueue messageQueue = new MessageQueue(@".\private$\mt.to.bak1.queue");
 
 
         [HttpGet]
         public string sendtoMQ(){
+            MessageQueueTransaction transaction = new MessageQueueTransaction();
+            
             Message msg = new Message("test queue");
-            messageQueue.Send(msg);
+            msg.Label = "ok";
+            try{
+                transaction.Begin();
+                messageQueue.Send(msg,transaction);
+                transaction.Commit();
+            }
+            catch(Exception e)
+            {
+                    return "failed";
+            }
+            
             return "message sent";
         }
 
         [HttpGet]
-        [EnableCors("*","*","*")]
-        public List<Models.Item> getItems() {
+        [EnableCors("*", "*", "*")]
+        public List<Models.Item> getItems()
+        {
             List<Models.Item> itemList = new List<Models.Item>();
             Models.Item item = new Models.Item();
             item.id = 5;
