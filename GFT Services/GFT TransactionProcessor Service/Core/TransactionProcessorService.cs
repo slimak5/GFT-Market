@@ -10,8 +10,7 @@ namespace GFT.Services.TransactionProcessor
 {
     public class TransactionProcessor : ITransactionProcessor
     {
-        MessageQueue mq = new MessageQueue("./private$/MTtoBAK");
-
+        
         public void sendItem(Item item)
         {
 

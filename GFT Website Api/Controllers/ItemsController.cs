@@ -7,11 +7,22 @@ using System.Web.Http;
 using System.Web.Http.Cors;
 using Newtonsoft.Json;
 using System.Web.Script.Serialization;
+using System.Messaging;
 
 namespace GFT.Website.Api.Controllers
 {
     public class ItemsController : ApiController
     {
+        MessageQueue messageQueue = new MessageQueue(@".\private$\mt.to.bak1.queue"); 
+
+
+        [HttpGet]
+        public string sendtoMQ(){
+            Message msg = new Message("test queue");
+            messageQueue.Send(msg);
+            return "message sent";
+        }
+
         [HttpGet]
         [EnableCors("*","*","*")]
         public List<Models.Item> getItems() {
