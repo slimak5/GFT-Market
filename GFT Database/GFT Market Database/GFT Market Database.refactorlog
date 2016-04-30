@@ -1,0 +1,17 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Operations Version="1.0" xmlns="http://schemas.microsoft.com/sqlserver/dac/Serialization/2012/02">
+  <Operation Name="Rename Refactor" Key="3d0bd214-0326-402d-a447-0fba6a132d38" ChangeDateTime="04/30/2016 11:00:29">
+    <Property Name="ElementName" Value="[dbo].[Items].[BackendId]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[Items]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="SupportedBackend" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="bf9bcf92-ee89-4261-88f9-1a3060f251d1" ChangeDateTime="04/30/2016 11:41:30">
+    <Property Name="ElementName" Value="[dbo].[Orders].[ItemId]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[Orders]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="ItemID" />
+  </Operation>
+</Operations>

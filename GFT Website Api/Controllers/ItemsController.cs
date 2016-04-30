@@ -13,43 +13,44 @@ namespace GFT.Website.Api.Controllers
 {
     public class ItemsController : ApiController
     {
-        MessageQueue messageQueue = new MessageQueue(@".\private$\mt.to.bak1.queue");
+        static List<Models.Item> itemList = new List<Models.Item>();
 
+        static string[] itemListBAK1;
+        static string[] itemListBAK2;
 
+        static int idPool = 100;
         [HttpPost]
-        public string buyItem(Models.Item item){
+        [EnableCors("*", "*", "*")]
+        public string buyItem(Models.Item item)
+        {
+            Models.Order order = new Models.Order(item, generateID());
+            return "Your request has been sent. ID: "+order.orderID; 
+        }
+        [HttpPost]
+        [EnableCors("*", "*", "*")]
+        public string sellItem(Models.Item item)
+        {
+            //TODO Make service call, return response status
             return "Your request has been sent.";
         }
-
         [HttpGet]
         [EnableCors("*", "*", "*")]
         public List<Models.Item> getItems()
         {
-            List<Models.Item> itemList = new List<Models.Item>();
             Models.Item item = new Models.Item();
             item.id = 5;
             item.name = "test";
             //TODO Make service call, return json array of Item
             itemList.Add(item);
             return itemList;//Json<Models.Item>(item);
-        }
-        [HttpPost]
-        [EnableCors("*", "*", "*")]
-        public string sellItem(string item)
-        {
-            //Models.Item Object = new JavaScriptSerializer().Deserialize<Models.Item>(item);
+        }        
+        
 
-            //TODO Make service call, return response status
-            return item;
-        }
-        [HttpPost]
-        [EnableCors("*", "*", "*")]
-        public string buyItem(string item)
+        int generateID()
         {
-            //Models.Item Object = new JavaScriptSerializer().Deserialize<Models.Item>(item);
-
-            //TODO Make service call, return response status
-            return item;
+            int id = idPool;
+            idPool++;
+            return id;
         }
     }
 }

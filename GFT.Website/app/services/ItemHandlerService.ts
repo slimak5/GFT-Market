@@ -3,8 +3,10 @@ module GFTMarket.Services {
     export class ItemHandler {
         itemList: Array<GFTMarket.Models.Item> = [];
         activeObject = new GFTMarket.Models.Item();
-
-        constructor() {
+        $http: ng.IHttpService;
+        static $inject = ["$http"];
+        constructor($http: ng.IHttpService) {
+            this.$http = $http;
         }
 
         public push(object: GFTMarket.Models.Item) {
@@ -43,10 +45,15 @@ module GFTMarket.Services {
         }
         //API CALLS:
         public buyItem(object: GFTMarket.Models.Item) {
-            //TODO
+            this.$http.post("http://localhost:54919/api/Items/buyItem", object).then(function (res) {
+                //TODO handle response
+            });
+
         }
         public sellItem(object: GFTMarket.Models.Item) {
-            //TODO
+            this.$http.post("http://localhost:54919/api/Items/sellItem", object).then(function (res) {
+                //TODO Handle response
+            });
         }
     }
     angular.module("main").service("ItemHandlerService", ItemHandler);

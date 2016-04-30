@@ -25,8 +25,6 @@ namespace GFT.Services.TransactionProcessor
         public string name { get; set; }
         [DataMember]
         public int quantity { get; set; }
-        [DataMember]
-        public int price { get; set; }
 
     }
     [DataContract]
@@ -40,7 +38,6 @@ namespace GFT.Services.TransactionProcessor
         public int quantity { get; set; }
         [DataMember]
         public string type { get; set; }
-        
     }
 }
 

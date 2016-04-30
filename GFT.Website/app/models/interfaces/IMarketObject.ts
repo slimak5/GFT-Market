@@ -4,5 +4,6 @@ module GFTMarket.Interfaces {
         id: number;
         name: string;
         quantity: number;
+        price: number;
     }
 }

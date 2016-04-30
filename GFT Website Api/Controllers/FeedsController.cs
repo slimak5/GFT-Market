@@ -10,11 +10,12 @@ namespace GFT.Website.Api.Controllers
 {
     public class FeedsController : ApiController
     {
+        static List<Models.Feed> feedList = new List<Models.Feed>();
         [HttpGet]
         [EnableCors("*", "*", "*")]
         public List<Models.Feed> getFeeds()
         {
-            List<Models.Feed> feedList = new List<Models.Feed>();
+            
             //TODO Make service call, return json array of Items from backend svc
             Models.Feed item = new Models.Feed();
             feedList.Add(item);

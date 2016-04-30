@@ -8,6 +8,7 @@ module GFTMarket.Controllers {
             $http: ng.IHttpService) {
             this.ItemHandlerService = ItemHandlerService;
             this.$http = $http;
+            this.getItems();
         }
 
         public getItems() {

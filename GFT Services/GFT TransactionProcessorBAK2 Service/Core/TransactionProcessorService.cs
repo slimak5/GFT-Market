@@ -8,15 +8,13 @@ using System.Messaging;
 
 namespace GFT.Services.TransactionProcessor
 {
-    public class TransactionProcessorBAK1 : ITransactionProcessor
+    public class TransactionProcessorBAK2 : ITransactionProcessor
     {
         static MessageQueue messageQueue = new MessageQueue(@".\private$\mt.to.bak1.queue");
         static Message[] msgs;
-
-        
-        
         public void processItems()
         {
+            
             
         }
 
@@ -26,6 +24,5 @@ namespace GFT.Services.TransactionProcessor
         }
 
         
-
     }
 }

@@ -3,6 +3,7 @@ module GFTMarket.Models {
     export class Feed implements GFTMarket.Interfaces.IMarketObject {
         name: string;
         quantity: number;
+        price: number;
         id: number;
         type: string;
 
@@ -10,6 +11,7 @@ module GFTMarket.Models {
             this.name = "feed.name";
             this.quantity = 1;
             this.id = 0;
+            this.price = 0;
             this.type = "sell";
         }
     }
