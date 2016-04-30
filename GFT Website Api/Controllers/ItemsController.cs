@@ -16,23 +16,9 @@ namespace GFT.Website.Api.Controllers
         MessageQueue messageQueue = new MessageQueue(@".\private$\mt.to.bak1.queue");
 
 
-        [HttpGet]
-        public string sendtoMQ(){
-            MessageQueueTransaction transaction = new MessageQueueTransaction();
-            
-            Message msg = new Message("test queue");
-            msg.Label = "ok";
-            try{
-                transaction.Begin();
-                messageQueue.Send(msg,transaction);
-                transaction.Commit();
-            }
-            catch(Exception e)
-            {
-                    return "failed";
-            }
-            
-            return "message sent";
+        [HttpPost]
+        public string buyItem(Models.Item item){
+            return "Your request has been sent.";
         }
 
         [HttpGet]
