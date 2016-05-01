@@ -5,6 +5,7 @@ using System.Runtime.Serialization;
 using System.ServiceModel;
 using System.Text;
 using System.Messaging;
+using GFT.Services.TransactionProcessor.DBModels;
 
 namespace GFT.Services.TransactionProcessor
 {
@@ -13,7 +14,13 @@ namespace GFT.Services.TransactionProcessor
     public interface ITransactionProcessor
     {
         [OperationContract(IsOneWay = true)]
-        void processItems();
+        void processOrders();
+
+        [OperationContract(IsOneWay = true)]
+        void matchOrders();
+
+        [OperationContract(IsOneWay = true)]
+        void sendSupportedItems();
     }
 
     [DataContract]
@@ -28,6 +35,16 @@ namespace GFT.Services.TransactionProcessor
         [DataMember]
         public int price { get; set; }
 
+        public static explicit operator Item(DBModels.Item v)
+        {
+            Item i = new Item();
+            i.id = v.Id;
+            i.name = v.Name;
+            i.price = 0;
+            i.quantity = 0;
+
+            return i;
+        }
     }
     [DataContract]
     public class Feed

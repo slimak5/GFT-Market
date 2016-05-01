@@ -1,4 +1,5 @@
 ﻿/// <reference path="../_references.ts" />
+
 module GFTMarket.Services {
     export class ItemHandler {
         itemList: Array<GFTMarket.Models.Item> = [];
@@ -46,13 +47,13 @@ module GFTMarket.Services {
         //API CALLS:
         public buyItem(object: GFTMarket.Models.Item) {
             this.$http.post("http://localhost:54919/api/Items/buyItem", object).then(function (res) {
-                //TODO handle response
+                toastr.success(<string>res.data);
             });
 
         }
         public sellItem(object: GFTMarket.Models.Item) {
             this.$http.post("http://localhost:54919/api/Items/sellItem", object).then(function (res) {
-                //TODO Handle response
+                toastr.success(<string>res.data);
             });
         }
     }

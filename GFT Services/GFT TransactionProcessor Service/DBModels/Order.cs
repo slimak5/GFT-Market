@@ -8,7 +8,7 @@ namespace GFT.Services.TransactionProcessor.DBModels
 
     public partial class Order
     {
-        [DatabaseGenerated(DatabaseGeneratedOption.None)]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
 
         [Required]

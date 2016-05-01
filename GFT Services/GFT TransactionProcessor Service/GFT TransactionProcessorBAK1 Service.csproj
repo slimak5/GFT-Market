@@ -59,7 +59,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Core\ITransactionProccesorService.cs" />
-    <Compile Include="DBModels\C__RefactorLog.cs" />
     <Compile Include="DBModels\Feed.cs" />
     <Compile Include="DBModels\Item.cs" />
     <Compile Include="DBModels\MarketContext.cs" />
@@ -75,6 +74,12 @@
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\GFT Website Api\GFT Website Api.csproj">
+      <Project>{22e5cd11-910a-4143-830d-52eba52ec5f2}</Project>
+      <Name>GFT Website Api</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

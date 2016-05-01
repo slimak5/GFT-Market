@@ -12,7 +12,6 @@ namespace GFT.Services.TransactionProcessor.DBModels
         {
         }
 
-        public virtual DbSet<C__RefactorLog> C__RefactorLog { get; set; }
         public virtual DbSet<Feed> Feeds { get; set; }
         public virtual DbSet<Item> Items { get; set; }
         public virtual DbSet<Order> Orders { get; set; }
