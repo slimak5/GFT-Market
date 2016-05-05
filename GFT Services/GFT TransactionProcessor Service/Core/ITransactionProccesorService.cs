@@ -17,16 +17,6 @@ namespace GFT.Services.TransactionProcessor
 
         [OperationContract(IsOneWay = true)]
         void stop();
-        //[OperationContract(IsOneWay = true)]
-        //void processOrders();
-
-        //[OperationContract(IsOneWay = true)]
-        //void matchOrders();
-
-        //[OperationContract(IsOneWay = true)]
-        //void sendSupportedItems();
-        //[OperationContract(IsOneWay = true)]
-        //void sendFeeds();
     }
 
     [DataContract]

@@ -5,9 +5,9 @@ namespace GFT.Services.TransactionProcessor.DBModels
     using System.ComponentModel.DataAnnotations.Schema;
     using System.Linq;
 
-    public partial class MarketContext : DbContext
+    public partial class MarketDatabase : DbContext
     {
-        public MarketContext()
+        public MarketDatabase()
             : base("name=MarketContext")
         {
         }

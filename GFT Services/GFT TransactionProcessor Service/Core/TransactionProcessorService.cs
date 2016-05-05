@@ -8,7 +8,7 @@ using System.Messaging;
 using System.Web.Script.Serialization;
 using GFT.Website.Api.Models;
 using System.Xml.Serialization;
-using System.Timers;
+using System.Threading;
 using System.Diagnostics;
 namespace GFT.Services.TransactionProcessor
 {
@@ -16,48 +16,51 @@ namespace GFT.Services.TransactionProcessor
     {
         static MessageQueue messageQueueBAK1 = new MessageQueue(@".\private$\mt.to.bak1.queue");
         static MessageQueue messageQueueMT = new MessageQueue(@".\private$\bak.to.mt.queue");
-        static int loopState = 1;
+        static Thread thread = new Thread(mainLoop);
 
         public void start()
         {
             sendSupportedItems();
-            System.Timers.Timer timer = new System.Timers.Timer(10000);
-            timer.Elapsed += new ElapsedEventHandler(mainLoop);
-            timer.Enabled = true;
+            thread.Start();
         }
 
         public void stop()
         {
-            loopState = 0;
-            
+            thread.Abort();
         }
 
-        
-    void mainLoop(object sender, ElapsedEventArgs a)
+
+        static void mainLoop()
         {
-            Debug.Write("loop");
-            while (loopState == 1)
+            while (true)
             {
-                Debug.Write("loop");
-                //processOrders();
+
+                Thread.Sleep(1000);
+                processOrders();
                 //matchOrders();
                 //sendFeeds();
             }
         }
 
-        void processOrders()
+        static void processOrders()
         {
             Message[] messages = messageQueueBAK1.GetAllMessages();
-            using (var db = new DBModels.MarketContext())
+            messageQueueBAK1.Purge();
+            using (var db = new DBModels.MarketDatabase())
             {
                 XmlSerializer xmlSerializer = new XmlSerializer(typeof(Order));
                 foreach (Message message in messages)
                 {
-                    Order order = (Order)xmlSerializer.Deserialize(message.BodyStream);
-                    messageQueueBAK1.ReceiveById(message.Id);
-                    DBModels.Order dbOrder = mapOrderToDB(order, order.type, db.Items.Find(order.item.id));
-                    db.Orders.Add(dbOrder);
-                    db.SaveChanges();
+                    try
+                    {
+                        Order order = (Order)xmlSerializer.Deserialize(message.BodyStream);
+                        db.Orders.Add(mapOrderToDB(order, order.type, db.Items.Find(order.item.id)));
+                        db.SaveChanges();
+                    }
+                    catch(Exception e)
+                    {
+
+                    }
                 }
             }
             messageQueueBAK1.Dispose();
@@ -66,7 +69,7 @@ namespace GFT.Services.TransactionProcessor
         void sendSupportedItems()
         {
             List<Item> itemList = new List<Item>();
-            using (var db = new DBModels.MarketContext())
+            using (var db = new DBModels.MarketDatabase())
             {
                 var query = db.Items.Where(i => i.SupportedBackend == "BAK1"); //from b in db.Items where b.SupportedBackend.Equals("BAK1") select b;
                 foreach (DBModels.Item item in query)
@@ -74,10 +77,18 @@ namespace GFT.Services.TransactionProcessor
                     itemList.Add((Item)item);
                 }
             }
-            Message m = new Message(itemList);
-            m.Label = "supported items";
-            m.AppSpecific = 1;
-            messageQueueMT.Send(m, MessageQueueTransactionType.Single);
+
+            try
+            {
+                Message message = new Message(itemList);
+                message.Label = "Supported Items";
+                message.AppSpecific = 1;
+                messageQueueMT.Send(message, MessageQueueTransactionType.Single);
+            }
+            catch (InvalidOperationException e)
+            {
+                Debug.Write(e.InnerException);
+            }
 
         }
 
@@ -85,7 +96,7 @@ namespace GFT.Services.TransactionProcessor
         {
             //TODO: change to websocket
             List<Feed> feedList = new List<Feed>();
-            using (var db = new DBModels.MarketContext())
+            using (var db = new DBModels.MarketDatabase())
             {
                 var feedDBList = db.Feeds.ToList();
 
@@ -105,12 +116,7 @@ namespace GFT.Services.TransactionProcessor
         }
         void matchOrders()
         {
-            //using (var db = new DBModels.MarketContext())
-            //{
-
-            //}
-
-            using (var db = new DBModels.MarketContext())
+            using (var db = new DBModels.MarketDatabase())
             {
                 var buyOrderList = db.Orders.Where(o => o.OrderType == "buy").ToList();
                 var sellOrderList = db.Orders.Where(o => o.OrderType == "sell").ToList();
@@ -150,7 +156,7 @@ namespace GFT.Services.TransactionProcessor
         }
 
 
-        private DBModels.Order mapOrderToDB(Order order, string type, DBModels.Item baseItem)
+        private static DBModels.Order mapOrderToDB(Order order, string type, DBModels.Item baseItem)
         {
             DBModels.Order dbOrder = new DBModels.Order();
             dbOrder.ItemID = order.item.id;
