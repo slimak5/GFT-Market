@@ -38,6 +38,9 @@ module GFTMarket.Services {
             console.log("getByObject(): returned empty instance");
             return new GFTMarket.Models.Feed();
         }
+        public clean() {
+            this.feedList = [];
+        }
         //API CALLS:
         public pushFeed(object: GFTMarket.Models.Feed) {
             //TODO

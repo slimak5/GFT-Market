@@ -14,6 +14,7 @@ module GFTMarket.Controllers {
             //TODO change host
             var self = this;
             this.$http.get("http://localhost:54919/api/Feeds/getFeeds/").then(function (response: ng.IHttpPromiseCallbackArg<Array<Models.Feed>>) {
+                self.FeedHandlerService.clean();
                 for (let i = 0; i < response.data.length; i++) {
                     self.FeedHandlerService.push(<Models.Feed>response.data[i]);
                 }

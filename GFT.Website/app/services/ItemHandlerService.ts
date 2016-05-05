@@ -44,6 +44,9 @@ module GFTMarket.Services {
             console.log("getByObject(): returned empty instance");
             return new GFTMarket.Models.Item();
         }
+        public clean() {
+            this.itemList = [];
+        }
         //API CALLS:
         public buyItem(object: GFTMarket.Models.Item) {
             this.$http.post("http://localhost:54919/api/Items/buyItem", object).then(function (res) {

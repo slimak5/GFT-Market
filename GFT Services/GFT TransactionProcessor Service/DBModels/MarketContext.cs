@@ -40,12 +40,9 @@ namespace GFT.Services.TransactionProcessor.DBModels
                 .WillCascadeOnDelete(false);
 
             modelBuilder.Entity<Order>()
-                .Property(e => e.OrderID)
-                .IsFixedLength();
-
-            modelBuilder.Entity<Order>()
                 .Property(e => e.OrderType)
                 .IsUnicode(false);
+
         }
     }
 }

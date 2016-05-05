@@ -8,7 +8,7 @@ namespace GFT.Services.TransactionProcessor.DBModels
 
     public partial class Feed
     {
-        [DatabaseGenerated(DatabaseGeneratedOption.None)]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
 
         [Required]
@@ -16,6 +16,7 @@ namespace GFT.Services.TransactionProcessor.DBModels
         public string ItemName { get; set; }
 
         public int Quantity { get; set; }
+        public int Price { get; set; }
 
         [Required]
         [StringLength(50)]

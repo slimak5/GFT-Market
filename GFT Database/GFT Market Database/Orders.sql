@@ -6,7 +6,7 @@
     [Quantity] INT NOT NULL, 
     [Price] INT NOT NULL, 
     [ItemID] INT NOT NULL, 
-    CONSTRAINT [ItemID_FK] FOREIGN KEY (ItemID) REFERENCES Items(ID)
+    CONSTRAINT [ItemID_FK] FOREIGN KEY (ItemID) REFERENCES Items(Id)
 )
 
 GO

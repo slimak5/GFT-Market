@@ -12,8 +12,7 @@ namespace GFT.Services.TransactionProcessor.DBModels
         public int Id { get; set; }
 
         [Required]
-        [StringLength(10)]
-        public string OrderID { get; set; }
+        public int OrderID { get; set; }
 
         [Required]
         [StringLength(50)]

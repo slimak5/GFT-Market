@@ -5,22 +5,34 @@ using System.Net;
 using System.Net.Http;
 using System.Web.Http;
 using System.Web.Http.Cors;
+using System.Messaging;
+using System.Xml.Serialization;
 
 namespace GFT.Website.Api.Controllers
 {
     public class FeedsController : ApiController
     {
+        static MessageQueue messageQueueMT = new MessageQueue(@".\private$\bak.to.mt.queue");
         static List<Models.Feed> feedList = new List<Models.Feed>();
         [HttpGet]
         [EnableCors("*", "*", "*")]
         public List<Models.Feed> getFeeds()
         {
-            
-            //TODO Make service call, return json array of Items from backend svc
-            Models.Feed item = new Models.Feed();
-            feedList.Add(item);
+            messageQueueMT.MessageReadPropertyFilter.AppSpecific = true;
+            Message[] messages = messageQueueMT.GetAllMessages();
+            XmlSerializer xmlSerializer = new XmlSerializer(typeof(List<Models.Feed>));
+            foreach (Message message in messages)
+            {
+
+                if (message.AppSpecific == 2)
+                {
+                    messageQueueMT.ReceiveById(message.Id);
+                    feedList.AddRange((List<Models.Feed>)xmlSerializer.Deserialize(message.BodyStream));
+                }
+            }
+            messageQueueMT.Dispose();
             return feedList;
         }
-        
+
     }
 }

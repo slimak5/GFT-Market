@@ -9,18 +9,24 @@ using GFT.Services.TransactionProcessor.DBModels;
 
 namespace GFT.Services.TransactionProcessor
 {
-    // NOTE: You can use the "Rename" command on the "Refactor" menu to change the interface name "IService1" in both code and config file together.
     [ServiceContract]
     public interface ITransactionProcessor
     {
         [OperationContract(IsOneWay = true)]
-        void processOrders();
+        void start();
 
         [OperationContract(IsOneWay = true)]
-        void matchOrders();
+        void stop();
+        //[OperationContract(IsOneWay = true)]
+        //void processOrders();
 
-        [OperationContract(IsOneWay = true)]
-        void sendSupportedItems();
+        //[OperationContract(IsOneWay = true)]
+        //void matchOrders();
+
+        //[OperationContract(IsOneWay = true)]
+        //void sendSupportedItems();
+        //[OperationContract(IsOneWay = true)]
+        //void sendFeeds();
     }
 
     [DataContract]
@@ -42,10 +48,10 @@ namespace GFT.Services.TransactionProcessor
             i.name = v.Name;
             i.price = 0;
             i.quantity = 0;
-
             return i;
         }
     }
+
     [DataContract]
     public class Feed
     {
@@ -57,7 +63,19 @@ namespace GFT.Services.TransactionProcessor
         public int quantity { get; set; }
         [DataMember]
         public string type { get; set; }
-        
+        [DataMember]
+        public int price { get; set; }
+
+        public static explicit operator Feed(DBModels.Feed v)
+        {
+            Feed f = new Feed();
+            f.id = v.Id;
+            f.name = v.ItemName;
+            f.quantity = v.Quantity;
+            f.type = v.OperationType;
+            f.price = v.Price;
+            return f;
+        }
     }
 }
 

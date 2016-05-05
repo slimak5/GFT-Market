@@ -77,6 +77,9 @@ var GFTMarket;
                 console.log("getByObject(): returned empty instance");
                 return new GFTMarket.Models.Feed();
             };
+            FeedHandler.prototype.clean = function () {
+                this.feedList = [];
+            };
             FeedHandler.prototype.pushFeed = function (object) {
             };
             FeedHandler.prototype.popFeed = function (object) {
@@ -130,6 +133,9 @@ var GFTMarket;
                 }
                 console.log("getByObject(): returned empty instance");
                 return new GFTMarket.Models.Item();
+            };
+            ItemHandler.prototype.clean = function () {
+                this.itemList = [];
             };
             ItemHandler.prototype.buyItem = function (object) {
                 this.$http.post("http://localhost:54919/api/Items/buyItem", object).then(function (res) {
@@ -211,6 +217,7 @@ var GFTMarket;
             FeedController.prototype.getFeeds = function () {
                 var self = this;
                 this.$http.get("http://localhost:54919/api/Feeds/getFeeds/").then(function (response) {
+                    self.FeedHandlerService.clean();
                     for (var i = 0; i < response.data.length; i++) {
                         self.FeedHandlerService.push(response.data[i]);
                     }
@@ -236,6 +243,7 @@ var GFTMarket;
             ItemController.prototype.getItems = function () {
                 var self = this;
                 this.$http.get("http://localhost:54919/api/Items/getItems/").then(function (response) {
+                    self.ItemHandlerService.clean();
                     for (var i = 0; i < response.data.length; i++) {
                         self.ItemHandlerService.push(response.data[i]);
                     }
