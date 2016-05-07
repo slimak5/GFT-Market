@@ -23,25 +23,21 @@ namespace GFT.Services.TransactionProcessor
             sendSupportedItems();
             thread.Start();
         }
-
         public void stop()
         {
             thread.Abort();
         }
 
-
         static void mainLoop()
         {
             while (true)
             {
-
                 Thread.Sleep(1000);
                 processOrders();
-                //matchOrders();
-                //sendFeeds();
+                matchOrders();
+                sendFeeds();
             }
         }
-
         static void processOrders()
         {
             Message[] messages = messageQueueBAK1.GetAllMessages();
@@ -57,9 +53,9 @@ namespace GFT.Services.TransactionProcessor
                         db.Orders.Add(mapOrderToDB(order, order.type, db.Items.Find(order.item.id)));
                         db.SaveChanges();
                     }
-                    catch(Exception e)
+                    catch (Exception e)
                     {
-
+                        throw e;
                     }
                 }
             }
@@ -91,8 +87,7 @@ namespace GFT.Services.TransactionProcessor
             }
 
         }
-
-        void sendFeeds()
+        static void sendFeeds()
         {
             //TODO: change to websocket
             List<Feed> feedList = new List<Feed>();
@@ -114,42 +109,84 @@ namespace GFT.Services.TransactionProcessor
             messageQueueMT.Send(m, MessageQueueTransactionType.Single);
 
         }
-        void matchOrders()
+        static void matchOrders()
         {
             using (var db = new DBModels.MarketDatabase())
             {
-                var buyOrderList = db.Orders.Where(o => o.OrderType == "buy").ToList();
-                var sellOrderList = db.Orders.Where(o => o.OrderType == "sell").ToList();
-
-                foreach (DBModels.Order buyorder in buyOrderList)
+                List<DBModels.Order> buyOrderList = db.Orders.Where(o => o.OrderType == "buy").ToList();
+                List<DBModels.Order> sellOrderList = db.Orders.Where(o => o.OrderType == "sell").OrderBy(o => o.Price).ToList();
+                foreach (DBModels.Order buyOrder in buyOrderList)
                 {
-                    DBModels.Order minSellOrder = new DBModels.Order();
-                    if (sellOrderList.Count > 0)
+                    DBModels.Order bestSellOrder = new DBModels.Order();
+                    try
                     {
-                        minSellOrder = sellOrderList.First(o => o.ItemID == buyorder.ItemID);
-                    }
+                        bestSellOrder = sellOrderList.First(o => o.ItemID == buyOrder.ItemID);
 
-                    foreach (DBModels.Order sellorder in sellOrderList)
+                    }
+                    catch (Exception e)
                     {
-                        if (sellorder.Price < minSellOrder.Price && sellorder.Price < buyorder.Price && buyorder.ItemID == sellorder.ItemID)
+
+                    }
+                    if (bestSellOrder.Item != null && buyOrder.Item != null)
+                    {
+                        if (bestSellOrder.Quantity > buyOrder.Quantity)
                         {
-                            minSellOrder = sellorder;
+                            db.Orders.Remove(bestSellOrder);
+                            db.Orders.Remove(buyOrder);
+                            bestSellOrder.Quantity -= buyOrder.Quantity;
+                            db.Orders.Add(bestSellOrder);
+
+                            DBModels.Feed feedNotification = new DBModels.Feed();
+                            try
+                            {
+                                if (buyOrder.Item != null)
+                                {
+                                    feedNotification.ItemName = buyOrder.Item.Name;
+                                    feedNotification.OperationType = "sell";
+                                    feedNotification.Price = bestSellOrder.Price;
+                                    feedNotification.Quantity = buyOrder.Quantity;
+                                    db.Feeds.Add(feedNotification);
+                                }
+                            }
+                            catch (NullReferenceException e)
+                            {
+                                break;
+                            }
+                            db.SaveChanges();
+                        }
+                        else if (bestSellOrder.Quantity == buyOrder.Quantity)
+                        {
+
+
+                            DBModels.Feed feedNotification = new DBModels.Feed();
+                            feedNotification.ItemName = buyOrder.Item.Name;
+                            feedNotification.OperationType = "sell";
+                            feedNotification.Price = bestSellOrder.Price;
+                            feedNotification.Quantity = buyOrder.Quantity;
+
+                            db.Orders.Remove(bestSellOrder);
+                            db.Orders.Remove(buyOrder);
+                            db.Feeds.Add(feedNotification);
+                            db.SaveChanges();
+                        }
+                        else if (bestSellOrder.Quantity < buyOrder.Quantity)
+                        {
+                            db.Orders.Remove(bestSellOrder);
+                            db.Orders.Remove(buyOrder);
+                            buyOrder.Quantity -= bestSellOrder.Quantity;
+                            db.Orders.Add(buyOrder);
+
+                            DBModels.Feed feedNotification = new DBModels.Feed();
+                            feedNotification.ItemName = buyOrder.Item.Name;
+                            feedNotification.OperationType = "sell";
+                            feedNotification.Price = bestSellOrder.Price;
+                            feedNotification.Quantity = buyOrder.Quantity;
+
+                            db.Feeds.Add(feedNotification);
+                            db.SaveChanges();
                         }
                     }
-
-                    DBModels.Feed feed = new DBModels.Feed();
-                    if (minSellOrder.Item != null)
-                    {
-                        feed.ItemName = minSellOrder.Item.Name;
-                        feed.OperationType = minSellOrder.OrderType;
-                        feed.Price = minSellOrder.Price;
-                        feed.Quantity = minSellOrder.Quantity;
-                        db.Feeds.Add(feed);
-                        db.Orders.Remove(buyorder);
-                        db.Orders.Remove(minSellOrder);
-                        db.SaveChanges();
-                    }
-
+                    bestSellOrder = null;
                 }
 
             }
@@ -168,11 +205,6 @@ namespace GFT.Services.TransactionProcessor
             return dbOrder;
         }
 
-        public static void Configure()
-        {
-
-
-        }
 
     }
 }

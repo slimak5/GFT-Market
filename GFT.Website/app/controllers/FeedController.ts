@@ -18,11 +18,8 @@ module GFTMarket.Controllers {
                 for (let i = 0; i < response.data.length; i++) {
                     self.FeedHandlerService.push(<Models.Feed>response.data[i]);
                 }
-
             });
         }
-
-
     }
     angular.module("main").controller("FeedController", FeedController);
 }
