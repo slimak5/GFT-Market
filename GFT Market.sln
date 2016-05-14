@@ -21,6 +21,10 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GFT TransactionProcessorBAK1 Service", "GFT Services\GFT TransactionProcessor Service\GFT TransactionProcessorBAK1 Service.csproj", "{68DD5DF2-D85D-458B-BDE9-C1F78123717B}"
 EndProject
 Project("{00D1A9C2-B5F0-4AF3-8072-F6C62B433612}") = "GFT Market Database", "GFT Database\GFT Market Database\GFT Market Database.sqlproj", "{CC774ED4-D3E7-430D-9CD7-5ED4B97898E5}"
+	ProjectSection(ProjectDependencies) = postProject
+		{76063C1A-7643-4903-A990-DDBCBBEFDCAA} = {76063C1A-7643-4903-A990-DDBCBBEFDCAA}
+		{68DD5DF2-D85D-458B-BDE9-C1F78123717B} = {68DD5DF2-D85D-458B-BDE9-C1F78123717B}
+	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GFT TransactionProcessorBAK2 Service", "GFT Services\GFT TransactionProcessorBAK2 Service\GFT TransactionProcessorBAK2 Service.csproj", "{76063C1A-7643-4903-A990-DDBCBBEFDCAA}"
 EndProject

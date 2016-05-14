@@ -59,18 +59,19 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Core\ITransactionProccesorService.cs" />
-    <Compile Include="DBModels\Feed.cs" />
-    <Compile Include="DBModels\Item.cs" />
-    <Compile Include="DBModels\MarketContext.cs" />
-    <Compile Include="DBModels\Order.cs" />
+    <Compile Include="Models\DBModels\Feed.cs" />
+    <Compile Include="Models\DBModels\Item.cs" />
+    <Compile Include="Models\DBModels\MarketContext.cs" />
+    <Compile Include="Models\DBModels\Order.cs" />
+    <Compile Include="Models\FeedObjectPair.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Core\TransactionProcessorService.cs" />
+    <Compile Include="TransactionsMatcher.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config">
       <SubType>Designer</SubType>
     </None>
-    <None Include="ClassDiagram1.cd" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>

@@ -10,6 +10,7 @@ using GFT.Website.Api.Models;
 using System.Xml.Serialization;
 using System.Threading;
 using System.Diagnostics;
+
 namespace GFT.Services.TransactionProcessor
 {
     public class TransactionProcessorBAK1 : ITransactionProcessor
@@ -111,84 +112,36 @@ namespace GFT.Services.TransactionProcessor
         }
         static void matchOrders()
         {
+            List<Models.FeedObject> feedObjects = new List<Models.FeedObject>();
             using (var db = new DBModels.MarketDatabase())
             {
-                List<DBModels.Order> buyOrderList = db.Orders.Where(o => o.OrderType == "buy").ToList();
-                List<DBModels.Order> sellOrderList = db.Orders.Where(o => o.OrderType == "sell").OrderBy(o => o.Price).ToList();
-                foreach (DBModels.Order buyOrder in buyOrderList)
+                var buyOrders = db.Orders.Where(o => o.OrderType == "buy").ToList();
+                var sellOrders = db.Orders.Where(o => o.OrderType == "sell").OrderBy(o => o.Price).ToList();
+                var transactionList = new List<Models.FeedObject>();
+                try
                 {
-                    DBModels.Order bestSellOrder = new DBModels.Order();
-                    try
-                    {
-                        bestSellOrder = sellOrderList.First(o => o.ItemID == buyOrder.ItemID);
+                    transactionList = TransactionMatcher.TransactionMatcher.matchTransactions(buyOrders, sellOrders);
 
-                    }
-                    catch (Exception e)
-                    {
-
-                    }
-                    if (bestSellOrder.Item != null && buyOrder.Item != null)
-                    {
-                        if (bestSellOrder.Quantity > buyOrder.Quantity)
-                        {
-                            db.Orders.Remove(bestSellOrder);
-                            db.Orders.Remove(buyOrder);
-                            bestSellOrder.Quantity -= buyOrder.Quantity;
-                            db.Orders.Add(bestSellOrder);
-
-                            DBModels.Feed feedNotification = new DBModels.Feed();
-                            try
-                            {
-                                if (buyOrder.Item != null)
-                                {
-                                    feedNotification.ItemName = buyOrder.Item.Name;
-                                    feedNotification.OperationType = "sell";
-                                    feedNotification.Price = bestSellOrder.Price;
-                                    feedNotification.Quantity = buyOrder.Quantity;
-                                    db.Feeds.Add(feedNotification);
-                                }
-                            }
-                            catch (NullReferenceException e)
-                            {
-                                break;
-                            }
-                            db.SaveChanges();
-                        }
-                        else if (bestSellOrder.Quantity == buyOrder.Quantity)
-                        {
-
-
-                            DBModels.Feed feedNotification = new DBModels.Feed();
-                            feedNotification.ItemName = buyOrder.Item.Name;
-                            feedNotification.OperationType = "sell";
-                            feedNotification.Price = bestSellOrder.Price;
-                            feedNotification.Quantity = buyOrder.Quantity;
-
-                            db.Orders.Remove(bestSellOrder);
-                            db.Orders.Remove(buyOrder);
-                            db.Feeds.Add(feedNotification);
-                            db.SaveChanges();
-                        }
-                        else if (bestSellOrder.Quantity < buyOrder.Quantity)
-                        {
-                            db.Orders.Remove(bestSellOrder);
-                            db.Orders.Remove(buyOrder);
-                            buyOrder.Quantity -= bestSellOrder.Quantity;
-                            db.Orders.Add(buyOrder);
-
-                            DBModels.Feed feedNotification = new DBModels.Feed();
-                            feedNotification.ItemName = buyOrder.Item.Name;
-                            feedNotification.OperationType = "sell";
-                            feedNotification.Price = bestSellOrder.Price;
-                            feedNotification.Quantity = buyOrder.Quantity;
-
-                            db.Feeds.Add(feedNotification);
-                            db.SaveChanges();
-                        }
-                    }
-                    bestSellOrder = null;
                 }
+                catch (InvalidOperationException e)
+                {
 
+                }
+                finally
+                {
+                    foreach (Models.FeedObject feedObject in transactionList)
+                    {
+                        try
+                        {
+                            db.Feeds.Add(feedObject.generateFeed());
+                            feedObject.cleanFromDB(db);
+                        }
+                        catch (InvalidOperationException e)
+                        {
+                            break;
+                        }
+                    }
+                }
             }
         }
 

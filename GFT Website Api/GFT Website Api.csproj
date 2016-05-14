@@ -89,7 +89,6 @@
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="App_Start\BackendServices.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\FeedsController.cs" />
     <Compile Include="Controllers\ItemsController.cs" />

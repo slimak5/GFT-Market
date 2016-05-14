@@ -23,8 +23,6 @@
                 <item-object item-model="object" service="ItemC.ItemHandlerService"></item-object>
             </div>
             
-            <button ng-click="ItemC.ItemHandlerService.push(ItemC.ItemHandlerService.activeObject)">AddResponseObject</button>
-            <button ng-click="ItemC.ItemHandlerService.remove(ItemC.ItemHandlerService.activeObject)">RemoveObjects</button>
             <button ng-click="ItemC.getItems()">ReturnByObject</button>
 
         </div>
@@ -33,8 +31,6 @@
                 <feed-object feed-model="object" service="FeedC.FeedHandlerService"></feed-object>
             </div>
 
-            <button ng-click="FeedC.FeedHandlerService.push(FeedC.FeedHandlerService.activeFeed)">AddFeedObject</button>
-            <button ng-click="FeedC.FeedHandlerService.remove(FeedC.FeedHandlerService.activeFeed)">RemoveFeeds</button>
             <button ng-click="FeedC.getFeeds()">ReturnByObject</button>
         </div>
     </div>
