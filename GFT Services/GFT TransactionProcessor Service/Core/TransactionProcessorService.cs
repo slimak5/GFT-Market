@@ -110,8 +110,9 @@ namespace GFT.Services.TransactionProcessor
                 }
 
             }
-            hub.Invoke("sendFeeds", feedList);
-            
+
+                hub.Invoke("sendFeeds", feedList);
+                      
             //Message m = new Message(feedList);
             //m.Label = "latest feeds";
             //m.AppSpecific = 2;

@@ -17,7 +17,6 @@ namespace GFT.Services.ExecutedTrades
             if (feedList.Count > 0)
                 foreach (Feed feed in feedList)
                 {
-                    Debug.Write(feed.id);
                     Clients.All.pushFeed(feed);
                 }
         }

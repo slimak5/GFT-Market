@@ -234,11 +234,25 @@ var GFTMarket;
 (function (GFTMarket) {
     var Controllers;
     (function (Controllers) {
+        var opt = (function () {
+            function opt() {
+                this.jsonp = true;
+            }
+            return opt;
+        }());
         var FeedController = (function () {
             function FeedController($scope, FeedHandlerService, $http) {
+                var _this = this;
                 this.FeedHandlerService = FeedHandlerService;
                 this.$http = $http;
                 this.getFeeds();
+                this.con = $.hubConnection("http://localhost:53008");
+                this.hub = this.con.createHubProxy("Feeds");
+                this.hub.on("pushFeed", function (feed) {
+                    _this.FeedHandlerService.push(feed);
+                });
+                this.opt = new opt();
+                this.con.start(this.opt);
             }
             FeedController.prototype.getFeeds = function () {
                 var self = this;

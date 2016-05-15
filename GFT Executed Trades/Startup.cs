@@ -2,6 +2,7 @@
 using System.Threading.Tasks;
 using Microsoft.Owin;
 using Owin;
+using Microsoft.AspNet.SignalR;
 
 [assembly: OwinStartup(typeof(GFT.Services.ExecutedTrades.Startup))]
 
@@ -12,7 +13,8 @@ namespace GFT.Services.ExecutedTrades
     {
         public void Configuration(IAppBuilder app)
         {
-            app.MapSignalR();
+
+            app.MapSignalR(new HubConfiguration() { EnableJSONP = true });
         }
 
     }

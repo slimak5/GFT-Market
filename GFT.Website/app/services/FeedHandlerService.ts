@@ -3,14 +3,8 @@ module GFTMarket.Services {
     export class FeedHandler {
         feedList: Array<GFTMarket.Models.Feed> = [];
         activeFeed = new GFTMarket.Models.Feed();
-        con: SignalR.Hub.Connection;
-        hub: SignalR.Hub.Proxy;
         constructor() {
-            //this.con = $.hubConnection("http://localhost:53008");
-            //this.hub = this.con.createHubProxy("Feeds");
-            //this.hub.on("pushFeed", (feed: Models.Feed) => {
-            //    this.push(feed);
-            //});
+            
         }
 
         public push(object: GFTMarket.Models.Feed) {
