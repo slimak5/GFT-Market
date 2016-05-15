@@ -12,7 +12,10 @@ namespace GFT.Website.Api
         protected void Application_Start()
         {
             GlobalConfiguration.Configure(WebApiConfig.Register);
-
+            TransactionProcessorBAK1.TransactionProcessorClient TPClient = new TransactionProcessorBAK1.TransactionProcessorClient();
+            TransactionProcessorBAK2.TransactionProcessorClient TPClient2 = new TransactionProcessorBAK2.TransactionProcessorClient();
+            TPClient.start();
+            TPClient2.start();
         }
     }
 }
