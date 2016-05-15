@@ -10,6 +10,7 @@ using GFT.Website.Api.Models;
 using System.Xml.Serialization;
 using System.Threading;
 using System.Diagnostics;
+using Microsoft.AspNet.SignalR.Client;
 
 namespace GFT.Services.TransactionProcessor
 {
@@ -19,8 +20,13 @@ namespace GFT.Services.TransactionProcessor
         static MessageQueue messageQueueMT = new MessageQueue(@".\private$\bak.to.mt.queue");
         static Thread thread = new Thread(mainLoop);
 
+        static HubConnection con = new HubConnection("http://localhost:53008");
+        static IHubProxy hub = con.CreateHubProxy("Feeds");
+        
+
         public void start()
         {
+            con.Start();
             sendSupportedItems();
             thread.Start();
         }
@@ -104,10 +110,12 @@ namespace GFT.Services.TransactionProcessor
                 }
 
             }
-            Message m = new Message(feedList);
-            m.Label = "latest feeds";
-            m.AppSpecific = 2;
-            messageQueueMT.Send(m, MessageQueueTransactionType.Single);
+            hub.Invoke("sendFeeds", feedList);
+            
+            //Message m = new Message(feedList);
+            //m.Label = "latest feeds";
+            //m.AppSpecific = 2;
+            //messageQueueMT.Send(m, MessageQueueTransactionType.Single);
 
         }
         static void matchOrders()

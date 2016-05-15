@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-
-namespace GFT.Website.Api.Models
+﻿namespace GFT.Website.Api.Models
 {
     public class Feed
     {

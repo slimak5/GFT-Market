@@ -11,6 +11,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GFT Website UI", "GFT.Websi
 	ProjectSection(ProjectDependencies) = postProject
 		{22E5CD11-910A-4143-830D-52EBA52EC5F2} = {22E5CD11-910A-4143-830D-52EBA52EC5F2}
 		{76063C1A-7643-4903-A990-DDBCBBEFDCAA} = {76063C1A-7643-4903-A990-DDBCBBEFDCAA}
+		{3CD92DE4-FFEA-4BFA-9422-1CAD42A4C8BF} = {3CD92DE4-FFEA-4BFA-9422-1CAD42A4C8BF}
 		{68DD5DF2-D85D-458B-BDE9-C1F78123717B} = {68DD5DF2-D85D-458B-BDE9-C1F78123717B}
 	EndProjectSection
 EndProject
@@ -21,6 +22,9 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GFT Website Api", "GFT Website Api\GFT Website Api.csproj", "{22E5CD11-910A-4143-830D-52EBA52EC5F2}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GFT TransactionProcessorBAK1 Service", "GFT Services\GFT TransactionProcessor Service\GFT TransactionProcessorBAK1 Service.csproj", "{68DD5DF2-D85D-458B-BDE9-C1F78123717B}"
+	ProjectSection(ProjectDependencies) = postProject
+		{3CD92DE4-FFEA-4BFA-9422-1CAD42A4C8BF} = {3CD92DE4-FFEA-4BFA-9422-1CAD42A4C8BF}
+	EndProjectSection
 EndProject
 Project("{00D1A9C2-B5F0-4AF3-8072-F6C62B433612}") = "GFT Market Database", "GFT Database\GFT Market Database\GFT Market Database.sqlproj", "{CC774ED4-D3E7-430D-9CD7-5ED4B97898E5}"
 	ProjectSection(ProjectDependencies) = postProject
@@ -29,6 +33,8 @@ Project("{00D1A9C2-B5F0-4AF3-8072-F6C62B433612}") = "GFT Market Database", "GFT 
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GFT TransactionProcessorBAK2 Service", "GFT Services\GFT TransactionProcessorBAK2 Service\GFT TransactionProcessorBAK2 Service.csproj", "{76063C1A-7643-4903-A990-DDBCBBEFDCAA}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GFT Executed Trades", "GFT Executed Trades\GFT Executed Trades.csproj", "{3CD92DE4-FFEA-4BFA-9422-1CAD42A4C8BF}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -58,6 +64,10 @@ Global
 		{76063C1A-7643-4903-A990-DDBCBBEFDCAA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{76063C1A-7643-4903-A990-DDBCBBEFDCAA}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{76063C1A-7643-4903-A990-DDBCBBEFDCAA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3CD92DE4-FFEA-4BFA-9422-1CAD42A4C8BF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3CD92DE4-FFEA-4BFA-9422-1CAD42A4C8BF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3CD92DE4-FFEA-4BFA-9422-1CAD42A4C8BF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3CD92DE4-FFEA-4BFA-9422-1CAD42A4C8BF}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -68,5 +78,6 @@ Global
 		{68DD5DF2-D85D-458B-BDE9-C1F78123717B} = {14BAE38A-4B86-4160-BA2F-88F5B35EF1E6}
 		{CC774ED4-D3E7-430D-9CD7-5ED4B97898E5} = {BAFEB60F-0D44-4F02-8A85-46B62CA908EF}
 		{76063C1A-7643-4903-A990-DDBCBBEFDCAA} = {14BAE38A-4B86-4160-BA2F-88F5B35EF1E6}
+		{3CD92DE4-FFEA-4BFA-9422-1CAD42A4C8BF} = {14BAE38A-4B86-4160-BA2F-88F5B35EF1E6}
 	EndGlobalSection
 EndGlobal
