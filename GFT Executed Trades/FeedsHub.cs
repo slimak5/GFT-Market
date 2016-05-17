@@ -12,12 +12,12 @@ namespace GFT.Services.ExecutedTrades
     [HubName("Feeds")]
     public class FeedsHub : Hub
     {
-        public void sendFeeds(List<Feed> feedList)
+        public void SendFeeds(List<Feed> feedList)
         {
             if (feedList.Count > 0)
                 foreach (Feed feed in feedList)
                 {
-                    Clients.All.pushFeed(feed);
+                    Clients.All.SendFeed(feed);
                 }
         }
     }

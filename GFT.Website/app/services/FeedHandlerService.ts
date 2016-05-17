@@ -7,7 +7,7 @@ module GFTMarket.Services {
             
         }
 
-        public push(object: GFTMarket.Models.Feed) {
+        public PushFeedToList(object: GFTMarket.Models.Feed) {
             this.pushJSON(JSON.stringify(object));
         }
         private pushJSON(object: string) {
@@ -38,7 +38,7 @@ module GFTMarket.Services {
             console.log("getByObject(): returned empty instance");
             return new GFTMarket.Models.Feed();
         }
-        public clean() {
+        public CleanFeedList() {
             this.feedList = [];
         }
         //API CALLS:

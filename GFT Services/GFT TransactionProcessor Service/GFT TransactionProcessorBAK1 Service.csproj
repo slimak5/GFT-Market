@@ -71,7 +71,7 @@
     <Compile Include="Models\DBModels\Item.cs" />
     <Compile Include="Models\DBModels\MarketContext.cs" />
     <Compile Include="Models\DBModels\Order.cs" />
-    <Compile Include="Models\FeedObjectPair.cs" />
+    <Compile Include="Models\Transaction.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Core\TransactionProcessorService.cs" />
     <Compile Include="TransactionsMatcher.cs" />

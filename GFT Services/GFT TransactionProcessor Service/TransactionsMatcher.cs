@@ -8,11 +8,11 @@ namespace GFT.Services.TransactionProcessor.TransactionMatcher
 {
     public class TransactionMatcher
     {
-        static public List<Models.FeedObject> matchTransactions(List<DBModels.Order> buyOrders, List<DBModels.Order> sellOrders)
+        static public List<Models.Transaction> matchTransactions(List<DbModels.OrderEntity> buyOrders, List<DbModels.OrderEntity> sellOrders)
         {
-            List<Models.FeedObject> returnList = new List<Models.FeedObject>();
+            List<Models.Transaction> returnList = new List<Models.Transaction>();
             if (buyOrders.Count() > 0)
-                foreach (DBModels.Order buyOrder in buyOrders)
+                foreach (DbModels.OrderEntity buyOrder in buyOrders)
                 {
                     if (sellOrders.Count() > 0)
                     {
@@ -20,8 +20,8 @@ namespace GFT.Services.TransactionProcessor.TransactionMatcher
                         {
                             if (buyOrder.Item != null)
                             {
-                                DBModels.Order bestCandidate = sellOrders.First(o => o.ItemID == buyOrder.ItemID);
-                                foreach (DBModels.Order sellOrder in sellOrders)
+                                DbModels.OrderEntity bestCandidate = sellOrders.First(o => o.ItemID == buyOrder.ItemID);
+                                foreach (DbModels.OrderEntity sellOrder in sellOrders)
                                 {
                                     if (sellOrder.Item != null)
                                     {
@@ -33,7 +33,7 @@ namespace GFT.Services.TransactionProcessor.TransactionMatcher
                                 }
                                 if (bestCandidate != null && bestCandidate.Item != null)
                                 {
-                                    Models.FeedObject feedobj = new Models.FeedObject(buyOrder, bestCandidate);
+                                    Models.Transaction feedobj = new Models.Transaction(buyOrder, bestCandidate);
                                     returnList.Add(feedobj);
                                 }
                                 bestCandidate = null;

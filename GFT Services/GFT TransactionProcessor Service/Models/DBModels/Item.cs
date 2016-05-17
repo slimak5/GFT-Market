@@ -1,4 +1,4 @@
-namespace GFT.Services.TransactionProcessor.DBModels
+namespace GFT.Services.TransactionProcessor.DbModels
 {
     using System;
     using System.Collections.Generic;
@@ -6,12 +6,13 @@ namespace GFT.Services.TransactionProcessor.DBModels
     using System.ComponentModel.DataAnnotations.Schema;
     using System.Data.Entity.Spatial;
 
-    public partial class Item
+    [Table("Items")]
+    public partial class ItemEntity
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public Item()
+        public ItemEntity()
         {
-            Orders = new HashSet<Order>();
+            Orders = new HashSet<OrderEntity>();
         }
 
         [DatabaseGenerated(DatabaseGeneratedOption.None)]
@@ -21,6 +22,6 @@ namespace GFT.Services.TransactionProcessor.DBModels
         [StringLength(50)]
         public string SupportedBackend { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Order> Orders { get; set; }
+        public virtual ICollection<OrderEntity> Orders { get; set; }
     }
 }

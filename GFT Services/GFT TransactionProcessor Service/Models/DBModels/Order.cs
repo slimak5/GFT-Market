@@ -1,4 +1,4 @@
-namespace GFT.Services.TransactionProcessor.DBModels
+namespace GFT.Services.TransactionProcessor.DbModels
 {
     using System;
     using System.Collections.Generic;
@@ -6,7 +6,8 @@ namespace GFT.Services.TransactionProcessor.DBModels
     using System.ComponentModel.DataAnnotations.Schema;
     using System.Data.Entity.Spatial;
 
-    public partial class Order
+    [Table("Orders")]
+    public partial class OrderEntity
     {
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
@@ -18,6 +19,6 @@ namespace GFT.Services.TransactionProcessor.DBModels
         public int Quantity { get; set; }
         public int Price { get; set; }
         public int ItemID { get; set; }
-        public virtual Item Item { get; set; }
+        public virtual ItemEntity Item { get; set; }
     }
 }

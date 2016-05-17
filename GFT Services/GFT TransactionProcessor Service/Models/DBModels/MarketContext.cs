@@ -1,4 +1,4 @@
-namespace GFT.Services.TransactionProcessor.DBModels
+namespace GFT.Services.TransactionProcessor.DbModels
 {
     using System;
     using System.Data.Entity;
@@ -12,34 +12,34 @@ namespace GFT.Services.TransactionProcessor.DBModels
         {
         }
 
-        public virtual DbSet<Feed> Feeds { get; set; }
-        public virtual DbSet<Item> Items { get; set; }
-        public virtual DbSet<Order> Orders { get; set; }
+        public virtual DbSet<FeedEntity> Feeds { get; set; }
+        public virtual DbSet<ItemEntity> Items { get; set; }
+        public virtual DbSet<OrderEntity> Orders { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<Feed>()
+            modelBuilder.Entity<FeedEntity>()
                 .Property(e => e.ItemName)
                 .IsUnicode(false);
 
-            modelBuilder.Entity<Feed>()
+            modelBuilder.Entity<FeedEntity>()
                 .Property(e => e.OperationType)
                 .IsUnicode(false);
 
-            modelBuilder.Entity<Item>()
+            modelBuilder.Entity<ItemEntity>()
                 .Property(e => e.Name)
                 .IsUnicode(false);
 
-            modelBuilder.Entity<Item>()
+            modelBuilder.Entity<ItemEntity>()
                 .Property(e => e.SupportedBackend)
                 .IsUnicode(false);
 
-            modelBuilder.Entity<Item>()
+            modelBuilder.Entity<ItemEntity>()
                 .HasMany(e => e.Orders)
                 .WithRequired(e => e.Item)
                 .WillCascadeOnDelete(false);
 
-            modelBuilder.Entity<Order>()
+            modelBuilder.Entity<OrderEntity>()
                 .Property(e => e.OrderType)
                 .IsUnicode(false);
 

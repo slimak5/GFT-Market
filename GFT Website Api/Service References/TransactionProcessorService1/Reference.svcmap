@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ReferenceGroup xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" ID="97c3243d-5133-417a-bcfd-0460255c0b08" xmlns="urn:schemas-microsoft-com:xml-wcfservicemap">
+<ReferenceGroup xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" ID="784f0c27-f73f-417d-bc10-7b48a3648d2c" xmlns="urn:schemas-microsoft-com:xml-wcfservicemap">
   <ClientOptions>
     <GenerateAsynchronousMethods>false</GenerateAsynchronousMethods>
     <GenerateTaskBasedAsynchronousMethod>true</GenerateTaskBasedAsynchronousMethod>
@@ -19,11 +19,11 @@
     <ServiceContractMappings />
   </ClientOptions>
   <MetadataSources>
-    <MetadataSource Address="http://localhost:8733/Design_Time_Addresses/GFT_TransactionProcessor_Service/Service2/mex" Protocol="mex" SourceId="1" />
+    <MetadataSource Address="http://localhost:8733/Design_Time_Addresses/GFT_TransactionProcessor_Service/Service1/mex" Protocol="mex" SourceId="1" />
   </MetadataSources>
   <Metadata>
-    <MetadataFile FileName="service.wsdl" MetadataType="Wsdl" ID="6822ed18-b64a-47b0-9d2c-59db3558897a" SourceId="1" SourceUrl="http://localhost:8733/Design_Time_Addresses/GFT_TransactionProcessor_Service/Service2/mex" />
-    <MetadataFile FileName="service.xsd" MetadataType="Schema" ID="d54c90c4-3c2a-4e9d-8699-8ada29b4e902" SourceId="1" SourceUrl="http://localhost:8733/Design_Time_Addresses/GFT_TransactionProcessor_Service/Service2/mex" />
+    <MetadataFile FileName="service.wsdl" MetadataType="Wsdl" ID="443c60bc-b5f2-4817-a200-3cd19c3e9cf4" SourceId="1" SourceUrl="http://localhost:8733/Design_Time_Addresses/GFT_TransactionProcessor_Service/Service1/mex" />
+    <MetadataFile FileName="service.xsd" MetadataType="Schema" ID="39014a7f-f6a1-464d-9e6b-2873e547a460" SourceId="1" SourceUrl="http://localhost:8733/Design_Time_Addresses/GFT_TransactionProcessor_Service/Service1/mex" />
   </Metadata>
   <Extensions>
     <ExtensionFile FileName="configuration91.svcinfo" Name="configuration91.svcinfo" />

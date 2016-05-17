@@ -7,17 +7,16 @@ using System.Web.Routing;
 
 namespace GFT.Website.Api
 {
-    public class WebApiApplication : System.Web.HttpApplication
+    public class WebApiApplication : HttpApplication
     {
         protected void Application_Start()
         {
             GlobalConfiguration.Configure(WebApiConfig.Register);
-            TransactionProcessorBAK1.TransactionProcessorClient TPClient = new TransactionProcessorBAK1.TransactionProcessorClient();
-            TransactionProcessorBAK2.TransactionProcessorClient TPClient2 = new TransactionProcessorBAK2.TransactionProcessorClient();
+            TransactionProcessorService1.TransactionProcessorClient transactionProcessorClient = new TransactionProcessorService1.TransactionProcessorClient();
+            //TransactionProcessorBAK2.TransactionProcessorClient TPClient2 = new TransactionProcessorBAK2.TransactionProcessorClient();
             try
             {
-                TPClient.start();
-                TPClient2.start();
+                transactionProcessorClient.StartMainLoop();
             }
             catch (Exception e)
             {

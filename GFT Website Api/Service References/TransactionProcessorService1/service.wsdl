@@ -5,30 +5,30 @@
       <xsd:import namespace="http://tempuri.org/" />
     </xsd:schema>
   </wsdl:types>
-  <wsdl:message name="ITransactionProcessor_start_InputMessage">
-    <wsdl:part name="parameters" element="tns:start" />
+  <wsdl:message name="ITransactionProcessor_StartMainLoop_InputMessage">
+    <wsdl:part name="parameters" element="tns:StartMainLoop" />
   </wsdl:message>
-  <wsdl:message name="ITransactionProcessor_stop_InputMessage">
-    <wsdl:part name="parameters" element="tns:stop" />
+  <wsdl:message name="ITransactionProcessor_StopMainLoop_InputMessage">
+    <wsdl:part name="parameters" element="tns:StopMainLoop" />
   </wsdl:message>
   <wsdl:portType name="ITransactionProcessor">
-    <wsdl:operation name="start">
-      <wsdl:input wsaw:Action="http://tempuri.org/ITransactionProcessor/start" message="tns:ITransactionProcessor_start_InputMessage" />
+    <wsdl:operation name="StartMainLoop">
+      <wsdl:input wsaw:Action="http://tempuri.org/ITransactionProcessor/StartMainLoop" message="tns:ITransactionProcessor_StartMainLoop_InputMessage" />
     </wsdl:operation>
-    <wsdl:operation name="stop">
-      <wsdl:input wsaw:Action="http://tempuri.org/ITransactionProcessor/stop" message="tns:ITransactionProcessor_stop_InputMessage" />
+    <wsdl:operation name="StopMainLoop">
+      <wsdl:input wsaw:Action="http://tempuri.org/ITransactionProcessor/StopMainLoop" message="tns:ITransactionProcessor_StopMainLoop_InputMessage" />
     </wsdl:operation>
   </wsdl:portType>
   <wsdl:binding name="BasicHttpBinding_ITransactionProcessor" type="tns:ITransactionProcessor">
     <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
-    <wsdl:operation name="start">
-      <soap:operation soapAction="http://tempuri.org/ITransactionProcessor/start" style="document" />
+    <wsdl:operation name="StartMainLoop">
+      <soap:operation soapAction="http://tempuri.org/ITransactionProcessor/StartMainLoop" style="document" />
       <wsdl:input>
         <soap:body use="literal" />
       </wsdl:input>
     </wsdl:operation>
-    <wsdl:operation name="stop">
-      <soap:operation soapAction="http://tempuri.org/ITransactionProcessor/stop" style="document" />
+    <wsdl:operation name="StopMainLoop">
+      <soap:operation soapAction="http://tempuri.org/ITransactionProcessor/StopMainLoop" style="document" />
       <wsdl:input>
         <soap:body use="literal" />
       </wsdl:input>

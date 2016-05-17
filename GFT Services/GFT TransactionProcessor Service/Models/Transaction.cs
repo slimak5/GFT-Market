@@ -6,41 +6,41 @@ using System.Threading.Tasks;
 
 namespace GFT.Services.TransactionProcessor.Models
 {
-    public class FeedObject
+    public class Transaction
     {
-        DBModels.Order buyOrder { get; set; }
-        DBModels.Order sellOrder { get; set; }
-        public FeedObject(DBModels.Order buyOrder, DBModels.Order sellOrder)
+        DbModels.OrderEntity buyOrder { get; set; }
+        DbModels.OrderEntity sellOrder { get; set; }
+        public Transaction(DbModels.OrderEntity buyOrder, DbModels.OrderEntity sellOrder)
         {
             this.buyOrder = buyOrder;
             this.sellOrder = sellOrder;
         }
 
-        public DBModels.Feed generateFeed()
+        public DbModels.FeedEntity GenerateFeedEntity()
         {
             if (buyOrder.Item != null && sellOrder.Item != null)
             {
-                DBModels.Feed feed = new DBModels.Feed();
-                feed.ItemName = buyOrder.Item.Name;
-                feed.OperationType = "sell";
-                feed.Price = sellOrder.Price;
+                DbModels.FeedEntity feedEntity = new DbModels.FeedEntity();
+                feedEntity.ItemName = buyOrder.Item.Name;
+                feedEntity.OperationType = "sell";
+                feedEntity.Price = sellOrder.Price;
                 if (buyOrder.Quantity > sellOrder.Quantity)
                 {
-                    feed.Quantity = sellOrder.Quantity;
+                    feedEntity.Quantity = sellOrder.Quantity;
                 }
                 else
                 {
-                    feed.Quantity = buyOrder.Quantity;
+                    feedEntity.Quantity = buyOrder.Quantity;
                 }
-                return feed;
+                return feedEntity;
             }
             else
             {
-                throw new InvalidOperationException();
+                throw new ArgumentNullException();
             }
         }
 
-        public void cleanFromDB(DBModels.MarketDatabase database)
+        public void RemoveFromDatabase(DbModels.MarketDatabase database)
         {
             using (database)
             {

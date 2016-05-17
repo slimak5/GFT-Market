@@ -1,4 +1,4 @@
-namespace GFT.Services.TransactionProcessor.DBModels
+namespace GFT.Services.TransactionProcessor.DbModels
 {
     using System;
     using System.Collections.Generic;
@@ -6,7 +6,8 @@ namespace GFT.Services.TransactionProcessor.DBModels
     using System.ComponentModel.DataAnnotations.Schema;
     using System.Data.Entity.Spatial;
 
-    public partial class Feed
+    [Table("Feeds")]
+    public partial class FeedEntity
     {
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }

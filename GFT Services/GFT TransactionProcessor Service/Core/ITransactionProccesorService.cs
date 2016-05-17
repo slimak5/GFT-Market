@@ -5,7 +5,7 @@ using System.Runtime.Serialization;
 using System.ServiceModel;
 using System.Text;
 using System.Messaging;
-using GFT.Services.TransactionProcessor.DBModels;
+using GFT.Services.TransactionProcessor.DbModels;
 
 namespace GFT.Services.TransactionProcessor
 {
@@ -13,10 +13,10 @@ namespace GFT.Services.TransactionProcessor
     public interface ITransactionProcessor
     {
         [OperationContract(IsOneWay = true)]
-        void start();
+        void StartMainLoop();
 
         [OperationContract(IsOneWay = true)]
-        void stop();
+        void StopMainLoop();
     }
 
     [DataContract]
@@ -31,7 +31,7 @@ namespace GFT.Services.TransactionProcessor
         [DataMember]
         public int price { get; set; }
 
-        public static explicit operator Item(DBModels.Item v)
+        public static explicit operator Item(DbModels.ItemEntity v)
         {
             Item i = new Item();
             i.id = v.Id;
@@ -56,7 +56,7 @@ namespace GFT.Services.TransactionProcessor
         [DataMember]
         public int price { get; set; }
 
-        public static explicit operator Feed(DBModels.Feed v)
+        public static explicit operator Feed(DbModels.FeedEntity v)
         {
             Feed f = new Feed();
             f.id = v.Id;

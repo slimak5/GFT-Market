@@ -8,16 +8,15 @@ module GFTMarket.Controllers {
             $http: ng.IHttpService) {
             this.ItemHandlerService = ItemHandlerService;
             this.$http = $http;
-            this.getItems();
+            this.GetItems();
         }
 
-        public getItems() {
-            //TODO change host
+        public GetItems() {
             var self = this;
             this.$http.get("http://localhost:54919/api/Items/getItems/").then(function (response: ng.IHttpPromiseCallbackArg<Array<Models.Item>>) {
                 self.ItemHandlerService.clean();
                 for (let i = 0; i < response.data.length; i++) {
-                    self.ItemHandlerService.push(<Models.Item>response.data[i]);
+                    self.ItemHandlerService.PushItemToList(<Models.Item>response.data[i]);
                 }
             });
         }

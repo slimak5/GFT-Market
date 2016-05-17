@@ -10,7 +10,7 @@ module GFTMarket.Services {
             this.$http = $http;
         }
 
-        public push(object: GFTMarket.Models.Item) {
+        public PushItemToList(object: GFTMarket.Models.Item) {
             this.pushJSON(JSON.stringify(object));
         }
         private pushJSON(object: string) {

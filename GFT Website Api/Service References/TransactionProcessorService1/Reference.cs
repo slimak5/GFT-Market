@@ -8,33 +8,33 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace GFT.Website.Api.TransactionProcessorBAK1 {
+namespace GFT.Website.Api.TransactionProcessorService1 {
     
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
-    [System.ServiceModel.ServiceContractAttribute(ConfigurationName="TransactionProcessorBAK1.ITransactionProcessor")]
+    [System.ServiceModel.ServiceContractAttribute(ConfigurationName="TransactionProcessorService1.ITransactionProcessor")]
     public interface ITransactionProcessor {
         
-        [System.ServiceModel.OperationContractAttribute(IsOneWay=true, Action="http://tempuri.org/ITransactionProcessor/start")]
-        void start();
+        [System.ServiceModel.OperationContractAttribute(IsOneWay=true, Action="http://tempuri.org/ITransactionProcessor/StartMainLoop")]
+        void StartMainLoop();
         
-        [System.ServiceModel.OperationContractAttribute(IsOneWay=true, Action="http://tempuri.org/ITransactionProcessor/start")]
-        System.Threading.Tasks.Task startAsync();
+        [System.ServiceModel.OperationContractAttribute(IsOneWay=true, Action="http://tempuri.org/ITransactionProcessor/StartMainLoop")]
+        System.Threading.Tasks.Task StartMainLoopAsync();
         
-        [System.ServiceModel.OperationContractAttribute(IsOneWay=true, Action="http://tempuri.org/ITransactionProcessor/stop")]
-        void stop();
+        [System.ServiceModel.OperationContractAttribute(IsOneWay=true, Action="http://tempuri.org/ITransactionProcessor/StopMainLoop")]
+        void StopMainLoop();
         
-        [System.ServiceModel.OperationContractAttribute(IsOneWay=true, Action="http://tempuri.org/ITransactionProcessor/stop")]
-        System.Threading.Tasks.Task stopAsync();
+        [System.ServiceModel.OperationContractAttribute(IsOneWay=true, Action="http://tempuri.org/ITransactionProcessor/StopMainLoop")]
+        System.Threading.Tasks.Task StopMainLoopAsync();
     }
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
-    public interface ITransactionProcessorChannel : GFT.Website.Api.TransactionProcessorBAK1.ITransactionProcessor, System.ServiceModel.IClientChannel {
+    public interface ITransactionProcessorChannel : GFT.Website.Api.TransactionProcessorService1.ITransactionProcessor, System.ServiceModel.IClientChannel {
     }
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
-    public partial class TransactionProcessorClient : System.ServiceModel.ClientBase<GFT.Website.Api.TransactionProcessorBAK1.ITransactionProcessor>, GFT.Website.Api.TransactionProcessorBAK1.ITransactionProcessor {
+    public partial class TransactionProcessorClient : System.ServiceModel.ClientBase<GFT.Website.Api.TransactionProcessorService1.ITransactionProcessor>, GFT.Website.Api.TransactionProcessorService1.ITransactionProcessor {
         
         public TransactionProcessorClient() {
         }
@@ -55,20 +55,20 @@ namespace GFT.Website.Api.TransactionProcessorBAK1 {
                 base(binding, remoteAddress) {
         }
         
-        public void start() {
-            base.Channel.start();
+        public void StartMainLoop() {
+            base.Channel.StartMainLoop();
         }
         
-        public System.Threading.Tasks.Task startAsync() {
-            return base.Channel.startAsync();
+        public System.Threading.Tasks.Task StartMainLoopAsync() {
+            return base.Channel.StartMainLoopAsync();
         }
         
-        public void stop() {
-            base.Channel.stop();
+        public void StopMainLoop() {
+            base.Channel.StopMainLoop();
         }
         
-        public System.Threading.Tasks.Task stopAsync() {
-            return base.Channel.stopAsync();
+        public System.Threading.Tasks.Task StopMainLoopAsync() {
+            return base.Channel.StopMainLoopAsync();
         }
     }
 }
