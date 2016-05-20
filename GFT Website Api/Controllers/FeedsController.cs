@@ -13,25 +13,25 @@ namespace GFT.Website.Api.Controllers
     public class FeedsController : ApiController
     {
 
-        static MessageQueue messageQueueMT = new MessageQueue(@".\private$\bak.to.mt.queue");
+        static MessageQueue bakToMiddleTierQueue = new MessageQueue(@".\private$\bak.to.mt.queue");
         static List<Models.Feed> feedList = new List<Models.Feed>();
         [HttpGet]
         [EnableCors("*", "*", "*")]
         public List<Models.Feed> getFeeds()
         {
-            messageQueueMT.MessageReadPropertyFilter.AppSpecific = true;
-            Message[] messages = messageQueueMT.GetAllMessages();
+            bakToMiddleTierQueue.MessageReadPropertyFilter.AppSpecific = true;
+            Message[] messages = bakToMiddleTierQueue.GetAllMessages();
             XmlSerializer xmlSerializer = new XmlSerializer(typeof(List<Models.Feed>));
             foreach (Message message in messages)
             {
 
                 if (message.AppSpecific == 2)
                 {
-                    messageQueueMT.ReceiveById(message.Id);
+                    bakToMiddleTierQueue.ReceiveById(message.Id);
                     feedList.AddRange((List<Models.Feed>)xmlSerializer.Deserialize(message.BodyStream));
                 }
             }
-            messageQueueMT.Dispose();
+            bakToMiddleTierQueue.Dispose();
             return feedList;
         }
 

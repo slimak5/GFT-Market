@@ -16,13 +16,11 @@ namespace GFT.Services.TransactionProcessor
 {
     public class TransactionProcessorBAK1 : ITransactionProcessor
     {
-        static MessageQueue messageQueueBAK1 = new MessageQueue(@".\private$\mt.to.bak1.queue");
-        static MessageQueue messageQueueMT = new MessageQueue(@".\private$\bak.to.mt.queue");
+        static MessageQueue middleToBackendQueue = new MessageQueue(@".\private$\mt.to.bak1.queue");
+        static MessageQueue backendToMiddleQueue = new MessageQueue(@".\private$\bak.to.mt.queue");
         static Thread thread = new Thread(MainLoop);
-
         static HubConnection hubConnection = new HubConnection("http://localhost:53008");
         static IHubProxy hubProxy = hubConnection.CreateHubProxy("Feeds");
-
 
         public void StartMainLoop()
         {
@@ -39,37 +37,16 @@ namespace GFT.Services.TransactionProcessor
         {
             while (true)
             {
-                Thread.Sleep(1000);
                 PassOrdersToDb();
-                MatchAvaibleOrders();
-                SendFeedsToHub();
-            }
-        }
-        static void PassOrdersToDb()
-        {
-            Message[] messages = messageQueueBAK1.GetAllMessages();
-            messageQueueBAK1.Purge();
-            using (var db = new DbModels.MarketDatabase())
-            {
-                XmlSerializer xmlSerializer = new XmlSerializer(typeof(Order));
-                foreach (Message message in messages)
+                if (MatchAvaibleOrders())
                 {
-                    try
-                    {
-                        Order order = (Order)xmlSerializer.Deserialize(message.BodyStream);
-                        db.Orders.Add(MapOrderToDatabaseEntity(order, order.type, db.Items.Find(order.item.id)));
-                        db.SaveChanges();
-                    }
-                    catch (Exception e)
-                    {
-                        throw e;
-                    }
+                    SendFeedsToHub();
                 }
+                Thread.Sleep(2000);
             }
-            messageQueueBAK1.Dispose();
         }
 
-        void SendSupportedItemsList()
+        bool SendSupportedItemsList()
         {
             List<Item> itemList = new List<Item>();
             using (var db = new DbModels.MarketDatabase())
@@ -80,21 +57,70 @@ namespace GFT.Services.TransactionProcessor
                     itemList.Add((Item)itemEntity);
                 }
             }
-
-            try
-            {
-                Message message = new Message(itemList);
-                message.Label = "Supported Items";
-                message.AppSpecific = 1;
-                messageQueueMT.Send(message, MessageQueueTransactionType.Single);
-            }
-            catch (InvalidOperationException e)
-            {
-                Debug.Write(e.InnerException);
-            }
-
+            backendToMiddleQueue.Send(new Message(itemList) { Label = "Supported Items", AppSpecific = 1 },
+                MessageQueueTransactionType.Single);
+            return true;
         }
-        static void SendFeedsToHub()
+
+        static bool PassOrdersToDb()
+        {
+            Message[] messages = middleToBackendQueue.GetAllMessages();
+            XmlSerializer xmlSerializer = new XmlSerializer(typeof(Order));
+            using (var db = new DbModels.MarketDatabase())
+            {
+                foreach (Message message in messages)
+                {
+                    try
+                    {
+                        Order order = (Order)xmlSerializer.Deserialize(message.BodyStream);
+                        db.Orders.Add(MapOrderToDbEntity(order, order.type, db.Items.Find(order.item.id)));
+                        db.SaveChanges();
+                    }
+                    catch (Exception e)
+                    {
+                        Debug.Write(e.Message);
+                        return false;
+                    }
+                }
+            }
+            middleToBackendQueue.Purge();
+            middleToBackendQueue.Dispose();
+            return true;
+        }
+
+        static bool MatchAvaibleOrders()
+        {
+            var transactions = new List<Models.TransactionEntity>();
+            using (var db = new DbModels.MarketDatabase())
+            {
+                var buyOrders = db.Orders.Where(o => o.OrderType == "buy").OrderBy(o => o.Price).ToList();
+                var sellOrders = db.Orders.Where(o => o.OrderType == "sell").OrderByDescending(o => o.Price).ToList();
+                foreach (DbModels.OrderEntity buyOrder in buyOrders)
+                {
+                    try
+                    {
+                        transactions.Add(new Models.TransactionEntity(
+                                            buyOrder,
+                                            sellOrders.Where(o => o.Price < buyOrder.Price).
+                                            First(o => o.ItemID == buyOrder.ItemID),
+                                            db));
+                    }
+                    catch (Exception e)
+                    {
+                        return false;
+                    }
+                }
+
+                foreach (Models.TransactionEntity transaction in transactions)
+                {
+                    db.Feeds.Add(transaction.GenerateFeedEntity());
+                }
+                db.SaveChanges();
+            }
+            return true;
+        }
+
+        static async void SendFeedsToHub()
         {
             List<Feed> feedList = new List<Feed>();
             using (var db = new DbModels.MarketDatabase())
@@ -107,47 +133,21 @@ namespace GFT.Services.TransactionProcessor
                     db.SaveChanges();
                 }
             }
-            hubProxy.Invoke("SendFeeds", feedList);
+            await hubProxy.Invoke("SendFeeds", feedList);
         }
 
-        static List<Models.Transaction> MatchAvaibleOrders()
+        private static DbModels.OrderEntity MapOrderToDbEntity(Order order,
+            string type, DbModels.ItemEntity baseItem)
         {
-            List<Models.Transaction> transactions = new List<Models.Transaction>();
-            using (var db = new DbModels.MarketDatabase())
+            return new DbModels.OrderEntity
             {
-                var buyOrders = db.Orders.Where(o => o.OrderType == "buy").OrderBy(o => o.Price).ToList();
-                var sellOrders = db.Orders.Where(o => o.OrderType == "sell").OrderByDescending(o => o.Price).ToList();
-                for (int i = 0; i < buyOrders.Count; i++)
-                {
-                    for (int j = 0; j < buyOrders.Count; j++)
-                    {
-                        if (buyOrders[i].ItemID == sellOrders[j].ItemID)
-                        {
-                            Models.Transaction transaction = new Models.Transaction(buyOrders[i], sellOrders[j]);
-                            transactions.Add(transaction);
-                            db.Feeds.Add(transaction.GenerateFeedEntity());
-                            transaction.RemoveFromDatabase(db);
-                            db.SaveChanges();
-                        }
-                    }
-
-
-                }
-            }
-            return transactions;
-        }
-
-
-        private static DbModels.OrderEntity MapOrderToDatabaseEntity(Order order, string type, DbModels.ItemEntity baseItem)
-        {
-            DbModels.OrderEntity orderEntity = new DbModels.OrderEntity();
-            orderEntity.ItemID = order.item.id;
-            orderEntity.OrderID = order.orderID;
-            orderEntity.Price = order.item.price;
-            orderEntity.Quantity = order.item.quantity;
-            orderEntity.OrderType = type;
-            orderEntity.Item = baseItem;
-            return orderEntity;
+                ItemID = order.item.id,
+                OrderID = order.orderID,
+                Price = order.item.price,
+                Quantity = order.item.quantity,
+                OrderType = type,
+                Item = baseItem
+            };
         }
 
 

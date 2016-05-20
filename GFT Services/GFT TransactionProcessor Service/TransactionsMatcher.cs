@@ -8,9 +8,9 @@ namespace GFT.Services.TransactionProcessor.TransactionMatcher
 {
     public class TransactionMatcher
     {
-        static public List<Models.Transaction> matchTransactions(List<DbModels.OrderEntity> buyOrders, List<DbModels.OrderEntity> sellOrders)
+        static public List<Models.TransactionEntity> matchTransactions(List<DbModels.OrderEntity> buyOrders, List<DbModels.OrderEntity> sellOrders)
         {
-            List<Models.Transaction> returnList = new List<Models.Transaction>();
+            List<Models.TransactionEntity> returnList = new List<Models.TransactionEntity>();
             if (buyOrders.Count() > 0)
                 foreach (DbModels.OrderEntity buyOrder in buyOrders)
                 {
@@ -33,7 +33,7 @@ namespace GFT.Services.TransactionProcessor.TransactionMatcher
                                 }
                                 if (bestCandidate != null && bestCandidate.Item != null)
                                 {
-                                    Models.Transaction feedobj = new Models.Transaction(buyOrder, bestCandidate);
+                                    Models.TransactionEntity feedobj = new Models.TransactionEntity(buyOrder, bestCandidate);
                                     returnList.Add(feedobj);
                                 }
                                 bestCandidate = null;

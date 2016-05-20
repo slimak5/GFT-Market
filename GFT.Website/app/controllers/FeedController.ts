@@ -1,10 +1,11 @@
 ﻿/// <reference path="../_references.ts" />
 module GFTMarket.Controllers {
     class SignalRHubConnectionOptions implements SignalR.ConnectionOptions {
-        constructor(){ }
+        constructor() { }
         jsonp = true;
     }
     export class FeedController {
+        $scope: ng.IScope;
         FeedHandlerService: GFTMarket.Services.FeedHandler;
         $http: ng.IHttpService;
         hubConnection: SignalR.Hub.Connection;
@@ -13,7 +14,7 @@ module GFTMarket.Controllers {
         constructor($scope: ng.IScope, FeedHandlerService: GFTMarket.Services.FeedHandler, $http: ng.IHttpService) {
             this.FeedHandlerService = FeedHandlerService;
             this.$http = $http;
-            this.GetNewestFeeds();
+            this.$scope = $scope;
             this.hubConnection = $.hubConnection("http://localhost:53008");
             this.hubProxy = this.hubConnection.createHubProxy("Feeds");
             this.hubProxy.on("SendFeed", (feed: Models.Feed) => {
@@ -27,9 +28,12 @@ module GFTMarket.Controllers {
             this.$http.get("http://localhost:54919/api/Feeds/getFeeds/").then(function (response: ng.IHttpPromiseCallbackArg<Array<Models.Feed>>) {
                 self.FeedHandlerService.CleanFeedList();
                 for (let i = 0; i < response.data.length; i++) {
-                    self.FeedHandlerService.PushFeedToList(<Models.Feed>response.data[i]);
+                    self.$scope.$apply(function () {
+                        self.FeedHandlerService.PushFeedToList(<Models.Feed>response.data[i]);
+                    });
                 }
             });
+
         }
     }
     angular.module("main").controller("FeedController", FeedController);

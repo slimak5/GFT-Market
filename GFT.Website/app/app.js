@@ -208,45 +208,6 @@ var GFTMarket;
 (function (GFTMarket) {
     var Controllers;
     (function (Controllers) {
-        var SignalRHubConnectionOptions = (function () {
-            function SignalRHubConnectionOptions() {
-                this.jsonp = true;
-            }
-            return SignalRHubConnectionOptions;
-        }());
-        var FeedController = (function () {
-            function FeedController($scope, FeedHandlerService, $http) {
-                var _this = this;
-                this.FeedHandlerService = FeedHandlerService;
-                this.$http = $http;
-                this.GetNewestFeeds();
-                this.hubConnection = $.hubConnection("http://localhost:53008");
-                this.hubProxy = this.hubConnection.createHubProxy("Feeds");
-                this.hubProxy.on("SendFeed", function (feed) {
-                    _this.FeedHandlerService.PushFeedToList(feed);
-                });
-                this.hubConnection.start(new SignalRHubConnectionOptions());
-            }
-            FeedController.prototype.GetNewestFeeds = function () {
-                var self = this;
-                this.$http.get("http://localhost:54919/api/Feeds/getFeeds/").then(function (response) {
-                    self.FeedHandlerService.CleanFeedList();
-                    for (var i = 0; i < response.data.length; i++) {
-                        self.FeedHandlerService.PushFeedToList(response.data[i]);
-                    }
-                });
-            };
-            FeedController.$inject = ["$scope", "FeedHandlerService", "$http"];
-            return FeedController;
-        }());
-        Controllers.FeedController = FeedController;
-        angular.module("main").controller("FeedController", FeedController);
-    })(Controllers = GFTMarket.Controllers || (GFTMarket.Controllers = {}));
-})(GFTMarket || (GFTMarket = {}));
-var GFTMarket;
-(function (GFTMarket) {
-    var Controllers;
-    (function (Controllers) {
         var ItemController = (function () {
             function ItemController($scope, ItemHandlerService, $http) {
                 this.ItemHandlerService = ItemHandlerService;
@@ -267,6 +228,50 @@ var GFTMarket;
         }());
         Controllers.ItemController = ItemController;
         angular.module("main").controller("ItemController", ItemController);
+    })(Controllers = GFTMarket.Controllers || (GFTMarket.Controllers = {}));
+})(GFTMarket || (GFTMarket = {}));
+var GFTMarket;
+(function (GFTMarket) {
+    var Controllers;
+    (function (Controllers) {
+        var SignalRHubConnectionOptions = (function () {
+            function SignalRHubConnectionOptions() {
+                this.jsonp = true;
+            }
+            return SignalRHubConnectionOptions;
+        }());
+        var FeedController = (function () {
+            function FeedController($scope, FeedHandlerService, $http) {
+                var _this = this;
+                this.FeedHandlerService = FeedHandlerService;
+                this.$http = $http;
+                this.$scope = $scope;
+                this.hubConnection = $.hubConnection("http://localhost:53008");
+                this.hubProxy = this.hubConnection.createHubProxy("Feeds");
+                this.hubProxy.on("SendFeed", function (feed) {
+                    _this.FeedHandlerService.PushFeedToList(feed);
+                });
+                this.hubConnection.start(new SignalRHubConnectionOptions());
+            }
+            FeedController.prototype.GetNewestFeeds = function () {
+                var self = this;
+                this.$http.get("http://localhost:54919/api/Feeds/getFeeds/").then(function (response) {
+                    self.FeedHandlerService.CleanFeedList();
+                    var _loop_1 = function(i) {
+                        self.$scope.$apply(function () {
+                            self.FeedHandlerService.PushFeedToList(response.data[i]);
+                        });
+                    };
+                    for (var i = 0; i < response.data.length; i++) {
+                        _loop_1(i);
+                    }
+                });
+            };
+            FeedController.$inject = ["$scope", "FeedHandlerService", "$http"];
+            return FeedController;
+        }());
+        Controllers.FeedController = FeedController;
+        angular.module("main").controller("FeedController", FeedController);
     })(Controllers = GFTMarket.Controllers || (GFTMarket.Controllers = {}));
 })(GFTMarket || (GFTMarket = {}));
 //# sourceMappingURL=app.js.map
