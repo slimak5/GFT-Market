@@ -4,8 +4,8 @@
     <title>GFT Market</title>
     <meta charset="utf-8" />
     <link rel="stylesheet" type="text/css" href="../Styles/main.css" />
-    <link rel="stylesheet" type="text/css" href="../Styles/item.css" />
-    <link rel="stylesheet" type="text/css" href="../Styles/feed.css" />
+    <link rel="stylesheet" type="text/css" href="../Styles/order.css" />
+    <link rel="stylesheet" type="text/css" href="../Styles/transaction.css" />
     <link rel="stylesheet" type="text/css" href="../Styles/toastr/toastr.css" />
     <script src="../Scripts/angular.js" type="text/javascript"></script>
     <script src="../Scripts/jquery-2.2.0.js" type="text/javascript"></script>
@@ -17,20 +17,20 @@
 </head>
 
 <body>
-    <div class="application" ng-app="main">
+    <div class="application" ng-app="main" ng-controller="WebClientController as WebClientC">
         <div class="header">
             <p id="app-name">Market App</p>
         </div>
-        <div class="market-offers" ng-controller="ItemController as ItemC">
-            <div ng-repeat="object in ItemC.ItemHandlerService.itemList track by $index">
-                <item-object item-model="object" service="ItemC.ItemHandlerService"></item-object>
+        <div class="market-offers" ng-controller="OrderController as OrderC">
+            <div ng-repeat="object in OrderC.OrderHandlerService.orderList track by $index">
+                <order-object order-model="object" service="OrderC.OrderHandlerService"></order-object>
             </div>
 
             
         </div>
-        <div class="market-feed" ng-controller="FeedController as FeedC">
-            <div ng-repeat="object in FeedC.FeedHandlerService.feedList track by $index">
-                <feed-object feed-model="object" service="FeedC.FeedHandlerService"></feed-object>
+        <div class="market-transactions" ng-controller="TransactionController as TransactionC">
+            <div ng-repeat="object in TransactionC.TransactionHandlerService.transactionList track by $index">
+                <transaction-object transaction-model="object" service="TransactionC.TransactionHandlerService"></transaction-object>
             </div>
 
         </div>

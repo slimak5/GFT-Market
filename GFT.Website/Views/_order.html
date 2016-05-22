@@ -1,0 +1,7 @@
+﻿<div class="order">
+    <p id="order-name">{{orderModel.item.itemName}}</p>
+    <input id="order-quantity" type="text" ng-model="orderModel.quantity" onclick="this.select()">
+    <input id="order-quantity" type="text" ng-model="orderModel.price" onclick="this.select()">
+    <button id="order-buy" ng-click="OrderHandlerService.buyorder(orderModel)">Buy</button><!--
+    --><button id="order-sell" ng-click="OrderHandlerService.sellorder(orderModel)">Sell</button>
+</div>

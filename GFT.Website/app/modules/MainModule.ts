@@ -1,5 +1,5 @@
 ﻿/// <reference path="../_references.ts" />
-module GFTMarket.Modules {
+namespace GFTMarket.Modules {
     angular.module("main", []);
 
 }

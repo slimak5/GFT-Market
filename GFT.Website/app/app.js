@@ -1,13 +1,16 @@
 var GFTMarket;
 (function (GFTMarket) {
+    var Modules;
+    (function (Modules) {
+        angular.module("main", []);
+    })(Modules = GFTMarket.Modules || (GFTMarket.Modules = {}));
+})(GFTMarket || (GFTMarket = {}));
+var GFTMarket;
+(function (GFTMarket) {
     var Models;
     (function (Models) {
         var Item = (function () {
             function Item() {
-                this.name = "item.name";
-                this.quantity = 1;
-                this.id = 0;
-                this.price = 0;
             }
             return Item;
         }());
@@ -18,217 +21,139 @@ var GFTMarket;
 (function (GFTMarket) {
     var Models;
     (function (Models) {
-        var Feed = (function () {
-            function Feed() {
-                this.name = "feed.name";
-                this.quantity = 1;
-                this.id = 0;
-                this.price = 0;
-                this.type = "sell";
+        var Transaction = (function () {
+            function Transaction() {
             }
-            return Feed;
+            return Transaction;
         }());
-        Models.Feed = Feed;
+        Models.Transaction = Transaction;
     })(Models = GFTMarket.Models || (GFTMarket.Models = {}));
 })(GFTMarket || (GFTMarket = {}));
 var GFTMarket;
 (function (GFTMarket) {
-    var Modules;
-    (function (Modules) {
-        angular.module("main", []);
-    })(Modules = GFTMarket.Modules || (GFTMarket.Modules = {}));
-})(GFTMarket || (GFTMarket = {}));
-var GFTMarket;
-(function (GFTMarket) {
     var Services;
     (function (Services) {
-        var FeedHandler = (function () {
-            function FeedHandler() {
-                this.feedList = [];
-                this.activeFeed = new GFTMarket.Models.Feed();
+        var TransactionHandlerService = (function () {
+            function TransactionHandlerService($http) {
+                this.transactionList = [];
+                this.activeTransaction = new GFTMarket.Models.Transaction();
+                this.$http = $http;
             }
-            FeedHandler.prototype.PushFeedToList = function (object) {
-                this.pushJSON(JSON.stringify(object));
-            };
-            FeedHandler.prototype.pushJSON = function (object) {
-                var helper = JSON.parse(object);
-                if (this.feedList.length > 8) {
-                    this.feedList.splice(this.feedList.length - 1, 1);
+            TransactionHandlerService.prototype.PushTransactionToList = function (object) {
+                if (this.transactionList.length > 8) {
+                    this.transactionList.splice(this.transactionList.length - 1, 1);
                 }
-                this.feedList.unshift(helper);
+                this.transactionList.unshift(object);
             };
-            FeedHandler.prototype.remove = function (object) {
-                for (var i = 0; i < this.feedList.length; i++) {
-                    if (this.feedList[i].id == object.id && this.feedList[i].name == object.name) {
-                        this.feedList.splice(i, 1);
-                        i = -1;
+            TransactionHandlerService.prototype.CleanTransactionList = function () {
+                this.transactionList = [];
+            };
+            TransactionHandlerService.prototype.GetNewestTransactions = function () {
+                var self = this;
+                this.$http.get("http://localhost:54919/api/Feeds/getFeeds/").then(function (response) {
+                    self.CleanTransactionList();
+                    for (var i = 0; i < response.data.length; i++) {
+                        self.PushTransactionToList(response.data[i]);
                     }
-                }
+                });
             };
-            FeedHandler.prototype.getById = function (id) {
-                return this.feedList[id];
-            };
-            FeedHandler.prototype.getByObject = function (object) {
-                for (var i = 0; i < this.feedList.length; i++) {
-                    if (this.feedList[i].id == object.id && this.feedList[i].name == object.name) {
-                        return this.feedList[i];
-                    }
-                }
-                console.log("getByObject(): returned empty instance");
-                return new GFTMarket.Models.Feed();
-            };
-            FeedHandler.prototype.CleanFeedList = function () {
-                this.feedList = [];
-            };
-            FeedHandler.prototype.pushFeed = function (object) {
-            };
-            FeedHandler.prototype.popFeed = function (object) {
-            };
-            return FeedHandler;
+            TransactionHandlerService.$inject = ['$http'];
+            return TransactionHandlerService;
         }());
-        Services.FeedHandler = FeedHandler;
-        angular.module("main").service("FeedHandlerService", FeedHandler);
+        Services.TransactionHandlerService = TransactionHandlerService;
+        angular.module("main").service("TransactionHandlerService", TransactionHandlerService);
     })(Services = GFTMarket.Services || (GFTMarket.Services = {}));
 })(GFTMarket || (GFTMarket = {}));
 var GFTMarket;
 (function (GFTMarket) {
     var Services;
     (function (Services) {
-        var ItemHandler = (function () {
-            function ItemHandler($http) {
-                this.itemList = [];
-                this.activeObject = new GFTMarket.Models.Item();
+        var OrderHandlerService = (function () {
+            function OrderHandlerService($http) {
+                this.orderList = [];
                 this.$http = $http;
             }
-            ItemHandler.prototype.PushItemToList = function (object) {
-                this.pushJSON(JSON.stringify(object));
+            OrderHandlerService.prototype.PushOrderToList = function (object) {
+                this.orderList.unshift(object);
             };
-            ItemHandler.prototype.pushJSON = function (object) {
-                var helper = JSON.parse(object);
-                this.itemList.unshift(helper);
+            OrderHandlerService.prototype.CleanOrderList = function () {
+                this.orderList = [];
             };
-            ItemHandler.prototype.remove = function (object) {
-                for (var i = 0; i < this.itemList.length; i++) {
-                    if (this.itemList[i].quantity <= 0) {
-                        this.itemList.splice(i, 1);
-                        i = -1;
-                    }
-                    else {
-                        if (this.itemList[i].id == object.id && this.itemList[i].name == object.name) {
-                            this.itemList.splice(i, 1);
-                            i = -1;
-                        }
-                    }
-                }
-            };
-            ItemHandler.prototype.getById = function (id) {
-                return this.itemList[id];
-            };
-            ItemHandler.prototype.getByObject = function (object) {
-                for (var i = 0; i < this.itemList.length; i++) {
-                    if (this.itemList[i].id == object.id && this.itemList[i].name == object.name) {
-                        console.log(this.itemList[i]);
-                        return this.itemList[i];
-                    }
-                }
-                console.log("getByObject(): returned empty instance");
-                return new GFTMarket.Models.Item();
-            };
-            ItemHandler.prototype.clean = function () {
-                this.itemList = [];
-            };
-            ItemHandler.prototype.buyItem = function (object) {
+            OrderHandlerService.prototype.SendBuyRequest = function (object) {
                 this.$http.post("http://localhost:54919/api/Items/buyItem", object).then(function (res) {
                     toastr.success(res.data);
                 });
             };
-            ItemHandler.prototype.sellItem = function (object) {
+            OrderHandlerService.prototype.SendSellRequest = function (object) {
                 this.$http.post("http://localhost:54919/api/Items/sellItem", object).then(function (res) {
                     toastr.success(res.data);
                 });
             };
-            ItemHandler.$inject = ["$http"];
-            return ItemHandler;
+            OrderHandlerService.prototype.GetAvaibleItems = function () {
+                var self = this;
+                this.$http.get("http://localhost:54919/api/Orders/getItems/").then(function (response) {
+                    self.CleanOrderList();
+                    for (var i = 0; i < response.data.length; i++) {
+                        self.PushOrderToList(response.data[i]);
+                    }
+                });
+            };
+            OrderHandlerService.$inject = ["$http"];
+            return OrderHandlerService;
         }());
-        Services.ItemHandler = ItemHandler;
-        angular.module("main").service("ItemHandlerService", ItemHandler);
+        Services.OrderHandlerService = OrderHandlerService;
+        angular.module("main").service("OrderHandlerService", OrderHandlerService);
     })(Services = GFTMarket.Services || (GFTMarket.Services = {}));
 })(GFTMarket || (GFTMarket = {}));
 var GFTMarket;
 (function (GFTMarket) {
     var Directives;
     (function (Directives) {
-        var FeedDirective = (function () {
-            function FeedDirective() {
+        var TransactionDirective = (function () {
+            function TransactionDirective() {
                 this.restrict = 'AE';
-                this.templateUrl = "../Views/_feed.html";
+                this.templateUrl = "../Views/_transaction.html";
                 this.scope = {
-                    feedModel: "=",
-                    FeedHandlerService: "=service"
+                    transactionModel: "=",
+                    transactionHandler: "=service"
                 };
                 this.link = function (scope, element, attrs) {
                 };
             }
-            FeedDirective.Factory = function () {
-                var directive = function () { return new FeedDirective(); };
+            TransactionDirective.Factory = function () {
+                var directive = function () { return new TransactionDirective(); };
                 return directive;
             };
-            return FeedDirective;
+            return TransactionDirective;
         }());
-        Directives.FeedDirective = FeedDirective;
-        angular.module("main").directive("feedObject", FeedDirective.Factory());
+        Directives.TransactionDirective = TransactionDirective;
+        angular.module("main").directive("transactionObject", TransactionDirective.Factory());
     })(Directives = GFTMarket.Directives || (GFTMarket.Directives = {}));
 })(GFTMarket || (GFTMarket = {}));
 var GFTMarket;
 (function (GFTMarket) {
     var Directives;
     (function (Directives) {
-        var ItemDirective = (function () {
-            function ItemDirective() {
+        var OrderDirective = (function () {
+            function OrderDirective() {
                 this.restrict = 'AE';
-                this.templateUrl = "../Views/_item.html";
+                this.templateUrl = "../Views/_order.html";
                 this.scope = {
-                    itemModel: "=",
-                    ItemHandlerService: "=service"
+                    orderModel: "=",
+                    OrderHandlerService: "=service"
                 };
                 this.link = function (scope, element, attrs) {
                 };
             }
-            ItemDirective.Factory = function () {
-                var directive = function () { return new ItemDirective(); };
+            OrderDirective.Factory = function () {
+                var directive = function () { return new OrderDirective(); };
                 return directive;
             };
-            return ItemDirective;
+            return OrderDirective;
         }());
-        Directives.ItemDirective = ItemDirective;
-        angular.module("main").directive("itemObject", ItemDirective.Factory());
+        Directives.OrderDirective = OrderDirective;
+        angular.module("main").directive("orderObject", OrderDirective.Factory());
     })(Directives = GFTMarket.Directives || (GFTMarket.Directives = {}));
-})(GFTMarket || (GFTMarket = {}));
-var GFTMarket;
-(function (GFTMarket) {
-    var Controllers;
-    (function (Controllers) {
-        var ItemController = (function () {
-            function ItemController($scope, ItemHandlerService, $http) {
-                this.ItemHandlerService = ItemHandlerService;
-                this.$http = $http;
-                this.GetItems();
-            }
-            ItemController.prototype.GetItems = function () {
-                var self = this;
-                this.$http.get("http://localhost:54919/api/Items/getItems/").then(function (response) {
-                    self.ItemHandlerService.clean();
-                    for (var i = 0; i < response.data.length; i++) {
-                        self.ItemHandlerService.PushItemToList(response.data[i]);
-                    }
-                });
-            };
-            ItemController.$inject = ["$scope", "ItemHandlerService", "$http"];
-            return ItemController;
-        }());
-        Controllers.ItemController = ItemController;
-        angular.module("main").controller("ItemController", ItemController);
-    })(Controllers = GFTMarket.Controllers || (GFTMarket.Controllers = {}));
 })(GFTMarket || (GFTMarket = {}));
 var GFTMarket;
 (function (GFTMarket) {
@@ -240,38 +165,88 @@ var GFTMarket;
             }
             return SignalRHubConnectionOptions;
         }());
-        var FeedController = (function () {
-            function FeedController($scope, FeedHandlerService, $http) {
+        var TransactionController = (function () {
+            function TransactionController($scope, TransactionHandlerService, $http) {
                 var _this = this;
-                this.FeedHandlerService = FeedHandlerService;
+                this.TransactionHandlerService = TransactionHandlerService;
                 this.$http = $http;
                 this.$scope = $scope;
                 this.hubConnection = $.hubConnection("http://localhost:53008");
-                this.hubProxy = this.hubConnection.createHubProxy("Feeds");
-                this.hubProxy.on("SendFeed", function (feed) {
-                    _this.FeedHandlerService.PushFeedToList(feed);
+                this.hubProxy = this.hubConnection.createHubProxy("Transactions");
+                this.hubProxy.on("SendFeed", function (transaction) {
+                    _this.TransactionHandlerService.PushTransactionToList(transaction);
                 });
                 this.hubConnection.start(new SignalRHubConnectionOptions());
             }
-            FeedController.prototype.GetNewestFeeds = function () {
-                var self = this;
-                this.$http.get("http://localhost:54919/api/Feeds/getFeeds/").then(function (response) {
-                    self.FeedHandlerService.CleanFeedList();
-                    var _loop_1 = function(i) {
-                        self.$scope.$apply(function () {
-                            self.FeedHandlerService.PushFeedToList(response.data[i]);
-                        });
-                    };
-                    for (var i = 0; i < response.data.length; i++) {
-                        _loop_1(i);
-                    }
-                });
-            };
-            FeedController.$inject = ["$scope", "FeedHandlerService", "$http"];
-            return FeedController;
+            TransactionController.$inject = ["$scope", "TransactionHandlerService", "$http"];
+            return TransactionController;
         }());
-        Controllers.FeedController = FeedController;
-        angular.module("main").controller("FeedController", FeedController);
+        Controllers.TransactionController = TransactionController;
+        angular.module("main").controller("TransactionController", TransactionController);
     })(Controllers = GFTMarket.Controllers || (GFTMarket.Controllers = {}));
+})(GFTMarket || (GFTMarket = {}));
+var GFTMarket;
+(function (GFTMarket) {
+    var Controllers;
+    (function (Controllers) {
+        var OrderController = (function () {
+            function OrderController($scope, OrderHandlerService, $http) {
+                this.OrderHandlerService = OrderHandlerService;
+                this.$http = $http;
+                this.OrderHandlerService.GetAvaibleItems();
+            }
+            OrderController.$inject = ["$scope", "OrderHandlerService", "$http"];
+            return OrderController;
+        }());
+        Controllers.OrderController = OrderController;
+        angular.module("main").controller("OrderController", OrderController);
+    })(Controllers = GFTMarket.Controllers || (GFTMarket.Controllers = {}));
+})(GFTMarket || (GFTMarket = {}));
+var GFTMarket;
+(function (GFTMarket) {
+    var Controllers;
+    (function (Controllers) {
+        var WebClientController = (function () {
+            function WebClientController($scope) {
+                this.webClient = new GFTMarket.Models.WebClient();
+                this.$scope = $scope;
+                this.webClient.clientId = this.GetClientId();
+            }
+            WebClientController.prototype.GetClientId = function () {
+                $.get("http://localhost:54919/api/Webclient/GenerateWebClientId/", function (response) {
+                    return response.responseBody;
+                });
+                return -1;
+            };
+            WebClientController.$inject = ['$scope'];
+            return WebClientController;
+        }());
+        Controllers.WebClientController = WebClientController;
+        angular.module("main").controller("WebClientController", WebClientController);
+    })(Controllers = GFTMarket.Controllers || (GFTMarket.Controllers = {}));
+})(GFTMarket || (GFTMarket = {}));
+var GFTMarket;
+(function (GFTMarket) {
+    var Models;
+    (function (Models) {
+        var Order = (function () {
+            function Order() {
+            }
+            return Order;
+        }());
+        Models.Order = Order;
+    })(Models = GFTMarket.Models || (GFTMarket.Models = {}));
+})(GFTMarket || (GFTMarket = {}));
+var GFTMarket;
+(function (GFTMarket) {
+    var Models;
+    (function (Models) {
+        var WebClient = (function () {
+            function WebClient() {
+            }
+            return WebClient;
+        }());
+        Models.WebClient = WebClient;
+    })(Models = GFTMarket.Models || (GFTMarket.Models = {}));
 })(GFTMarket || (GFTMarket = {}));
 //# sourceMappingURL=app.js.map

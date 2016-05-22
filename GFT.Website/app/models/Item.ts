@@ -1,16 +1,8 @@
 ﻿/// <reference path="../_references.ts" />
-module GFTMarket.Models {
+namespace GFTMarket.Models {
     export class Item implements GFTMarket.Interfaces.IMarketObject {
-        name: string;
-        quantity: number;
-        price: number;
-        id: number;
-
-        constructor() {
-            this.name = "item.name";
-            this.quantity = 1;
-            this.id = 0;
-            this.price = 0;
-        }
+        public itemId: number;
+        public itemName: string;
+        public supportedServiceId: string;
     }
 }

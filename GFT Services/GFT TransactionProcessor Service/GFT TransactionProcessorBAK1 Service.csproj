@@ -48,8 +48,8 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
-    <Reference Include="Newtonsoft.Json, Version=6.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\Newtonsoft.Json.6.0.4\lib\net45\Newtonsoft.Json.dll</HintPath>
+    <Reference Include="Newtonsoft.Json, Version=8.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Newtonsoft.Json.8.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="System" />
@@ -67,14 +67,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Core\ITransactionProccesorService.cs" />
-    <Compile Include="Models\DBModels\Feed.cs" />
-    <Compile Include="Models\DBModels\Item.cs" />
-    <Compile Include="Models\DBModels\MarketContext.cs" />
-    <Compile Include="Models\DBModels\Order.cs" />
-    <Compile Include="Models\Transaction.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Core\TransactionProcessorService.cs" />
-    <Compile Include="TransactionsMatcher.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config">
@@ -86,9 +80,13 @@
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\GFT Website Api\GFT Website Api.csproj">
-      <Project>{22e5cd11-910a-4143-830d-52eba52ec5f2}</Project>
-      <Name>GFT Website Api</Name>
+    <ProjectReference Include="..\..\GFT Market DAL\GFT Market DAL.csproj">
+      <Project>{b35f51ca-5446-428a-bee7-f5dc0569861b}</Project>
+      <Name>GFT Market DAL</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\GFT Models\GFT Models.csproj">
+      <Project>{0a55e2a4-a294-4d01-b27d-27839b597a40}</Project>
+      <Name>GFT Models</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />

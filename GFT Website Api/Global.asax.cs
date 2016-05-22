@@ -4,7 +4,8 @@ using System.Linq;
 using System.Web;
 using System.Web.Http;
 using System.Web.Routing;
-
+using Newtonsoft.Json;
+using System.Messaging;
 namespace GFT.Website.Api
 {
     public class WebApiApplication : HttpApplication
@@ -12,16 +13,22 @@ namespace GFT.Website.Api
         protected void Application_Start()
         {
             GlobalConfiguration.Configure(WebApiConfig.Register);
-            TransactionProcessorService1.TransactionProcessorClient transactionProcessorClient = new TransactionProcessorService1.TransactionProcessorClient();
-            //TransactionProcessorBAK2.TransactionProcessorClient TPClient2 = new TransactionProcessorBAK2.TransactionProcessorClient();
-            try
+            
+            if (!MessageQueue.Exists(@".\private$\mt.to.bak1.queue"))
             {
-                transactionProcessorClient.StartMainLoop();
+                MessageQueue.Create(@".\private$\mt.to.bak1.queue", true);
             }
-            catch (Exception e)
-            {
 
+            if (!MessageQueue.Exists(@".\private$\mt.to.bak2.queue"))
+            {
+                MessageQueue.Create(@".\private$\mt.to.bak2.queue", true);
             }
+
+            if (!MessageQueue.Exists(@".\private$\bak.to.mt.queue"))
+            {
+                MessageQueue.Create(@".\private$\bak.to.mt.queue", true);
+            }
+
         }
     }
 }

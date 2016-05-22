@@ -93,28 +93,32 @@
   <ItemGroup>
     <Content Include="Scripts\toastr.js" />
     <Content Include="Scripts\toastr.min.js" />
-    <Content Include="Styles\item.css" />
+    <Content Include="Styles\order.css" />
     <Content Include="Styles\main.css" />
     <Content Include="Views\main.html" />
-    <Content Include="Styles\feed.css" />
-    <Content Include="Views\_feed.html" />
-    <Content Include="Views\_item.html" />
+    <Content Include="Styles\transaction.css" />
+    <Content Include="Views\_transaction.html" />
+    <Content Include="Views\_order.html" />
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <TypeScriptCompile Include="app\controllers\FeedController.ts" />
-    <TypeScriptCompile Include="app\controllers\ItemController.ts" />
-    <TypeScriptCompile Include="app\directives\FeedDirective.ts" />
-    <TypeScriptCompile Include="app\directives\ItemDirective.ts" />
+    <TypeScriptCompile Include="app\controllers\TransactionController.ts" />
+    <TypeScriptCompile Include="app\controllers\OrderController.ts" />
+    <TypeScriptCompile Include="app\controllers\WebClientController.ts" />
+    <TypeScriptCompile Include="app\directives\TransactionDirective.ts" />
+    <TypeScriptCompile Include="app\directives\OrderDirective.ts" />
     <TypeScriptCompile Include="app\models\interfaces\IMarketObject.ts" />
-    <TypeScriptCompile Include="app\models\Feed.ts" />
+    <TypeScriptCompile Include="app\models\Order.ts" />
+    <TypeScriptCompile Include="app\models\Transaction.ts" />
     <TypeScriptCompile Include="app\models\Item.ts" />
+    <TypeScriptCompile Include="app\models\Webclient.ts" />
     <TypeScriptCompile Include="app\modules\MainModule.ts" />
-    <TypeScriptCompile Include="app\services\FeedHandlerService.ts" />
-    <TypeScriptCompile Include="app\services\ItemHandlerService.ts" />
+    <TypeScriptCompile Include="app\services\TransactionHandlerService.ts" />
+    <TypeScriptCompile Include="app\services\OrderHandlerService.ts" />
+    <TypeScriptCompile Include="app\_refBak.ts" />
     <TypeScriptCompile Include="app\_references.ts" />
     <TypeScriptCompile Include="Scripts\typings\angularjs\angular-animate.d.ts" />
     <TypeScriptCompile Include="Scripts\typings\angularjs\angular-component-router.d.ts" />

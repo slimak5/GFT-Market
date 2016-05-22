@@ -27,7 +27,7 @@ body {
     border-bottom: 2px solid darkseagreen;
 }
 
-.market-feed{
+.market-transactions{
     display: inline-block;
     width: 550px;
     vertical-align: top;
