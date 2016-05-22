@@ -11,7 +11,7 @@ namespace GFT.Database.Core
     public abstract class DataAccessObject<Database> : Interfaces.IDataAccessObject
         where Database : DbContext
     {
-        private Database _database;
+        protected Database _database;
 
         public DataAccessObject(Database database)
         {

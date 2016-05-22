@@ -15,7 +15,10 @@ namespace GFT.Database
 
         public override void Delete<Entity>(Entity dbObject)
         {
-            throw new NotImplementedException();
+            using (_database)
+            {
+
+            }
         }
 
         public override void Insert<Entity>(Entity dbObject)
