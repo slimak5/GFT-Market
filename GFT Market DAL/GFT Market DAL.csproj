@@ -52,7 +52,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Core\DataAccessObject.cs" />
-    <Compile Include="Core\Interfaces\IDataAccessObject.cs" />
     <Compile Include="GFTMarketDbAccessObject.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

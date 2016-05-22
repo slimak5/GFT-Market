@@ -21,17 +21,19 @@ namespace GFT.Services.TransactionProcessor
         static HubConnection hubConnection = new HubConnection("http://localhost:53008");
         static IHubProxy hubProxy = hubConnection.CreateHubProxy("Feeds");
 
-        public void StartMainLoop()
+        public Models.Item StartMainLoop()
         {
             //hubConnection.Start();
-            SendSupportedItemsList();
+            return SendSupportedItemsList();
             //thread.Start();
         }
 
-        private void SendSupportedItemsList()
+        private Models.Item SendSupportedItemsList()
         {
-            GFTMarketDatabaseInstance database = new GFTMarketDatabaseInstance(new GFTMarketDatabaseContext());
-            database.
+            
+            GFTMarketDatabaseInstance database = new GFTMarketDatabaseInstance();
+            database.Insert(new Models.Item { itemId = 500, itemName = "tescik", supportedServiceId = "BAK5" });
+            return database.Read<Models.Item>(1);
         }
 
         public void StopMainLoop()

@@ -6,9 +6,9 @@ namespace GFT.Database
     using System.Linq;
     using Models;
 
-    public partial class GFTMarketDatabaseContext : DbContext
+    public partial class GFTMarketDatabase : DbContext
     {
-        public GFTMarketDatabaseContext()
+        public GFTMarketDatabase()
             : base("GFTMarketDatabase")
         {
         }

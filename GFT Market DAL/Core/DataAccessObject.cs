@@ -8,19 +8,20 @@ using GFT.Models;
 
 namespace GFT.Database.Core
 {
-    public abstract class DataAccessObject<Database> : Interfaces.IDataAccessObject
+    public abstract class DataAccessObject<Database>
         where Database : DbContext
     {
-        protected Database _database;
+        public abstract void Delete<Entity>(Entity dbObject)
+            where Entity : Interfaces.IDatabaseEntity;
 
-        public DataAccessObject(Database database)
-        {
-            _database = database;
-        }
+        public abstract void Insert<Entity>(Entity dbObject)
+            where Entity : Interfaces.IDatabaseEntity;
 
-        public abstract void Delete<Entity>(Entity dbObject);
-        public abstract void Insert<Entity>(Entity dbObject);
-        public abstract Entity Read<Entity>(int entityId);
-        public abstract void Update<Entity>(Entity dbObject);
+        public abstract Entity Read<Entity>(int entityId)
+            where Entity : Interfaces.IDatabaseEntity;
+
+        public abstract void Update<Entity>(Entity dbObject)
+            where Entity : Interfaces.IDatabaseEntity;
+
     }
 }

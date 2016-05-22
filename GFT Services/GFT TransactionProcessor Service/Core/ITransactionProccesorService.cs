@@ -11,8 +11,8 @@ namespace GFT.Services.TransactionProcessor
     [ServiceContract]
     public interface ITransactionProcessor
     {
-        [OperationContract(IsOneWay = true)]
-        void StartMainLoop();
+        [OperationContract]
+        Models.Item StartMainLoop();
 
         [OperationContract(IsOneWay = true)]
         void StopMainLoop();
