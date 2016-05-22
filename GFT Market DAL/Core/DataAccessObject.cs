@@ -8,9 +8,21 @@ using GFT.Models;
 
 namespace GFT.Database.Core
 {
-    public abstract class DataAccessObject<Database>
+    public abstract class DataAccessObject<Database> : IDisposable
         where Database : DbContext
     {
+        protected Database _database { get; set; }
+
+        public DataAccessObject(Database database)
+        {
+            _database = database;
+        }
+
+        public void Dispose()
+        {
+            _database.Dispose();
+        }
+
         public abstract void Delete<Entity>(Entity dbObject)
             where Entity : Interfaces.IDatabaseEntity;
 

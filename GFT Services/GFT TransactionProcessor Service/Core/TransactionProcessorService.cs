@@ -31,7 +31,7 @@ namespace GFT.Services.TransactionProcessor
         private Models.Item SendSupportedItemsList()
         {
             
-            GFTMarketDatabaseInstance database = new GFTMarketDatabaseInstance();
+            GFTMarketDatabaseInstance database = new GFTMarketDatabaseInstance(new GFTMarketDatabase());
             database.Insert(new Models.Item { itemId = 500, itemName = "tescik", supportedServiceId = "BAK5" });
             return database.Read<Models.Item>(1);
         }
