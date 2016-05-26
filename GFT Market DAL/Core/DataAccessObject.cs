@@ -11,16 +11,16 @@ namespace GFT.Database.Core
     public abstract class DataAccessObject<Database> : IDisposable
         where Database : DbContext
     {
-        protected Database _database { get; set; }
+        protected Database _Database { get; set; }
 
         public DataAccessObject(Database database)
         {
-            _database = database;
+            _Database = database;
         }
 
         public void Dispose()
         {
-            _database.Dispose();
+            _Database.Dispose();
         }
 
         public abstract void Delete<Entity>(Entity dbObject)
@@ -29,7 +29,10 @@ namespace GFT.Database.Core
         public abstract void Insert<Entity>(Entity dbObject)
             where Entity : Interfaces.IDatabaseEntity;
 
-        public abstract Entity Read<Entity>(int entityId)
+        public abstract Entity ReadSingle<Entity>(int index)
+            where Entity : Interfaces.IDatabaseEntity;
+
+        public abstract Entity ReadSingle<Entity>(string key, string value)
             where Entity : Interfaces.IDatabaseEntity;
 
         public abstract void Update<Entity>(Entity dbObject)

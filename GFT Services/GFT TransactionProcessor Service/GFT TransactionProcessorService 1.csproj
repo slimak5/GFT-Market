@@ -88,6 +88,10 @@
       <Project>{0a55e2a4-a294-4d01-b27d-27839b597a40}</Project>
       <Name>GFT Models</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\GFT TransactionProcessor\GFT TransactionProcessor.csproj">
+      <Project>{a3024ab0-968a-4c8b-bc33-6fadfb8fd58d}</Project>
+      <Name>GFT TransactionProcessor</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

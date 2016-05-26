@@ -5,11 +5,11 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("GFT Services.Tests")]
+[assembly: AssemblyTitle("GFT TransactionProcessor")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("GFT Services.Tests")]
+[assembly: AssemblyProduct("GFT TransactionProcessor")]
 [assembly: AssemblyCopyright("Copyright ©  2016")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
@@ -20,7 +20,7 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
-[assembly: Guid("c40a39c5-73a1-429a-89ee-36aa5fae86b2")]
+[assembly: Guid("a3024ab0-968a-4c8b-bc33-6fadfb8fd58d")]
 
 // Version information for an assembly consists of the following four values:
 //

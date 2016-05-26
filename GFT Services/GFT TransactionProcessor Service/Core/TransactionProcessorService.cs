@@ -11,41 +11,63 @@ using System.Threading;
 using System.Diagnostics;
 using Microsoft.AspNet.SignalR.Client;
 using GFT.Database;
+
 namespace GFT.Services.TransactionProcessor
 {
-    public class TransactionProcessorBAK1 : ITransactionProcessor
+    public class TransactionProcessorService1 : ITransactionProcessor
     {
-        static MessageQueue middleToBackendQueue = new MessageQueue(@".\private$\mt.to.bak1.queue");
-        static MessageQueue backendToMiddleQueue = new MessageQueue(@".\private$\bak.to.mt.queue");
-        static Thread thread = new Thread(MainLoop);
-        static HubConnection hubConnection = new HubConnection("http://localhost:53008");
-        static IHubProxy hubProxy = hubConnection.CreateHubProxy("Feeds");
 
-        public Models.Item StartMainLoop()
+        private static Thread _WorkerThread;
+        private static CancellationTokenSource _CancellationToken;
+        private Core.TransactionProcessor _TransactionProcessor;
+
+        public TransactionProcessorService1()
         {
-            //hubConnection.Start();
-            return SendSupportedItemsList();
-            //thread.Start();
+            _TransactionProcessor = new Core.TransactionProcessor(@".\private$\mt.to.bak1.queue",
+                "http://localhost:53008", "Feeds", "BAK1");
         }
 
-        private Models.Item SendSupportedItemsList()
+        public void StartMainLoop()
         {
-            
-            GFTMarketDatabaseInstance database = new GFTMarketDatabaseInstance(new GFTMarketDatabase());
-            database.Insert(new Models.Item { itemId = 500, itemName = "tescik", supportedServiceId = "BAK5" });
-            return database.Read<Models.Item>(1);
+            lock (this)
+            {
+                if (_WorkerThread == null)
+                {
+                    _WorkerThread = new Thread(MainLoop);
+                    _WorkerThread.Start();
+                }
+            }
         }
 
         public void StopMainLoop()
         {
-            thread.Abort();
+            if (_CancellationToken.Token.CanBeCanceled)
+                _CancellationToken.Cancel();
         }
-        static void MainLoop()
-        {
-            while (true)
-            {
 
+        void MainLoop()
+        {
+            _CancellationToken = new CancellationTokenSource();
+
+            try
+            {
+                while (!_CancellationToken.IsCancellationRequested)
+                {
+                    //TODO implementation;
+                }
             }
+            finally
+            {
+                _WorkerThread = null;
+            }
+        }
+
+        public System.Threading.ThreadState GetWorkerThreadState()
+        {
+            if (_WorkerThread != null)
+                return _WorkerThread.ThreadState;
+
+            return System.Threading.ThreadState.Unstarted;
         }
     }
 }
