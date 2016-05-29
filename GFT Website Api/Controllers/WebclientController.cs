@@ -10,13 +10,12 @@ namespace GFT.Website.Api.Controllers
 {
     public class WebClientController : ApiController
     {
-        public static int WebClientIdPool = 1000;
+
         [HttpGet]
         [EnableCors("*", "*", "*")]
         public int GenerateWebClientId()
         {
-            WebClientIdPool++;
-            return WebClientIdPool;
+            return new Random().Next(10000, 99999);
         }
     }
 }

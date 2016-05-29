@@ -1,20 +1,31 @@
 ﻿/// <reference path="../_references.ts" />
-namespace GFTMarket.Controllers {
-    export class WebClientController {
+namespace  GFTMarket.Controllers
+{
+    export class WebClientController
+    {
         public webClient: Models.WebClient = new Models.WebClient();
+        OrderHandlerService: Services.OrderHandlerService;
         $scope: ng.IScope;
-
-        static $inject = ['$scope'];
-        constructor($scope: ng.IScope) {
+        $http: ng.IHttpService;
+        static $inject = ['$scope', 'OrderHandlerService', '$http'];
+        constructor($scope: ng.IScope, OrderHandlerService: Services.OrderHandlerService, $http: ng.IHttpService)
+        {
+            console.time();
             this.$scope = $scope;
-            this.webClient.clientId = this.GetClientId();
+            this.$http = $http;
+            this.OrderHandlerService = OrderHandlerService;
+            this.$scope.$applyAsync(this.GetClientId());
         }
 
-        GetClientId(): number {
-            $.get("http://localhost:54919/api/Webclient/GenerateWebClientId/", function (response: JQueryXHR) {
-                return <number>response.responseBody;
+        GetClientId(): any
+        {
+            var self = this;
+            this.$http.get("http://localhost:54919/api/Webclient/GenerateWebClientId/").then(function (response: ng.IHttpPromiseCallbackArg<number>)
+            {
+                self.webClient.clientId = response.data;
+                self.OrderHandlerService.ClientId = response.data;
             });
-            return -1;
+
         }
     }
     angular.module("main").controller("WebClientController", WebClientController);

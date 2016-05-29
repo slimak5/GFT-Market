@@ -15,103 +15,72 @@ namespace GFT.Website.Api.Controllers
 {
     public class OrdersController : ApiController
     {
-        static MessageQueue messageQueueMtToBak1 = new MessageQueue(@".\private$\mt.to.bak1.queue");
-        static MessageQueue messageQueueMtToBak2 = new MessageQueue(@".\private$\mt.to.bak2.queue");
-        static MessageQueue messageQueueBakToMt = new MessageQueue(@".\private$\bak.to.mt.queue");
+        private static MessageQueue _MiddleToBackendQueue1 = new MessageQueue(@".\private$\mt.to.bak1.queue");
+        private static MessageQueue _MiddleToBackendQueue2 = new MessageQueue(@".\private$\mt.to.bak2.queue");
+        private static MessageQueue _BackendToMiddleQueue = new MessageQueue(@".\private$\bak.to.mt.queue");
 
-
-        static int orderIdPool = 100;
-        static int webclientIdPool = 100;
-
-        [HttpPost]
-        [EnableCors("*", "*", "*")]
-        public string SendBuyOrder(Models.Order item)
-        {
-            //Models.Order order = new Order(); //TODO FIX
-            //JavaScriptSerializer serializer = new JavaScriptSerializer();
-            //using (Message m = new Message(order))
-            //{
-            //    try
-            //    {
-            //        if (order.item.itemId >= 200)
-            //        {
-            //            messageQueueBAK2.Send(m, order.orderId.ToString(), MessageQueueTransactionType.Single);
-            //            return "Your buy request has been sent. ID: " + order.transactionId;
-            //        }
-            //        else
-            //        {
-            //            messageQueueBAK1.Send(m, order.transactionId.ToString(), MessageQueueTransactionType.Single);
-            //            return "Your buy request has been sent. ID: " + order.transactionId;
-            //        }
-            //    }
-            //    catch (Exception e)
-            //    {
-            //        return e.Message;
-            //    }
-            return "Need to be implemented";
-        }
+        private static List<Order> _OrderList = new List<Order>();
+        private static List<Item> _ItemList = new List<Item>();
 
         [HttpPost]
         [EnableCors("*", "*", "*")]
-        public string sellItem(Models.Order item)
+        public string SendBuyOrder(Order order)
         {
-            //Models.Transaction order = new Models.Item(item, generateID(), "sell");
-            //JavaScriptSerializer serializer = new JavaScriptSerializer();
-            //using (Message m = new Message())
-            //{
-            //    m.Body = order;
-            //    try
-            //    {
-            //        if (order.item.id >= 200)
-            //        {
-            //            messageQueueBAK2.Send(m, order.transactionId.ToString(), MessageQueueTransactionType.Single);
-            //            return "Your sell request has been sent. ID: " + order.transactionId;
-            //        }
-            //        else
-            //        {
-            //            messageQueueBAK1.Send(m, order.transactionId.ToString(), MessageQueueTransactionType.Single);
-            //            return "Your sell request has been sent. ID: " + order.transactionId;
-            //        }
-            //    }
-            //    catch (Exception e)
-            //    {
-            //        return e.Message;
-            //    }
-            //}
-            return "Need to be implemented";
-        }
-        [HttpGet]
-        [EnableCors("*", "*", "*")]
-        public List<Order> GetItems() 
-        {
-            messageQueueBakToMt.MessageReadPropertyFilter.AppSpecific = true;
-
-            List<Order> orderList = new List<Order>();
-            List<Item> itemList = new List<Item>();
-            XmlSerializer xmlSerializer = new XmlSerializer(typeof(List<Item>));
-            var messages = messageQueueBakToMt.GetAllMessages();
-            foreach(var message in messages)
+            using (var message = new Message(order)
+            { AppSpecific = 1, Label = string.Format("Buy Order:{0}", order.orderId) })
             {
-                if(message.AppSpecific == 1)
+                if (order.item.supportedServiceId == "BAK1")
                 {
-                    messageQueueBakToMt.ReceiveById(message.Id);
-                    itemList.AddRange((List<Item>)xmlSerializer.Deserialize(message.BodyStream));
+                    _MiddleToBackendQueue1.Send(message, MessageQueueTransactionType.Single);
                 }
             }
 
-            foreach(var item in itemList)
+            return String.Format("Your order have been sent. Order ID: {0}", order.orderId);
+        }
+
+        [HttpPost]
+        [EnableCors("*", "*", "*")]
+        public string SendSellOrder(Order order)
+        {
+            using (var message = new Message(order)
+            { AppSpecific = 2, Label = string.Format("Sell Order:{0}", order.orderId) })
             {
-                orderList.Add(new Order(item));
+                if (order.item.supportedServiceId == "BAK1")
+                {
+                    _MiddleToBackendQueue1.Send(message, MessageQueueTransactionType.Single);
+                }
             }
-            return orderList;
+            return String.Format("Your order have been sent. Order ID: {0}", order.orderId);
+        }
+
+        [HttpGet]
+        [EnableCors("*", "*", "*")]
+        public List<Order> GetItems()
+        {
+            XmlSerializer xmlSerializer = new XmlSerializer(typeof(List<Item>));
+
+            _BackendToMiddleQueue.MessageReadPropertyFilter.AppSpecific = true;
+            foreach (var message in _BackendToMiddleQueue.GetAllMessages())
+            {
+                if (message.AppSpecific == 1)
+                {
+                    _BackendToMiddleQueue.ReceiveById(message.Id);
+                    _ItemList.AddRange((List<Item>)xmlSerializer.Deserialize(message.BodyStream));
+                }
+            }
+
+            foreach (var item in _ItemList)
+            {
+                _OrderList.Add(new Order(item) {orderId = GenerateOrderId() });
+            }
+            return _OrderList;
         }
 
         [HttpGet]
         [EnableCors("*", "*", "*")]
         public int GenerateOrderId()
         {
-            orderIdPool++;
-            return orderIdPool;
+            return new Random().Next(10000, 99999);
         }
 
 

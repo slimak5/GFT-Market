@@ -1,4 +1,5 @@
-﻿using System;
+﻿using GFT.Models;
+using System;
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
@@ -38,7 +39,7 @@ namespace GFT.Database
                     break;
 
                 default:
-                    throw new InvalidOperationException();
+                    throw new ArgumentException();
             }
         }
 
@@ -54,7 +55,7 @@ namespace GFT.Database
                     return (Entity)Convert.ChangeType(_Database.Items.Find(index),
                         typeof(Models.Item));
                 default:
-                    throw new InvalidOperationException();
+                    throw new ArgumentException();
             }
         }
 
@@ -97,9 +98,24 @@ namespace GFT.Database
                     break;
 
                 default:
-                    throw new InvalidOperationException();
+                    throw new ArgumentException();
 
             }
+        }
+
+        public DbSet<Item> GetDatabaseItemsList()
+        {
+            return _Database.Items;
+        }
+
+        public DbSet<Item> GetDatabaseTransactionsList()
+        {
+            return _Database.Items;
+        }
+
+        public void SaveChanges()
+        {
+            _Database.SaveChanges();
         }
 
         public List<Models.Item> GetSupportedItemList(string serviceId)

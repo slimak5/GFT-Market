@@ -115,14 +115,14 @@
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="FeedsHub.cs" />
+    <Compile Include="TransactionHub.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\GFT Website Api\GFT Website Api.csproj">
-      <Project>{22e5cd11-910a-4143-830d-52eba52ec5f2}</Project>
-      <Name>GFT Website Api</Name>
+    <ProjectReference Include="..\GFT Models\GFT Models.csproj">
+      <Project>{0A55E2A4-A294-4D01-B27D-27839B597A40}</Project>
+      <Name>GFT Models</Name>
     </ProjectReference>
   </ItemGroup>
   <PropertyGroup>

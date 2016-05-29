@@ -13,7 +13,7 @@ namespace GFT.Website.Api
         protected void Application_Start()
         {
             GlobalConfiguration.Configure(WebApiConfig.Register);
-            
+
             if (!MessageQueue.Exists(@".\private$\mt.to.bak1.queue"))
             {
                 MessageQueue.Create(@".\private$\mt.to.bak1.queue", true);
@@ -29,6 +29,10 @@ namespace GFT.Website.Api
                 MessageQueue.Create(@".\private$\bak.to.mt.queue", true);
             }
 
+            TransactionProcessorService1.TransactionProcessorClient TransactionProcessorService1 = new TransactionProcessorService1.TransactionProcessorClient();
+
+            TransactionProcessorService1.Open();
+            TransactionProcessorService1.StartMainLoop();
         }
     }
 }

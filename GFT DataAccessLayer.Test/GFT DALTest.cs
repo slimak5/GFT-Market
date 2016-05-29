@@ -13,7 +13,7 @@ namespace GFT.Database.Test
         public void DALCanPerformReadOperations()
         {
             Database = new GFTMarketDatabaseAccessObject(new GFTMarketDatabase());
-
+            //data has been changed. test will fail
             Models.Item expectedItem = new Models.Item
             {
                 itemId = 1,

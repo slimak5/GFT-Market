@@ -35,6 +35,10 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Newtonsoft.Json, Version=8.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.8.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.ServiceModel" />
@@ -53,44 +57,18 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
-    <Compile Include="Service References\TransactionProcessorService1\Reference.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Reference.svcmap</DependentUpon>
-    </Compile>
     <Compile Include="TransactionProcessorService1Tests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <WCFMetadata Include="Service References\" />
-  </ItemGroup>
-  <ItemGroup>
     <None Include="app.config" />
-    <None Include="Service References\TransactionProcessorService1\service.wsdl" />
-    <None Include="Service References\TransactionProcessorService1\service.xsd">
-      <SubType>Designer</SubType>
-    </None>
-    <None Include="Service References\TransactionProcessorService1\service1.xsd">
-      <SubType>Designer</SubType>
-    </None>
-    <None Include="Service References\TransactionProcessorService1\System.Threading.xsd">
-      <SubType>Designer</SubType>
-    </None>
+    <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <WCFMetadataStorage Include="Service References\TransactionProcessorService1\" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Service References\TransactionProcessorService1\configuration91.svcinfo" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Service References\TransactionProcessorService1\configuration.svcinfo" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Service References\TransactionProcessorService1\Reference.svcmap">
-      <Generator>WCF Proxy Generator</Generator>
-      <LastGenOutput>Reference.cs</LastGenOutput>
-    </None>
+    <ProjectReference Include="..\GFT Services\GFT TransactionProcessor Service\GFT TransactionProcessorService 1.csproj">
+      <Project>{68dd5df2-d85d-458b-bde9-c1f78123717b}</Project>
+      <Name>GFT TransactionProcessorService 1</Name>
+    </ProjectReference>
   </ItemGroup>
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">

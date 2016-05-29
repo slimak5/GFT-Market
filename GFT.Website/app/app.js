@@ -1,98 +1,128 @@
+/// <reference path="../_references.ts" />
 var GFTMarket;
 (function (GFTMarket) {
-    var Controllers;
-    (function (Controllers) {
-        var SignalRHubConnectionOptions = (function () {
-            function SignalRHubConnectionOptions() {
-                this.jsonp = true;
-            }
-            return SignalRHubConnectionOptions;
-        }());
-        var TransactionController = (function () {
-            function TransactionController($scope, TransactionHandlerService, $http) {
-                var _this = this;
-                this.TransactionHandlerService = TransactionHandlerService;
+    var Modules;
+    (function (Modules) {
+        angular.module("main", []);
+    })(Modules = GFTMarket.Modules || (GFTMarket.Modules = {}));
+})(GFTMarket || (GFTMarket = {}));
+/// <reference path="../_references.ts" />
+var GFTMarket;
+(function (GFTMarket) {
+    var Services;
+    (function (Services) {
+        var TransactionHandlerService = (function () {
+            function TransactionHandlerService($http) {
+                this.transactionList = [];
                 this.$http = $http;
-                this.$scope = $scope;
-                this.hubConnection = $.hubConnection("http://localhost:53008");
-                this.hubProxy = this.hubConnection.createHubProxy("Transactions");
-                this.hubProxy.on("SendFeed", function (transaction) {
-                    _this.TransactionHandlerService.PushTransactionToList(transaction);
-                });
-                this.hubConnection.start(new SignalRHubConnectionOptions());
+                this.transactionList.push(new GFTMarket.Models.Transaction());
             }
-            TransactionController.$inject = ["$scope", "TransactionHandlerService", "$http"];
-            return TransactionController;
+            TransactionHandlerService.prototype.PushTransactionToList = function (transaction) {
+                if (this.transactionList.length > 8) {
+                    this.transactionList.splice(this.transactionList.length - 1, 1);
+                }
+                this.transactionList.unshift(transaction);
+            };
+            TransactionHandlerService.prototype.CleanTransactionList = function () {
+                this.transactionList = [];
+            };
+            TransactionHandlerService.$inject = ['$http'];
+            return TransactionHandlerService;
         }());
-        Controllers.TransactionController = TransactionController;
-        angular.module("main").controller("TransactionController", TransactionController);
-    })(Controllers = GFTMarket.Controllers || (GFTMarket.Controllers = {}));
+        Services.TransactionHandlerService = TransactionHandlerService;
+        angular.module("main").service("TransactionHandlerService", TransactionHandlerService);
+    })(Services = GFTMarket.Services || (GFTMarket.Services = {}));
 })(GFTMarket || (GFTMarket = {}));
+/// <reference path="../_references.ts" />
 var GFTMarket;
 (function (GFTMarket) {
-    var Controllers;
-    (function (Controllers) {
-        var OrderController = (function () {
-            function OrderController($scope, OrderHandlerService, $http) {
-                this.OrderHandlerService = OrderHandlerService;
+    var Services;
+    (function (Services) {
+        var OrderHandlerService = (function () {
+            function OrderHandlerService($http) {
+                this.orderList = [];
                 this.$http = $http;
-                this.OrderHandlerService.GetAvaibleItems();
             }
-            OrderController.$inject = ["$scope", "OrderHandlerService", "$http"];
-            return OrderController;
-        }());
-        Controllers.OrderController = OrderController;
-        angular.module("main").controller("OrderController", OrderController);
-    })(Controllers = GFTMarket.Controllers || (GFTMarket.Controllers = {}));
-})(GFTMarket || (GFTMarket = {}));
-var GFTMarket;
-(function (GFTMarket) {
-    var Controllers;
-    (function (Controllers) {
-        var WebClientController = (function () {
-            function WebClientController($scope) {
-                this.webClient = new GFTMarket.Models.WebClient();
-                this.$scope = $scope;
-                this.webClient.clientId = this.GetClientId();
-            }
-            WebClientController.prototype.GetClientId = function () {
-                $.get("http://localhost:54919/api/Webclient/GenerateWebClientId/", function (response) {
-                    return response.responseBody;
+            OrderHandlerService.prototype.PushOrderToList = function (object) {
+                this.orderList.unshift(object);
+            };
+            //public remove(object: GFTMarket.Models.Item) {
+            //    for (let i = 0; i < this.orderList.length; i++) {
+            //        if (this.orderList[i].quantity <= 0) {
+            //            this.orderList.splice(i, 1);
+            //            i = -1;
+            //        } else {
+            //            if (this.orderList[i].id == object.id && this.orderList[i].name == object.name) {
+            //                this.orderList.splice(i, 1);
+            //                i = -1;
+            //            }
+            //        }
+            //    }
+            //}
+            //public getById(id: number) {
+            //    return this.orderList[id];
+            //}
+            //public getByObject(object: GFTMarket.Models.Order) {
+            //    for (let i = 0; i < this.orderList.length; i++) {
+            //        if (this.orderList[i].id == object.id && this.orderList[i].name == object.name) {
+            //            console.log(this.orderList[i]);
+            //            return this.orderList[i];
+            //        }
+            //    }
+            //    console.log("getByObject(): returned empty instance");
+            //    return new GFTMarket.Models.Order();
+            //}
+            OrderHandlerService.prototype.CleanOrderList = function () {
+                this.orderList = [];
+            };
+            //API CALLS:
+            OrderHandlerService.prototype.SendBuyRequest = function (object) {
+                object.orderType = "BUY";
+                object.clientId = this.ClientId;
+                var self = this;
+                this.$http.get("http://localhost:54919/api/Orders/GenerateOrderId")
+                    .then(function (response) {
+                    object.orderId = response.data;
+                    console.log("BUY ID Get:" + object.orderId);
+                    self.$http.post("http://localhost:54919/api/Orders/SendBuyOrder", object)
+                        .then(function (res) {
+                        toastr.success(res.data);
+                    });
                 });
-                return -1;
+                console.log("method finished");
             };
-            WebClientController.$inject = ['$scope'];
-            return WebClientController;
-        }());
-        Controllers.WebClientController = WebClientController;
-        angular.module("main").controller("WebClientController", WebClientController);
-    })(Controllers = GFTMarket.Controllers || (GFTMarket.Controllers = {}));
-})(GFTMarket || (GFTMarket = {}));
-var GFTMarket;
-(function (GFTMarket) {
-    var Directives;
-    (function (Directives) {
-        var TransactionDirective = (function () {
-            function TransactionDirective() {
-                this.restrict = 'AE';
-                this.templateUrl = "../Views/_transaction.html";
-                this.scope = {
-                    transactionModel: "=",
-                    transactionHandler: "=service"
-                };
-                this.link = function (scope, element, attrs) {
-                };
-            }
-            TransactionDirective.Factory = function () {
-                var directive = function () { return new TransactionDirective(); };
-                return directive;
+            OrderHandlerService.prototype.SendSellRequest = function (object) {
+                object.orderType = "SELL";
+                object.clientId = this.ClientId;
+                var self = this;
+                this.$http.get("http://localhost:54919/api/Orders/GenerateOrderId")
+                    .then(function (response) {
+                    object.orderId = response.data;
+                    console.log("SELL ID Get:" + object.orderId);
+                    self.$http.post("http://localhost:54919/api/Orders/SendSellOrder", object)
+                        .then(function (res) {
+                        toastr.success(res.data);
+                    });
+                });
             };
-            return TransactionDirective;
+            OrderHandlerService.prototype.GetAvaibleItems = function () {
+                var self = this;
+                this.$http.get("http://localhost:54919/api/Orders/GetItems/")
+                    .then(function (response) {
+                    self.CleanOrderList();
+                    for (var i = 0; i < response.data.length; i++) {
+                        self.PushOrderToList(response.data[i]);
+                    }
+                });
+            };
+            OrderHandlerService.$inject = ["$http"];
+            return OrderHandlerService;
         }());
-        Directives.TransactionDirective = TransactionDirective;
-        angular.module("main").directive("transactionObject", TransactionDirective.Factory());
-    })(Directives = GFTMarket.Directives || (GFTMarket.Directives = {}));
+        Services.OrderHandlerService = OrderHandlerService;
+        angular.module("main").service("OrderHandlerService", OrderHandlerService);
+    })(Services = GFTMarket.Services || (GFTMarket.Services = {}));
 })(GFTMarket || (GFTMarket = {}));
+/// <reference path="../_references.ts" />
 var GFTMarket;
 (function (GFTMarket) {
     var Directives;
@@ -118,30 +148,126 @@ var GFTMarket;
         angular.module("main").directive("orderObject", OrderDirective.Factory());
     })(Directives = GFTMarket.Directives || (GFTMarket.Directives = {}));
 })(GFTMarket || (GFTMarket = {}));
+/// <reference path="../_references.ts" />
 var GFTMarket;
 (function (GFTMarket) {
-    var Models;
-    (function (Models) {
-        var Order = (function () {
-            function Order() {
+    var Directives;
+    (function (Directives) {
+        var TransactionDirective = (function () {
+            function TransactionDirective() {
+                this.restrict = 'AE';
+                this.templateUrl = "../Views/_transaction.html";
+                this.scope = {
+                    transactionModel: "=",
+                    transactionHandler: "=service"
+                };
+                this.link = function (scope, element, attrs) {
+                };
             }
-            return Order;
+            TransactionDirective.Factory = function () {
+                var directive = function () { return new TransactionDirective(); };
+                return directive;
+            };
+            return TransactionDirective;
         }());
-        Models.Order = Order;
-    })(Models = GFTMarket.Models || (GFTMarket.Models = {}));
+        Directives.TransactionDirective = TransactionDirective;
+        angular.module("main").directive("transactionObject", TransactionDirective.Factory());
+    })(Directives = GFTMarket.Directives || (GFTMarket.Directives = {}));
 })(GFTMarket || (GFTMarket = {}));
+/// <reference path="../_references.ts" />
 var GFTMarket;
 (function (GFTMarket) {
-    var Models;
-    (function (Models) {
-        var Transaction = (function () {
-            function Transaction() {
+    var Controllers;
+    (function (Controllers) {
+        var TransactionController = (function () {
+            function TransactionController(TransactionHandlerService, $http) {
+                this.HubConnection = $.connection("http://localhoasdasdst:53008");
+                this.HubProxy = this.HubConnection.hub.createHubProxy("ExecutedTransactionsHub");
+                console.log("Creating hub");
+                this.TransactionHandlerService = TransactionHandlerService;
+                this.$http = $http;
+                this.HubProxy.on("sendNewTransaction", function (transaction) {
+                    console.log(transaction.transactionDate);
+                    this.TransactionHandlerService.PushTransactionToList(transaction);
+                });
+                this.HubProxy.on("test", function () {
+                    console.log("responded");
+                });
+                var self = this;
+                this.HubConnection.start(new SignalRHubConnectionOptions()).done(function () {
+                    console.log("Connected to ExecutedTrades: " + self.HubConnection.id);
+                }).fail(function () { console.log("Failed"); });
             }
-            return Transaction;
+            ;
+            TransactionController.$inject = ["TransactionHandlerService", "$http"];
+            return TransactionController;
         }());
-        Models.Transaction = Transaction;
-    })(Models = GFTMarket.Models || (GFTMarket.Models = {}));
+        Controllers.TransactionController = TransactionController;
+        var SignalRHubConnectionOptions = (function () {
+            function SignalRHubConnectionOptions() {
+                this.jsonp = true;
+            }
+            return SignalRHubConnectionOptions;
+        }());
+        angular.module("main").controller("TransactionController", TransactionController);
+    })(Controllers = GFTMarket.Controllers || (GFTMarket.Controllers = {}));
 })(GFTMarket || (GFTMarket = {}));
+/// <reference path="../_references.ts" />
+var GFTMarket;
+(function (GFTMarket) {
+    var Controllers;
+    (function (Controllers) {
+        var WebClientController = (function () {
+            function WebClientController($scope, OrderHandlerService, $http) {
+                this.webClient = new GFTMarket.Models.WebClient();
+                console.time();
+                this.$scope = $scope;
+                this.$http = $http;
+                this.OrderHandlerService = OrderHandlerService;
+                this.$scope.$applyAsync(this.GetClientId());
+            }
+            WebClientController.prototype.GetClientId = function () {
+                var self = this;
+                this.$http.get("http://localhost:54919/api/Webclient/GenerateWebClientId/").then(function (response) {
+                    self.webClient.clientId = response.data;
+                    self.OrderHandlerService.ClientId = response.data;
+                });
+            };
+            WebClientController.$inject = ['$scope', 'OrderHandlerService', '$http'];
+            return WebClientController;
+        }());
+        Controllers.WebClientController = WebClientController;
+        angular.module("main").controller("WebClientController", WebClientController);
+    })(Controllers = GFTMarket.Controllers || (GFTMarket.Controllers = {}));
+})(GFTMarket || (GFTMarket = {}));
+/// <reference path="modules/mainmodule.ts" />
+/// <reference path="controllers/ordercontroller.ts" />
+/// <reference path="services/transactionhandlerservice.ts" />
+/// <reference path="services/orderhandlerservice.ts" />
+/// <reference path="directives/orderdirective.ts" />
+/// <reference path="directives/transactiondirective.ts" />
+/// <reference path="controllers/transactioncontroller.ts" />
+/// <reference path="controllers/webclientcontroller.ts" />
+/// <reference path="../_references.ts" />
+var GFTMarket;
+(function (GFTMarket) {
+    var Controllers;
+    (function (Controllers) {
+        var OrderController = (function () {
+            function OrderController($scope, OrderHandlerService, $http) {
+                this.OrderHandlerService = OrderHandlerService;
+                this.$http = $http;
+                this.OrderHandlerService.GetAvaibleItems();
+            }
+            OrderController.$inject = ["$scope", "OrderHandlerService", "$http"];
+            return OrderController;
+        }());
+        Controllers.OrderController = OrderController;
+        angular.module("main").controller("OrderController", OrderController);
+    })(Controllers = GFTMarket.Controllers || (GFTMarket.Controllers = {}));
+})(GFTMarket || (GFTMarket = {}));
+/// <reference path="../../_references.ts" />
+/// <reference path="../_references.ts" />
 var GFTMarket;
 (function (GFTMarket) {
     var Models;
@@ -154,6 +280,54 @@ var GFTMarket;
         Models.Item = Item;
     })(Models = GFTMarket.Models || (GFTMarket.Models = {}));
 })(GFTMarket || (GFTMarket = {}));
+/// <reference path="../_references.ts" />
+var GFTMarket;
+(function (GFTMarket) {
+    var Models;
+    (function (Models) {
+        var Transaction = (function () {
+            function Transaction() {
+            }
+            return Transaction;
+        }());
+        Models.Transaction = Transaction;
+    })(Models = GFTMarket.Models || (GFTMarket.Models = {}));
+})(GFTMarket || (GFTMarket = {}));
+/// <reference path="../scripts/typings/signalr/signalr.d.ts" />
+/// <reference path="../scripts/typings/jquery/jquery.d.ts" />
+/// <reference path="../scripts/typings/angularjs/angular-animate.d.ts" />
+/// <reference path="../scripts/typings/angularjs/angular-component-router.d.ts" />
+/// <reference path="../scripts/typings/angularjs/angular-cookies.d.ts" />
+/// <reference path="../scripts/typings/angularjs/angular-mocks.d.ts" />
+/// <reference path="../scripts/typings/angularjs/angular-resource.d.ts" />
+/// <reference path="../scripts/typings/angularjs/angular-route.d.ts" />
+/// <reference path="../scripts/typings/angularjs/angular-sanitize.d.ts" />
+/// <reference path="../scripts/typings/angularjs/angular.d.ts" />
+/// <reference path="modules/mainmodule.ts" />
+/// <reference path="models/interfaces/imarketobject.ts" />
+/// <reference path="models/item.ts" />
+/// <reference path="models/transaction.ts" />
+/// <reference path="services/transactionhandlerservice.ts" />
+/// <reference path="services/orderhandlerservice.ts" />
+/// <reference path="directives/transactiondirective.ts" />
+/// <reference path="directives/orderdirective.ts" />
+/// <reference path="controllers/transactioncontroller.ts" />
+/// <reference path="controllers/ordercontroller.ts" />
+/// <reference path="controllers/webclientcontroller.ts" />
+/// <reference path="../_references.ts" />
+var GFTMarket;
+(function (GFTMarket) {
+    var Models;
+    (function (Models) {
+        var Order = (function () {
+            function Order() {
+            }
+            return Order;
+        }());
+        Models.Order = Order;
+    })(Models = GFTMarket.Models || (GFTMarket.Models = {}));
+})(GFTMarket || (GFTMarket = {}));
+/// <reference path="../_references.ts" />
 var GFTMarket;
 (function (GFTMarket) {
     var Models;
@@ -165,88 +339,5 @@ var GFTMarket;
         }());
         Models.WebClient = WebClient;
     })(Models = GFTMarket.Models || (GFTMarket.Models = {}));
-})(GFTMarket || (GFTMarket = {}));
-var GFTMarket;
-(function (GFTMarket) {
-    var Modules;
-    (function (Modules) {
-        angular.module("main", []);
-    })(Modules = GFTMarket.Modules || (GFTMarket.Modules = {}));
-})(GFTMarket || (GFTMarket = {}));
-var GFTMarket;
-(function (GFTMarket) {
-    var Services;
-    (function (Services) {
-        var TransactionHandlerService = (function () {
-            function TransactionHandlerService($http) {
-                this.transactionList = [];
-                this.activeTransaction = new GFTMarket.Models.Transaction();
-                this.$http = $http;
-            }
-            TransactionHandlerService.prototype.PushTransactionToList = function (object) {
-                if (this.transactionList.length > 8) {
-                    this.transactionList.splice(this.transactionList.length - 1, 1);
-                }
-                this.transactionList.unshift(object);
-            };
-            TransactionHandlerService.prototype.CleanTransactionList = function () {
-                this.transactionList = [];
-            };
-            TransactionHandlerService.prototype.GetNewestTransactions = function () {
-                var self = this;
-                this.$http.get("http://localhost:54919/api/Feeds/getFeeds/").then(function (response) {
-                    self.CleanTransactionList();
-                    for (var i = 0; i < response.data.length; i++) {
-                        self.PushTransactionToList(response.data[i]);
-                    }
-                });
-            };
-            TransactionHandlerService.$inject = ['$http'];
-            return TransactionHandlerService;
-        }());
-        Services.TransactionHandlerService = TransactionHandlerService;
-        angular.module("main").service("TransactionHandlerService", TransactionHandlerService);
-    })(Services = GFTMarket.Services || (GFTMarket.Services = {}));
-})(GFTMarket || (GFTMarket = {}));
-var GFTMarket;
-(function (GFTMarket) {
-    var Services;
-    (function (Services) {
-        var OrderHandlerService = (function () {
-            function OrderHandlerService($http) {
-                this.orderList = [];
-                this.$http = $http;
-            }
-            OrderHandlerService.prototype.PushOrderToList = function (object) {
-                this.orderList.unshift(object);
-            };
-            OrderHandlerService.prototype.CleanOrderList = function () {
-                this.orderList = [];
-            };
-            OrderHandlerService.prototype.SendBuyRequest = function (object) {
-                this.$http.post("http://localhost:54919/api/Items/buyItem", object).then(function (res) {
-                    toastr.success(res.data);
-                });
-            };
-            OrderHandlerService.prototype.SendSellRequest = function (object) {
-                this.$http.post("http://localhost:54919/api/Items/sellItem", object).then(function (res) {
-                    toastr.success(res.data);
-                });
-            };
-            OrderHandlerService.prototype.GetAvaibleItems = function () {
-                var self = this;
-                this.$http.get("http://localhost:54919/api/Orders/getItems/").then(function (response) {
-                    self.CleanOrderList();
-                    for (var i = 0; i < response.data.length; i++) {
-                        self.PushOrderToList(response.data[i]);
-                    }
-                });
-            };
-            OrderHandlerService.$inject = ["$http"];
-            return OrderHandlerService;
-        }());
-        Services.OrderHandlerService = OrderHandlerService;
-        angular.module("main").service("OrderHandlerService", OrderHandlerService);
-    })(Services = GFTMarket.Services || (GFTMarket.Services = {}));
 })(GFTMarket || (GFTMarket = {}));
 //# sourceMappingURL=app.js.map

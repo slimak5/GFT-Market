@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace GFT.Services.TransactionProcessor.Test.TransactionProcessorService1 {
+namespace GFT.Website.Api.TransactionProcessorService1 {
     
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
@@ -35,12 +35,12 @@ namespace GFT.Services.TransactionProcessor.Test.TransactionProcessorService1 {
     }
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
-    public interface ITransactionProcessorChannel : GFT.Services.TransactionProcessor.Test.TransactionProcessorService1.ITransactionProcessor, System.ServiceModel.IClientChannel {
+    public interface ITransactionProcessorChannel : GFT.Website.Api.TransactionProcessorService1.ITransactionProcessor, System.ServiceModel.IClientChannel {
     }
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
-    public partial class TransactionProcessorClient : System.ServiceModel.ClientBase<GFT.Services.TransactionProcessor.Test.TransactionProcessorService1.ITransactionProcessor>, GFT.Services.TransactionProcessor.Test.TransactionProcessorService1.ITransactionProcessor {
+    public partial class TransactionProcessorClient : System.ServiceModel.ClientBase<GFT.Website.Api.TransactionProcessorService1.ITransactionProcessor>, GFT.Website.Api.TransactionProcessorService1.ITransactionProcessor {
         
         public TransactionProcessorClient() {
         }

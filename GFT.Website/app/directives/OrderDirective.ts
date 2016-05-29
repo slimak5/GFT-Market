@@ -1,5 +1,5 @@
 ﻿/// <reference path="../_references.ts" />
-namespace GFTMarket.Directives {
+namespace  GFTMarket.Directives {
     export class OrderDirective implements ng.IDirective {
         restrict: string = 'AE';
         templateUrl: string = "../Views/_order.html";

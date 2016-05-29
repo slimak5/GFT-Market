@@ -11,6 +11,7 @@ using System.Threading;
 using System.Diagnostics;
 using Microsoft.AspNet.SignalR.Client;
 using GFT.Database;
+using GFT.Models;
 
 namespace GFT.Services.TransactionProcessor
 {
@@ -21,10 +22,11 @@ namespace GFT.Services.TransactionProcessor
         private static CancellationTokenSource _CancellationToken;
         private Core.TransactionProcessor _TransactionProcessor;
 
+
         public TransactionProcessorService1()
         {
             _TransactionProcessor = new Core.TransactionProcessor(@".\private$\mt.to.bak1.queue",
-                "http://localhost:53008", "Feeds", "BAK1");
+                "http://localhost:53008", "ExecutedTransactionsHub", "BAK1");
         }
 
         public void StartMainLoop()
@@ -48,17 +50,28 @@ namespace GFT.Services.TransactionProcessor
         void MainLoop()
         {
             _CancellationToken = new CancellationTokenSource();
-
+            SendSupportedItems();
             try
             {
                 while (!_CancellationToken.IsCancellationRequested)
                 {
-                    //TODO implementation;
+                    _TransactionProcessor.FetchMessagesFromQueue();
+                    _TransactionProcessor.CreateTransactionsWhenAvaible();
+                    _TransactionProcessor.PushTransactionsToHub();
                 }
             }
             finally
             {
                 _WorkerThread = null;
+            }
+        }
+
+        private void SendSupportedItems()
+        {
+            using (var db = new GFTMarketDatabaseAccessObject(new GFTMarketDatabase()))
+            {
+                List<Item> supportedItems = db.GetSupportedItemList("BAK1");
+                _TransactionProcessor.PushMessageToQueue(supportedItems);
             }
         }
 

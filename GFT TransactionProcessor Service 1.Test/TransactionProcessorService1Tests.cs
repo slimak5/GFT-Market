@@ -1,6 +1,5 @@
 ﻿using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using GFT.Services.TransactionProcessor.Test.TransactionProcessorService1;
 using System.Threading;
 
 namespace GFT.Services.TransactionProcessor.Test
@@ -8,22 +7,25 @@ namespace GFT.Services.TransactionProcessor.Test
     [TestClass]
     public class TransactionProcessorService1Tests
     {
-        TransactionProcessorClient _TransactionProcessorClient;
+        TransactionProcessorService1 _TransactionProcessor;
 
         [TestMethod]
         public void ServiceCanManageItsThread()
         {
-            _TransactionProcessorClient = new TransactionProcessorClient();
+            _TransactionProcessor = new TransactionProcessorService1();
 
-            _TransactionProcessorClient.StartMainLoop();
-            Assert.AreEqual(ThreadState.Running, _TransactionProcessorClient.GetWorkerThreadState());
+            _TransactionProcessor.StartMainLoop();
+            Thread.Sleep(100);
+            Assert.AreEqual(ThreadState.Running, _TransactionProcessor.GetWorkerThreadState());
 
-            _TransactionProcessorClient.StopMainLoop();
-            _TransactionProcessorClient.StartMainLoop();
-            Assert.AreEqual(ThreadState.Running, _TransactionProcessorClient.GetWorkerThreadState());
+            _TransactionProcessor.StopMainLoop();
+            _TransactionProcessor.StartMainLoop();
+            Thread.Sleep(100);
+            Assert.AreEqual(ThreadState.Running, _TransactionProcessor.GetWorkerThreadState());
 
-            _TransactionProcessorClient.StopMainLoop();
-            Assert.AreEqual(ThreadState.Unstarted, _TransactionProcessorClient.GetWorkerThreadState());
+            _TransactionProcessor.StopMainLoop();
+            Thread.Sleep(2000);
+            Assert.AreEqual(ThreadState.Stopped, _TransactionProcessor.GetWorkerThreadState());
         }
     }
 }

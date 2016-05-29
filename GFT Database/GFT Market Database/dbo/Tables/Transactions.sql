@@ -1,13 +1,17 @@
 ﻿CREATE TABLE [dbo].[Transactions] (
-    [transactionId]      INT            IDENTITY (1, 1) NOT NULL,
-    [clientId]           NVARCHAR (MAX) NOT NULL,
-    [transactionDate]    DATETIME       NOT NULL,
-    [sellOrderId]        NVARCHAR (MAX) NOT NULL,
-    [buyOrderId]         NVARCHAR (MAX) NOT NULL,
-    [orderedItem_itemId] INT            NOT NULL,
+    [transactionId]      INT      IDENTITY (1, 1) NOT NULL,
+    [clientId]           INT      NOT NULL,
+    [transactionDate]    DATETIME NOT NULL,
+    [sellOrderId]        INT      NOT NULL,
+    [buyOrderId]         INT      NOT NULL,
+    [orderedItem_itemId] INT      NOT NULL,
+    [quantity]           INT      DEFAULT ((0)) NOT NULL,
+    [price]              INT      DEFAULT ((0)) NOT NULL,
     CONSTRAINT [PK_dbo.Transactions] PRIMARY KEY CLUSTERED ([transactionId] ASC),
     CONSTRAINT [FK_dbo.Transactions_dbo.Items_orderedItem_itemId] FOREIGN KEY ([orderedItem_itemId]) REFERENCES [dbo].[Items] ([itemId]) ON DELETE CASCADE
 );
+
+
 
 
 GO

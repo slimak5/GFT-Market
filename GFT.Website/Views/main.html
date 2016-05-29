@@ -17,16 +17,16 @@
 </head>
 
 <body>
-    <div class="application" ng-app="main" ng-controller="WebClientController as WebClientC">
-        <div class="header">
-            <p id="app-name">Market App</p>
+    <div class="application" ng-app="main" >
+        <div ng-controller="WebClientController as WebClientC">
+            <div class="header">
+                <p id="app-name">Market App {{WebClientC.webClient.clientId}}</p>
+            </div>
         </div>
         <div class="market-offers" ng-controller="OrderController as OrderC">
             <div ng-repeat="object in OrderC.OrderHandlerService.orderList track by $index">
                 <order-object order-model="object" service="OrderC.OrderHandlerService"></order-object>
             </div>
-
-            
         </div>
         <div class="market-transactions" ng-controller="TransactionController as TransactionC">
             <div ng-repeat="object in TransactionC.TransactionHandlerService.transactionList track by $index">

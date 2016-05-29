@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ReferenceGroup xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" ID="23f9f47f-425b-4671-ba84-ea54fcc434b5" xmlns="urn:schemas-microsoft-com:xml-wcfservicemap">
+<ReferenceGroup xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" ID="196617a5-4e05-4b43-a319-a3ae1a75d928" xmlns="urn:schemas-microsoft-com:xml-wcfservicemap">
   <ClientOptions>
     <GenerateAsynchronousMethods>false</GenerateAsynchronousMethods>
     <GenerateTaskBasedAsynchronousMethod>true</GenerateTaskBasedAsynchronousMethod>
@@ -22,10 +22,10 @@
     <MetadataSource Address="http://localhost:8733/Design_Time_Addresses/GFT_TransactionProcessor_Service/Service1/mex" Protocol="mex" SourceId="1" />
   </MetadataSources>
   <Metadata>
-    <MetadataFile FileName="service.wsdl" MetadataType="Wsdl" ID="8b0beb9c-f7a4-4ae4-9a46-11a831810f78" SourceId="1" SourceUrl="http://localhost:8733/Design_Time_Addresses/GFT_TransactionProcessor_Service/Service1/mex" />
-    <MetadataFile FileName="service.xsd" MetadataType="Schema" ID="09bd90ac-8789-41c1-a6a0-c9474789362b" SourceId="1" SourceUrl="http://localhost:8733/Design_Time_Addresses/GFT_TransactionProcessor_Service/Service1/mex" />
-    <MetadataFile FileName="service1.xsd" MetadataType="Schema" ID="fd7027ff-909f-4a9c-b535-ff8836914b12" SourceId="1" SourceUrl="http://localhost:8733/Design_Time_Addresses/GFT_TransactionProcessor_Service/Service1/mex" />
-    <MetadataFile FileName="System.Threading.xsd" MetadataType="Schema" ID="cfb3d80c-97b1-48a6-84bb-eb7e359e8001" SourceId="1" SourceUrl="http://localhost:8733/Design_Time_Addresses/GFT_TransactionProcessor_Service/Service1/mex" />
+    <MetadataFile FileName="service.wsdl" MetadataType="Wsdl" ID="167fb184-96c0-4908-a632-7181de036e14" SourceId="1" SourceUrl="http://localhost:8733/Design_Time_Addresses/GFT_TransactionProcessor_Service/Service1/mex" />
+    <MetadataFile FileName="service.xsd" MetadataType="Schema" ID="bd729cdc-6aef-497c-bfd9-e723776da3d7" SourceId="1" SourceUrl="http://localhost:8733/Design_Time_Addresses/GFT_TransactionProcessor_Service/Service1/mex" />
+    <MetadataFile FileName="service1.xsd" MetadataType="Schema" ID="792dd241-d12a-4b0e-8303-7afcb89c1dd2" SourceId="1" SourceUrl="http://localhost:8733/Design_Time_Addresses/GFT_TransactionProcessor_Service/Service1/mex" />
+    <MetadataFile FileName="System.Threading.xsd" MetadataType="Schema" ID="e3c23fce-d524-4bce-a2d2-49655c67dff9" SourceId="1" SourceUrl="http://localhost:8733/Design_Time_Addresses/GFT_TransactionProcessor_Service/Service1/mex" />
   </Metadata>
   <Extensions>
     <ExtensionFile FileName="configuration91.svcinfo" Name="configuration91.svcinfo" />
