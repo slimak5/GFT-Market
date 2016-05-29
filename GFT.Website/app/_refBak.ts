@@ -13,7 +13,6 @@
 /// <reference path="models/interfaces/imarketobject.ts" />
 /// <reference path="models/item.ts" />
 /// <reference path="models/transaction.ts" />
-/// <reference path="services/transactionhandlerservice.ts" />
 /// <reference path="services/orderhandlerservice.ts" />
 /// <reference path="directives/transactiondirective.ts" />
 /// <reference path="directives/orderdirective.ts" />

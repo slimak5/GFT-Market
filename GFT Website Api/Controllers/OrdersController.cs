@@ -33,6 +33,12 @@ namespace GFT.Website.Api.Controllers
                 {
                     _MiddleToBackendQueue1.Send(message, MessageQueueTransactionType.Single);
                 }
+
+                if (order.item.supportedServiceId == "BAK2")
+                {
+                    _MiddleToBackendQueue2.Send(message, MessageQueueTransactionType.Single);
+                }
+
             }
 
             return String.Format("Your order have been sent. Order ID: {0}", order.orderId);
@@ -48,6 +54,11 @@ namespace GFT.Website.Api.Controllers
                 if (order.item.supportedServiceId == "BAK1")
                 {
                     _MiddleToBackendQueue1.Send(message, MessageQueueTransactionType.Single);
+                }
+
+                if (order.item.supportedServiceId == "BAK2")
+                {
+                    _MiddleToBackendQueue2.Send(message, MessageQueueTransactionType.Single);
                 }
             }
             return String.Format("Your order have been sent. Order ID: {0}", order.orderId);

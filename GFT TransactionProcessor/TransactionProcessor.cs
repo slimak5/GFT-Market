@@ -10,7 +10,6 @@ using System.Xml.Serialization;
 
 namespace GFT.Services.TransactionProcessor.Core
 {
-    //TODO: skonczyc implementacje, dopisac matcher metode, dokonczyc webapi aby przesylalo do mq 
     public class TransactionProcessor
     {
         private MessageQueue _MiddleToBackendQueue;
@@ -75,7 +74,11 @@ namespace GFT.Services.TransactionProcessor.Core
 
         public void CreateTransactionsWhenAvaible()
         {
-            if (_BuyOrders == null || _SellOrders == null) return;
+            if (_BuyOrders == null || _SellOrders == null)
+            {
+                RemoveEmptyOrders();
+                return;
+            }
 
             var looping = true;
             while (looping)
@@ -83,32 +86,33 @@ namespace GFT.Services.TransactionProcessor.Core
                 try
                 {
                     int maxBuyPrice = _BuyOrders.Max(o => o.price);
-                    Order buyOrder;
-                    Order sellOrder;
 
-                    buyOrder = _BuyOrders.Find(o => o.price == maxBuyPrice);
-                    sellOrder = _SellOrders.OrderBy(o => o.price).FirstOrDefault(o => o.item.itemId == buyOrder.item.itemId);
+                    var buyOrder = _BuyOrders.Find(o => o.price == maxBuyPrice);
+                    var sellOrder = _SellOrders.OrderBy(o => o.price)
+                        .FirstOrDefault(o => o.item.itemId == buyOrder.item.itemId);
 
-                    if (buyOrder != null && sellOrder != null)
+                    if (buyOrder == null || sellOrder == null)
                     {
-                        var transaction = Transaction.GenerateTransactionObject(sellOrder, buyOrder);
-
-                        FinalizedTransactions.Add(transaction);
-                        using (var db = new Database.GFTMarketDatabaseAccessObject(new Database.GFTMarketDatabase()))
-                        {
-                            db.Insert(transaction);
-                        }
+                        RemoveEmptyOrders();
+                        return;
                     }
-                    else
+
+                    var transaction = Transaction.GenerateTransactionObject(sellOrder, buyOrder);
+
+                    FinalizedTransactions.Add(transaction);
+                    using (var db = new Database.GFTMarketDatabaseAccessObject(new Database.GFTMarketDatabase()))
                     {
-                        looping = false;
+                        db.Insert(transaction);
                     }
                 }
                 catch
                 {
                     looping = false;
                 }
-                RemoveEmptyOrders();
+                finally
+                {
+                    RemoveEmptyOrders();
+                }
             }
         }
 
@@ -119,13 +123,13 @@ namespace GFT.Services.TransactionProcessor.Core
 
             foreach (var order in _BuyOrders)
             {
-                if (order.quantity == 0)
+                if (order.quantity == 0 || order.price == 0)
                     buyOrdersToDelete.Add(order);
             }
 
             foreach (var order in _SellOrders)
             {
-                if (order.quantity == 0)
+                if (order.quantity == 0 || order.price == 0)
                     sellOrdersToDelete.Add(order);
             }
 

@@ -9,6 +9,24 @@ var GFTMarket;
 /// <reference path="../_references.ts" />
 var GFTMarket;
 (function (GFTMarket) {
+    var Controllers;
+    (function (Controllers) {
+        var OrderController = (function () {
+            function OrderController($scope, OrderHandlerService, $http) {
+                this.OrderHandlerService = OrderHandlerService;
+                this.$http = $http;
+                this.OrderHandlerService.GetAvaibleItems();
+            }
+            OrderController.$inject = ["$scope", "OrderHandlerService", "$http"];
+            return OrderController;
+        }());
+        Controllers.OrderController = OrderController;
+        angular.module("main").controller("OrderController", OrderController);
+    })(Controllers = GFTMarket.Controllers || (GFTMarket.Controllers = {}));
+})(GFTMarket || (GFTMarket = {}));
+/// <reference path="../_references.ts" />
+var GFTMarket;
+(function (GFTMarket) {
     var Services;
     (function (Services) {
         var OrderHandlerService = (function () {
@@ -125,6 +143,41 @@ var GFTMarket;
 (function (GFTMarket) {
     var Controllers;
     (function (Controllers) {
+        var WebClientController = (function () {
+            function WebClientController($scope, OrderHandlerService, $http) {
+                this.webClient = new GFTMarket.Models.WebClient();
+                console.time();
+                this.$scope = $scope;
+                this.$http = $http;
+                this.OrderHandlerService = OrderHandlerService;
+                this.$scope.$applyAsync(this.GetClientId());
+            }
+            WebClientController.prototype.GetClientId = function () {
+                var self = this;
+                this.$http.get("http://localhost:54919/api/Webclient/GenerateWebClientId/").then(function (response) {
+                    self.webClient.clientId = response.data;
+                    self.OrderHandlerService.ClientId = response.data;
+                });
+            };
+            WebClientController.$inject = ['$scope', 'OrderHandlerService', '$http'];
+            return WebClientController;
+        }());
+        Controllers.WebClientController = WebClientController;
+        angular.module("main").controller("WebClientController", WebClientController);
+    })(Controllers = GFTMarket.Controllers || (GFTMarket.Controllers = {}));
+})(GFTMarket || (GFTMarket = {}));
+/// <reference path="modules/mainmodule.ts" />
+/// <reference path="controllers/ordercontroller.ts" />
+/// <reference path="services/orderhandlerservice.ts" />
+/// <reference path="directives/orderdirective.ts" />
+/// <reference path="directives/transactiondirective.ts" />
+/// <reference path="controllers/transactioncontroller.ts" />
+/// <reference path="controllers/webclientcontroller.ts" />
+/// <reference path="../_references.ts" />
+var GFTMarket;
+(function (GFTMarket) {
+    var Controllers;
+    (function (Controllers) {
         var TransactionController = (function () {
             function TransactionController($scope, $http) {
                 this.HubConnection = $.hubConnection("http://localhost:53008");
@@ -163,108 +216,7 @@ var GFTMarket;
         angular.module("main").controller("TransactionController", TransactionController);
     })(Controllers = GFTMarket.Controllers || (GFTMarket.Controllers = {}));
 })(GFTMarket || (GFTMarket = {}));
-/// <reference path="../_references.ts" />
-var GFTMarket;
-(function (GFTMarket) {
-    var Controllers;
-    (function (Controllers) {
-        var WebClientController = (function () {
-            function WebClientController($scope, OrderHandlerService, $http) {
-                this.webClient = new GFTMarket.Models.WebClient();
-                console.time();
-                this.$scope = $scope;
-                this.$http = $http;
-                this.OrderHandlerService = OrderHandlerService;
-                this.$scope.$applyAsync(this.GetClientId());
-            }
-            WebClientController.prototype.GetClientId = function () {
-                var self = this;
-                this.$http.get("http://localhost:54919/api/Webclient/GenerateWebClientId/").then(function (response) {
-                    self.webClient.clientId = response.data;
-                    self.OrderHandlerService.ClientId = response.data;
-                });
-            };
-            WebClientController.$inject = ['$scope', 'OrderHandlerService', '$http'];
-            return WebClientController;
-        }());
-        Controllers.WebClientController = WebClientController;
-        angular.module("main").controller("WebClientController", WebClientController);
-    })(Controllers = GFTMarket.Controllers || (GFTMarket.Controllers = {}));
-})(GFTMarket || (GFTMarket = {}));
-/// <reference path="modules/mainmodule.ts" />
-/// <reference path="controllers/ordercontroller.ts" />
-/// <reference path="services/transactionhandlerservice.ts" />
-/// <reference path="services/orderhandlerservice.ts" />
-/// <reference path="directives/orderdirective.ts" />
-/// <reference path="directives/transactiondirective.ts" />
-/// <reference path="controllers/transactioncontroller.ts" />
-/// <reference path="controllers/webclientcontroller.ts" />
-/// <reference path="../_references.ts" />
-var GFTMarket;
-(function (GFTMarket) {
-    var Controllers;
-    (function (Controllers) {
-        var OrderController = (function () {
-            function OrderController($scope, OrderHandlerService, $http) {
-                this.OrderHandlerService = OrderHandlerService;
-                this.$http = $http;
-                this.OrderHandlerService.GetAvaibleItems();
-            }
-            OrderController.$inject = ["$scope", "OrderHandlerService", "$http"];
-            return OrderController;
-        }());
-        Controllers.OrderController = OrderController;
-        angular.module("main").controller("OrderController", OrderController);
-    })(Controllers = GFTMarket.Controllers || (GFTMarket.Controllers = {}));
-})(GFTMarket || (GFTMarket = {}));
 /// <reference path="../../_references.ts" />
-/// <reference path="../_references.ts" />
-var GFTMarket;
-(function (GFTMarket) {
-    var Models;
-    (function (Models) {
-        var Item = (function () {
-            function Item() {
-            }
-            return Item;
-        }());
-        Models.Item = Item;
-    })(Models = GFTMarket.Models || (GFTMarket.Models = {}));
-})(GFTMarket || (GFTMarket = {}));
-/// <reference path="../_references.ts" />
-var GFTMarket;
-(function (GFTMarket) {
-    var Models;
-    (function (Models) {
-        var Transaction = (function () {
-            function Transaction() {
-            }
-            return Transaction;
-        }());
-        Models.Transaction = Transaction;
-    })(Models = GFTMarket.Models || (GFTMarket.Models = {}));
-})(GFTMarket || (GFTMarket = {}));
-/// <reference path="../scripts/typings/signalr/signalr.d.ts" />
-/// <reference path="../scripts/typings/jquery/jquery.d.ts" />
-/// <reference path="../scripts/typings/angularjs/angular-animate.d.ts" />
-/// <reference path="../scripts/typings/angularjs/angular-component-router.d.ts" />
-/// <reference path="../scripts/typings/angularjs/angular-cookies.d.ts" />
-/// <reference path="../scripts/typings/angularjs/angular-mocks.d.ts" />
-/// <reference path="../scripts/typings/angularjs/angular-resource.d.ts" />
-/// <reference path="../scripts/typings/angularjs/angular-route.d.ts" />
-/// <reference path="../scripts/typings/angularjs/angular-sanitize.d.ts" />
-/// <reference path="../scripts/typings/angularjs/angular.d.ts" />
-/// <reference path="modules/mainmodule.ts" />
-/// <reference path="models/interfaces/imarketobject.ts" />
-/// <reference path="models/item.ts" />
-/// <reference path="models/transaction.ts" />
-/// <reference path="services/transactionhandlerservice.ts" />
-/// <reference path="services/orderhandlerservice.ts" />
-/// <reference path="directives/transactiondirective.ts" />
-/// <reference path="directives/orderdirective.ts" />
-/// <reference path="controllers/transactioncontroller.ts" />
-/// <reference path="controllers/ordercontroller.ts" />
-/// <reference path="controllers/webclientcontroller.ts" />
 /// <reference path="../_references.ts" />
 var GFTMarket;
 (function (GFTMarket) {
@@ -283,6 +235,32 @@ var GFTMarket;
 (function (GFTMarket) {
     var Models;
     (function (Models) {
+        var Transaction = (function () {
+            function Transaction() {
+            }
+            return Transaction;
+        }());
+        Models.Transaction = Transaction;
+    })(Models = GFTMarket.Models || (GFTMarket.Models = {}));
+})(GFTMarket || (GFTMarket = {}));
+/// <reference path="../_references.ts" />
+var GFTMarket;
+(function (GFTMarket) {
+    var Models;
+    (function (Models) {
+        var Item = (function () {
+            function Item() {
+            }
+            return Item;
+        }());
+        Models.Item = Item;
+    })(Models = GFTMarket.Models || (GFTMarket.Models = {}));
+})(GFTMarket || (GFTMarket = {}));
+/// <reference path="../_references.ts" />
+var GFTMarket;
+(function (GFTMarket) {
+    var Models;
+    (function (Models) {
         var WebClient = (function () {
             function WebClient() {
             }
@@ -291,4 +269,24 @@ var GFTMarket;
         Models.WebClient = WebClient;
     })(Models = GFTMarket.Models || (GFTMarket.Models = {}));
 })(GFTMarket || (GFTMarket = {}));
+/// <reference path="../scripts/typings/signalr/signalr.d.ts" />
+/// <reference path="../scripts/typings/jquery/jquery.d.ts" />
+/// <reference path="../scripts/typings/angularjs/angular-animate.d.ts" />
+/// <reference path="../scripts/typings/angularjs/angular-component-router.d.ts" />
+/// <reference path="../scripts/typings/angularjs/angular-cookies.d.ts" />
+/// <reference path="../scripts/typings/angularjs/angular-mocks.d.ts" />
+/// <reference path="../scripts/typings/angularjs/angular-resource.d.ts" />
+/// <reference path="../scripts/typings/angularjs/angular-route.d.ts" />
+/// <reference path="../scripts/typings/angularjs/angular-sanitize.d.ts" />
+/// <reference path="../scripts/typings/angularjs/angular.d.ts" />
+/// <reference path="modules/mainmodule.ts" />
+/// <reference path="models/interfaces/imarketobject.ts" />
+/// <reference path="models/item.ts" />
+/// <reference path="models/transaction.ts" />
+/// <reference path="services/orderhandlerservice.ts" />
+/// <reference path="directives/transactiondirective.ts" />
+/// <reference path="directives/orderdirective.ts" />
+/// <reference path="controllers/transactioncontroller.ts" />
+/// <reference path="controllers/ordercontroller.ts" />
+/// <reference path="controllers/webclientcontroller.ts" />
 //# sourceMappingURL=app.js.map

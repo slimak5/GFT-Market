@@ -96,6 +96,12 @@
       <Generator>WCF Proxy Generator</Generator>
       <LastGenOutput>Reference.cs</LastGenOutput>
     </None>
+    <None Include="Service References\TransactionProcessorService2\configuration91.svcinfo" />
+    <None Include="Service References\TransactionProcessorService2\configuration.svcinfo" />
+    <None Include="Service References\TransactionProcessorService2\Reference.svcmap">
+      <Generator>WCF Proxy Generator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </None>
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
@@ -107,6 +113,11 @@
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Service References\TransactionProcessorService1\Reference.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Compile>
+    <Compile Include="Service References\TransactionProcessorService2\Reference.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>Reference.svcmap</DependentUpon>
@@ -123,6 +134,16 @@
       <SubType>Designer</SubType>
     </None>
     <None Include="Service References\TransactionProcessorService1\System.Threading.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\TransactionProcessorService2\service.wsdl" />
+    <None Include="Service References\TransactionProcessorService2\service.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\TransactionProcessorService2\service1.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\TransactionProcessorService2\System.Threading.xsd">
       <SubType>Designer</SubType>
     </None>
     <None Include="Web.Debug.config">
@@ -146,6 +167,7 @@
   </ItemGroup>
   <ItemGroup>
     <WCFMetadataStorage Include="Service References\TransactionProcessorService1\" />
+    <WCFMetadataStorage Include="Service References\TransactionProcessorService2\" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

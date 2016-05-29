@@ -29,7 +29,9 @@ namespace GFT.Database
             switch (typeof(Entity).Name)
             {
                 case "Transaction":
-                    _Database.Transactions.Add(dbObject.GetInstance<Models.Transaction>());
+                    var transaction = dbObject.GetInstance<Transaction>();
+                    _Database.Items.Attach(transaction.orderedItem);
+                    _Database.Transactions.Add(transaction);
                     _Database.SaveChanges();
                     break;
 
@@ -69,31 +71,16 @@ namespace GFT.Database
             switch (typeof(Entity).Name)
             {
                 case "Transaction":
-                    _Database.Transactions.Find(dbObject.GetInstance<Models.Transaction>().transactionId)
-                         .buyOrderId = dbObject.GetInstance<Models.Transaction>().buyOrderId;
-
-                    _Database.Transactions.Find(dbObject.GetInstance<Models.Transaction>().transactionId)
-                         .clientId = dbObject.GetInstance<Models.Transaction>().clientId;
-
-                    _Database.Transactions.Find(dbObject.GetInstance<Models.Transaction>().transactionId)
-                         .orderedItem = dbObject.GetInstance<Models.Transaction>().orderedItem;
-
-                    _Database.Transactions.Find(dbObject.GetInstance<Models.Transaction>().transactionId)
-                         .sellOrderId = dbObject.GetInstance<Models.Transaction>().sellOrderId;
-
-                    _Database.Transactions.Find(dbObject.GetInstance<Models.Transaction>().transactionId)
-                         .transactionDate = dbObject.GetInstance<Models.Transaction>().transactionDate;
-
+                    var transaction = dbObject.GetInstance<Transaction>();
+                    _Database.Transactions.Attach(transaction);
+                    _Database.Entry(transaction).State = EntityState.Modified;
                     _Database.SaveChanges();
                     break;
 
                 case "Item":
-                    _Database.Items.Find(dbObject.GetInstance<Models.Item>().itemId)
-                        .itemName = dbObject.GetInstance<Models.Item>().itemName;
-
-                    _Database.Items.Find(dbObject.GetInstance<Models.Item>().itemId)
-                        .supportedServiceId = dbObject.GetInstance<Models.Item>().supportedServiceId;
-
+                    var item = dbObject.GetInstance<Item>();
+                    _Database.Items.Attach(item);
+                    _Database.Entry(item).State = EntityState.Modified;
                     _Database.SaveChanges();
                     break;
 

@@ -25,11 +25,14 @@
         [Required]
         public int buyOrderId { get; set; }
         [Required]
+        [ForeignKey("itemId")]
         public virtual Item orderedItem { get; set; }
         [Required]
         public int quantity { get; set; }
         [Required]
         public int price { get; set; }
+
+        public int itemId { get; set; }
 
 
         public T GetInstance<T>()
@@ -71,9 +74,10 @@
             }
             else
             {
+                var quantity = sellOrder.quantity;
                 buyOrder.quantity -= sellOrder.quantity;
                 sellOrder.quantity = 0;
-                return sellOrder.quantity;
+                return quantity;
             }
         }
     }

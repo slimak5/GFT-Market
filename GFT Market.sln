@@ -19,6 +19,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "GFT.Database", "GFT.Databas
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GFT Website Api", "GFT Website Api\GFT Website Api.csproj", "{22E5CD11-910A-4143-830D-52EBA52EC5F2}"
 	ProjectSection(ProjectDependencies) = postProject
+		{B0320A28-F6AA-43FA-AD15-9D1F77BEBDF5} = {B0320A28-F6AA-43FA-AD15-9D1F77BEBDF5}
 		{68DD5DF2-D85D-458B-BDE9-C1F78123717B} = {68DD5DF2-D85D-458B-BDE9-C1F78123717B}
 	EndProjectSection
 EndProject
@@ -51,6 +52,8 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Bussiness Logic", "Bussiness Logic", "{CDD28086-E560-40DF-9B35-5774A5CAF4E2}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GFT Website Api.Tests", "GFT Website Api.Tests\GFT Website Api.Tests.csproj", "{899304FA-CF12-48AD-A8D7-8B043DBDF2ED}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GFT TransactionProcessorService 2", "GFT TransactionProcessorService 2\GFT TransactionProcessorService 2.csproj", "{B0320A28-F6AA-43FA-AD15-9D1F77BEBDF5}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -104,6 +107,10 @@ Global
 		{899304FA-CF12-48AD-A8D7-8B043DBDF2ED}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{899304FA-CF12-48AD-A8D7-8B043DBDF2ED}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{899304FA-CF12-48AD-A8D7-8B043DBDF2ED}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B0320A28-F6AA-43FA-AD15-9D1F77BEBDF5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B0320A28-F6AA-43FA-AD15-9D1F77BEBDF5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B0320A28-F6AA-43FA-AD15-9D1F77BEBDF5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B0320A28-F6AA-43FA-AD15-9D1F77BEBDF5}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -121,5 +128,6 @@ Global
 		{283E448B-3B4B-474D-B619-E3E65018A203} = {2A6119B6-08A8-43DE-99EC-0B0776261A33}
 		{CDD28086-E560-40DF-9B35-5774A5CAF4E2} = {14BAE38A-4B86-4160-BA2F-88F5B35EF1E6}
 		{899304FA-CF12-48AD-A8D7-8B043DBDF2ED} = {2A6119B6-08A8-43DE-99EC-0B0776261A33}
+		{B0320A28-F6AA-43FA-AD15-9D1F77BEBDF5} = {14BAE38A-4B86-4160-BA2F-88F5B35EF1E6}
 	EndGlobalSection
 EndGlobal

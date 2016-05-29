@@ -15,7 +15,7 @@ using GFT.Models;
 
 namespace GFT.Services.TransactionProcessor
 {
-    public class TransactionProcessorService1 : ITransactionProcessor
+    public class TransactionProcessorService2 : ITransactionProcessor
     {
 
         private static Thread _WorkerThread;
@@ -23,10 +23,10 @@ namespace GFT.Services.TransactionProcessor
         private Core.TransactionProcessor _TransactionProcessor;
 
 
-        public TransactionProcessorService1()
+        public TransactionProcessorService2()
         {
-            _TransactionProcessor = new Core.TransactionProcessor(@".\private$\mt.to.bak1.queue",
-                "http://localhost:53008", "ExecutedTransactionsHub", "BAK1");
+            _TransactionProcessor = new Core.TransactionProcessor(@".\private$\mt.to.bak2.queue",
+                "http://localhost:53008", "ExecutedTransactionsHub", "BAK2");
         }
 
         public void StartMainLoop()
@@ -72,7 +72,7 @@ namespace GFT.Services.TransactionProcessor
         {
             using (var db = new GFTMarketDatabaseAccessObject(new GFTMarketDatabase()))
             {
-                List<Item> supportedItems = db.GetSupportedItemList("BAK1");
+                List<Item> supportedItems = db.GetSupportedItemList("BAK2");
                 _TransactionProcessor.PushMessageToQueue(supportedItems);
             }
         }

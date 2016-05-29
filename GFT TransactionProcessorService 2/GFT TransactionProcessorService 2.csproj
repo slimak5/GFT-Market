@@ -6,17 +6,16 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProductVersion>8.0.50727</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{76063C1A-7643-4903-A990-DDBCBBEFDCAA}</ProjectGuid>
+    <ProjectGuid>{B0320A28-F6AA-43FA-AD15-9D1F77BEBDF5}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>GFT.Services.TransactionProcessor</RootNamespace>
-    <AssemblyName>GFT.Services.TransactionProcessor</AssemblyName>
+    <RootNamespace>GFT_TransactionProcessorService_2</RootNamespace>
+    <AssemblyName>GFT TransactionProcessorService 2</AssemblyName>
     <ProjectTypeGuids>{3D9AD99F-2412-4246-B90B-4EAA41C64699};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <StartArguments>/client:"WcfTestClient.exe"</StartArguments>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <WcfConfigValidationEnabled>True</WcfConfigValidationEnabled>
     <XsdCodeGenEnabled>True</XsdCodeGenEnabled>
-    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -37,14 +36,22 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.dll</HintPath>
+      <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+      <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.AspNet.SignalR.Client, Version=2.2.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.SignalR.Client.2.2.0\lib\net45\Microsoft.AspNet.SignalR.Client.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
+    <Reference Include="Newtonsoft.Json, Version=8.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.8.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
@@ -52,29 +59,38 @@
     <Reference Include="System.Messaging" />
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.ServiceModel" />
+    <Reference Include="System.Web" />
     <Reference Include="System.Web.Extensions" />
     <Reference Include="System.Xml" />
     <Reference Include="System.Xml.Linq" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Models\FeedObjectPair.cs" />
     <Compile Include="Core\ITransactionProccesorService.cs" />
     <Compile Include="Core\TransactionProcessorService.cs" />
-    <Compile Include="Models\DBModels\Feed.cs" />
-    <Compile Include="Models\DBModels\Item.cs" />
-    <Compile Include="Models\DBModels\MarketContext.cs" />
-    <Compile Include="Models\DBModels\Order.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Transactions\TransactionsMatcher.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="App.config" />
+    <None Include="App.config">
+      <SubType>Designer</SubType>
+    </None>
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\GFT Website Api\GFT Website Api.csproj">
-      <Project>{22e5cd11-910a-4143-830d-52eba52ec5f2}</Project>
-      <Name>GFT Website Api</Name>
+    <ProjectReference Include="..\GFT Executed Trades\GFT Executed Trades.csproj">
+      <Project>{3cd92de4-ffea-4bfa-9422-1cad42a4c8bf}</Project>
+      <Name>GFT Executed Trades</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\GFT Market DAL\GFT Market DAL.csproj">
+      <Project>{b35f51ca-5446-428a-bee7-f5dc0569861b}</Project>
+      <Name>GFT Market DAL</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\GFT Models\GFT Models.csproj">
+      <Project>{0a55e2a4-a294-4d01-b27d-27839b597a40}</Project>
+      <Name>GFT Models</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\GFT TransactionProcessor\GFT TransactionProcessor.csproj">
+      <Project>{a3024ab0-968a-4c8b-bc33-6fadfb8fd58d}</Project>
+      <Name>GFT TransactionProcessor</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
