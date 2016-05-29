@@ -116,7 +116,6 @@
     <TypeScriptCompile Include="app\models\Item.ts" />
     <TypeScriptCompile Include="app\models\Webclient.ts" />
     <TypeScriptCompile Include="app\modules\MainModule.ts" />
-    <TypeScriptCompile Include="app\services\TransactionHandlerService.ts" />
     <TypeScriptCompile Include="app\services\OrderHandlerService.ts" />
     <TypeScriptCompile Include="app\_refBak.ts" />
     <TypeScriptCompile Include="app\_references.ts" />

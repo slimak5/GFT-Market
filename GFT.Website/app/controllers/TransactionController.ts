@@ -1,34 +1,43 @@
 ﻿/// <reference path="../_references.ts" />
-namespace  GFTMarket.Controllers
+namespace GFTMarket.Controllers
 {
     export class TransactionController
     {
-        public TransactionHandlerService: GFTMarket.Services.TransactionHandlerService;
         public $http: ng.IHttpService;
-        public HubConnection: SignalR.Connection = $.connection("http://localhoasdasdst:53008");
-        public HubProxy: SignalR.Hub.Proxy = this.HubConnection.hub.createHubProxy("ExecutedTransactionsHub");;
-       
-        static $inject = ["TransactionHandlerService", "$http"];
-        constructor(TransactionHandlerService: GFTMarket.Services.TransactionHandlerService, $http: ng.IHttpService)
+        public HubConnection: SignalR.Hub.Connection = $.hubConnection("http://localhost:53008");
+        public HubProxy: SignalR.Hub.Proxy = this.HubConnection.createHubProxy("ExecutedTransactionsHub");;
+        public $scope: ng.IScope;
+        public transactionList: Array<GFTMarket.Models.Transaction> = [];
+
+        static $inject = ["$scope", "$http"];
+        constructor($scope: ng.IScope, $http: ng.IHttpService)
         {
-            console.log("Creating hub");
-            this.TransactionHandlerService = TransactionHandlerService;
+            var self = this;
+            this.$scope = $scope;
             this.$http = $http;
-            this.HubProxy.on("sendNewTransaction", function (transaction: Models.Transaction)
+
+            this.HubProxy.on("SendNewTransaction", function (transaction: Models.Transaction)
             {
-                console.log(transaction.transactionDate);
-                this.TransactionHandlerService.PushTransactionToList(transaction);
+                console.log("Transaction received:" + transaction.transactionDate);
+                self.PushTransactionToList(transaction);
             });
 
-            this.HubProxy.on("test", function ()
-            {
-                console.log("responded");
-            });
-            var self = this;
+            console.log("Connecting to ExecutedTrades. . .");
             this.HubConnection.start(new SignalRHubConnectionOptions()).done(function ()
             {
                 console.log("Connected to ExecutedTrades: " + self.HubConnection.id);
             }).fail(function () { console.log("Failed") });
+
+        }
+
+        public PushTransactionToList(transaction: GFTMarket.Models.Transaction)
+        {
+            if (this.transactionList.length > 8)
+            {
+                this.transactionList.splice(this.transactionList.length - 1, 1);
+            }
+            this.transactionList.unshift(transaction);
+            this.$scope.$apply();
         }
     }
 

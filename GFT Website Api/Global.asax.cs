@@ -6,6 +6,8 @@ using System.Web.Http;
 using System.Web.Routing;
 using Newtonsoft.Json;
 using System.Messaging;
+using System.Threading;
+
 namespace GFT.Website.Api
 {
     public class WebApiApplication : HttpApplication
@@ -31,8 +33,14 @@ namespace GFT.Website.Api
 
             TransactionProcessorService1.TransactionProcessorClient TransactionProcessorService1 = new TransactionProcessorService1.TransactionProcessorClient();
 
-            TransactionProcessorService1.Open();
-            TransactionProcessorService1.StartMainLoop();
+            if (TransactionProcessorService1.State != System.ServiceModel.CommunicationState.Opening ||
+                TransactionProcessorService1.State != System.ServiceModel.CommunicationState.Opened)
+            {
+                TransactionProcessorService1.Open();
+            }
+
+            if (TransactionProcessorService1.GetWorkerThreadState() != ThreadState.Running)
+                TransactionProcessorService1.StartMainLoop();
         }
     }
 }

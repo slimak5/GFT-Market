@@ -11,33 +11,6 @@ var GFTMarket;
 (function (GFTMarket) {
     var Services;
     (function (Services) {
-        var TransactionHandlerService = (function () {
-            function TransactionHandlerService($http) {
-                this.transactionList = [];
-                this.$http = $http;
-                this.transactionList.push(new GFTMarket.Models.Transaction());
-            }
-            TransactionHandlerService.prototype.PushTransactionToList = function (transaction) {
-                if (this.transactionList.length > 8) {
-                    this.transactionList.splice(this.transactionList.length - 1, 1);
-                }
-                this.transactionList.unshift(transaction);
-            };
-            TransactionHandlerService.prototype.CleanTransactionList = function () {
-                this.transactionList = [];
-            };
-            TransactionHandlerService.$inject = ['$http'];
-            return TransactionHandlerService;
-        }());
-        Services.TransactionHandlerService = TransactionHandlerService;
-        angular.module("main").service("TransactionHandlerService", TransactionHandlerService);
-    })(Services = GFTMarket.Services || (GFTMarket.Services = {}));
-})(GFTMarket || (GFTMarket = {}));
-/// <reference path="../_references.ts" />
-var GFTMarket;
-(function (GFTMarket) {
-    var Services;
-    (function (Services) {
         var OrderHandlerService = (function () {
             function OrderHandlerService($http) {
                 this.orderList = [];
@@ -46,32 +19,6 @@ var GFTMarket;
             OrderHandlerService.prototype.PushOrderToList = function (object) {
                 this.orderList.unshift(object);
             };
-            //public remove(object: GFTMarket.Models.Item) {
-            //    for (let i = 0; i < this.orderList.length; i++) {
-            //        if (this.orderList[i].quantity <= 0) {
-            //            this.orderList.splice(i, 1);
-            //            i = -1;
-            //        } else {
-            //            if (this.orderList[i].id == object.id && this.orderList[i].name == object.name) {
-            //                this.orderList.splice(i, 1);
-            //                i = -1;
-            //            }
-            //        }
-            //    }
-            //}
-            //public getById(id: number) {
-            //    return this.orderList[id];
-            //}
-            //public getByObject(object: GFTMarket.Models.Order) {
-            //    for (let i = 0; i < this.orderList.length; i++) {
-            //        if (this.orderList[i].id == object.id && this.orderList[i].name == object.name) {
-            //            console.log(this.orderList[i]);
-            //            return this.orderList[i];
-            //        }
-            //    }
-            //    console.log("getByObject(): returned empty instance");
-            //    return new GFTMarket.Models.Order();
-            //}
             OrderHandlerService.prototype.CleanOrderList = function () {
                 this.orderList = [];
             };
@@ -89,7 +36,6 @@ var GFTMarket;
                         toastr.success(res.data);
                     });
                 });
-                console.log("method finished");
             };
             OrderHandlerService.prototype.SendSellRequest = function (object) {
                 object.orderType = "SELL";
@@ -180,26 +126,31 @@ var GFTMarket;
     var Controllers;
     (function (Controllers) {
         var TransactionController = (function () {
-            function TransactionController(TransactionHandlerService, $http) {
-                this.HubConnection = $.connection("http://localhoasdasdst:53008");
-                this.HubProxy = this.HubConnection.hub.createHubProxy("ExecutedTransactionsHub");
-                console.log("Creating hub");
-                this.TransactionHandlerService = TransactionHandlerService;
-                this.$http = $http;
-                this.HubProxy.on("sendNewTransaction", function (transaction) {
-                    console.log(transaction.transactionDate);
-                    this.TransactionHandlerService.PushTransactionToList(transaction);
-                });
-                this.HubProxy.on("test", function () {
-                    console.log("responded");
-                });
+            function TransactionController($scope, $http) {
+                this.HubConnection = $.hubConnection("http://localhost:53008");
+                this.HubProxy = this.HubConnection.createHubProxy("ExecutedTransactionsHub");
+                this.transactionList = [];
                 var self = this;
+                this.$scope = $scope;
+                this.$http = $http;
+                this.HubProxy.on("SendNewTransaction", function (transaction) {
+                    console.log("Transaction received:" + transaction.transactionDate);
+                    self.PushTransactionToList(transaction);
+                });
+                console.log("Connecting to ExecutedTrades. . .");
                 this.HubConnection.start(new SignalRHubConnectionOptions()).done(function () {
                     console.log("Connected to ExecutedTrades: " + self.HubConnection.id);
                 }).fail(function () { console.log("Failed"); });
             }
             ;
-            TransactionController.$inject = ["TransactionHandlerService", "$http"];
+            TransactionController.prototype.PushTransactionToList = function (transaction) {
+                if (this.transactionList.length > 8) {
+                    this.transactionList.splice(this.transactionList.length - 1, 1);
+                }
+                this.transactionList.unshift(transaction);
+                this.$scope.$apply();
+            };
+            TransactionController.$inject = ["$scope", "$http"];
             return TransactionController;
         }());
         Controllers.TransactionController = TransactionController;

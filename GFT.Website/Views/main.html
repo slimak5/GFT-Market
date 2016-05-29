@@ -29,7 +29,7 @@
             </div>
         </div>
         <div class="market-transactions" ng-controller="TransactionController as TransactionC">
-            <div ng-repeat="object in TransactionC.TransactionHandlerService.transactionList track by $index">
+            <div ng-repeat="object in TransactionC.transactionList track by $index">
                 <transaction-object transaction-model="object" service="TransactionC.TransactionHandlerService"></transaction-object>
             </div>
 

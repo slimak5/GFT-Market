@@ -73,11 +73,9 @@ namespace GFT.Services.TransactionProcessor.Core
             }
         }
 
-        public List<Transaction> CreateTransactionsWhenAvaible()
+        public void CreateTransactionsWhenAvaible()
         {
-            if (_BuyOrders == null || _SellOrders == null) return new List<Transaction>();
-
-            List<Transaction> resultTransactions = new List<Transaction>();
+            if (_BuyOrders == null || _SellOrders == null) return;
 
             var looping = true;
             while (looping)
@@ -93,8 +91,13 @@ namespace GFT.Services.TransactionProcessor.Core
 
                     if (buyOrder != null && sellOrder != null)
                     {
-                        FinalizedTransactions.Add(Transaction.GenerateTransactionObject(sellOrder, buyOrder));
-                        resultTransactions.Add(Transaction.GenerateTransactionObject(sellOrder, buyOrder));
+                        var transaction = Transaction.GenerateTransactionObject(sellOrder, buyOrder);
+
+                        FinalizedTransactions.Add(transaction);
+                        using (var db = new Database.GFTMarketDatabaseAccessObject(new Database.GFTMarketDatabase()))
+                        {
+                            db.Insert(transaction);
+                        }
                     }
                     else
                     {
@@ -107,7 +110,6 @@ namespace GFT.Services.TransactionProcessor.Core
                 }
                 RemoveEmptyOrders();
             }
-            return resultTransactions;
         }
 
         private void RemoveEmptyOrders()
