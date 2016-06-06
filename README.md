@@ -1,9 +1,9 @@
 # GFT-Market
-project structure
 
 Proces uruchamiania: 
 
-Checkout na branch master
+1. Klonujemy repozytorium https://github.com/slimak5/GFT-Market.git i w oknie Team Explorer robimy new branch: origin/master i zaznaczamy opcję Checkout.
+2. 
 
 PPM na solucję, Restore NuGet Packages
 
