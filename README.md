@@ -8,7 +8,7 @@ WAŻNE: Visual Studio musi być uruchomione z uprawnieniami administratora, w in
 3. Jeśli nie będzie, klikamy PPM na solucję, "Manage Nuget Packages" i na "Restore NuGetPackages" jeśli wyskoczy powiadomienie na górze okna. Jeśli nie ma, oznacza że pakiety pobrały się z repozytorium i nie trzeba aktualizować. 
 4. Klikamy PPM na projekt bazodanowy: folder GFT.Database -> projekt: GFT Market Database i na "Publish..." 
 5. W okienku wybieramy "Load Profile" i ładujemy plik : GFT Market Database.publish.xml 
-6. Wchodzimy w SQL Server Object Explorer (jeśli nie jest widoczny jest on w View -> Sql Server Object Explorer [CTRL+\+S]
+6. Wchodzimy w SQL Server Object Explorer (jeśli nie jest widoczny jest on w View -> Sql Server Object Explorer [CTRL+'\'+S]
 7. Przechodzimy do lokalizacji: (localdb)\ProjectsV13\Databases\GFT Market Database\Tables\
 8. Klikamy PPM na dbo.item i na "View Data"
 9. W otwartym oknie edycji widzimy aktualnie dodane produkty i możemy dodawać nowe (baza prawdopodobnie będzie pusta)
