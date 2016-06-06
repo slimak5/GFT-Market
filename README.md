@@ -20,3 +20,5 @@ WAŻNE: Visual Studio musi być uruchomione z uprawnieniami administratora, w in
 15. jeżeli przedmioty się nie wyświetlają, czekamy chwilę i próbujemy odswieżyć stronę. 
 16. aplikacja jest gotowa do działania, pobrała user id z serwera i jest podłączona do executed trades (możemy to sprawdzić w trybie debugowania przeglądarki)
 
+Pierwsze pole od lewej jest to ilość produktu, drugie odpowiada za cenę. W odpowiedzi na transakcje t-id oznacza id transakcji a u-id id usera który sprzedał dane produkty.
+
